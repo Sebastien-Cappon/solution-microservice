@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.mediLaboSolutions.T2D2Patient.model.Patient;
 import com.mediLaboSolutions.T2D2Patient.repository.IPatientRepository;
+import com.mediLaboSolutions.T2D2Patient.service.contracts.IPatientService;
 
 @Service
 public class PatientService implements IPatientService {
@@ -19,22 +20,21 @@ public class PatientService implements IPatientService {
 	private IPatientRepository iPatientRepository;
 	
 	@Override
-	public List<Patient> getPatients(int practitionerId) {
+	public List<Patient> getPatients() {
 		return iPatientRepository.findAll();
 	}
 	
 	@Override
-	public Patient getPatientById(int practitionerId, int patientId) {
+	public Patient getPatientById(int patientId) {
 		if(iPatientRepository.findById(patientId).isPresent()) {
-			Patient patientRequested = iPatientRepository.findById(patientId).get(); 
-			return patientRequested;
+			return iPatientRepository.findById(patientId).get(); 
 		}
 		
 		return null;
 	}
 	
 	@Override
-	public Patient createPatient(int practitionerId, Patient newPatient) throws Exception {
+	public Patient createPatient(Patient newPatient) throws Exception {
 		for (Patient checkPatient : iPatientRepository.findAll()) {
 			if (checkPatient.getGender().equals(newPatient.getGender())
 					&& checkPatient.getLastname().contentEquals(newPatient.getLastname())
@@ -51,7 +51,7 @@ public class PatientService implements IPatientService {
 	}
 	
 	@Override
-	public Integer updatePatientById(int practitionerId, int patientId, Patient updatedPatient) throws Exception {
+	public Integer updatePatientById(int patientId, Patient updatedPatient) throws Exception {
 		if(iPatientRepository.findById(patientId).isPresent()) {
 			Patient patientToUpdate = iPatientRepository.findById(patientId).get();
 			
@@ -84,7 +84,7 @@ public class PatientService implements IPatientService {
 	}
 	
 	@Override
-	public void deletePatientById(int practitionerId, int patientId) {
+	public void deletePatientById(int patientId) {
 		iPatientRepository.deleteById(patientId);
 	}
 }

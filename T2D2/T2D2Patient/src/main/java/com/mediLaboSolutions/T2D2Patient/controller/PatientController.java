@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,18 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.mediLaboSolutions.T2D2Patient.model.Patient;
-import com.mediLaboSolutions.T2D2Patient.service.IPatientService;
+import com.mediLaboSolutions.T2D2Patient.service.contracts.IPatientService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class PatientController {
 
 	@Autowired
-	IPatientService iPatientService;
+	private IPatientService iPatientService;
 
-	@GetMapping("/{practitionerId}/patients")
-	public ResponseEntity<List<Patient>> getPatients(@PathVariable("practitionerId") int practitionerId) {
-		List<Patient> patientList = iPatientService.getPatients(practitionerId);
+	@GetMapping("/patients")
+	public ResponseEntity<List<Patient>> getPatients() {
+		List<Patient> patientList = iPatientService.getPatients();
 
 		if (patientList.isEmpty()) {
 			return new ResponseEntity<List<Patient>>(HttpStatus.NO_CONTENT);
@@ -37,9 +36,9 @@ public class PatientController {
 		}
 	}
 
-	@GetMapping("/{practitionerId}/patients/patient")
-	public ResponseEntity<Patient> getPatientById(@PathVariable("practitionerId") int practitionerId, @RequestParam("id") int patientId) {
-		Patient patient = iPatientService.getPatientById(practitionerId, patientId);
+	@GetMapping("/patients/patient")
+	public ResponseEntity<Patient> getPatientById(@RequestParam("id") int patientId) {
+		Patient patient = iPatientService.getPatientById(patientId);
 
 		if (patient == null) {
 			return new ResponseEntity<Patient>(HttpStatus.NO_CONTENT);
@@ -48,9 +47,9 @@ public class PatientController {
 		}
 	}
 
-	@PostMapping("/{practitionerId}/patients/patient/create")
-	public ResponseEntity<Patient> createPatient(@PathVariable("practitionerId") int practitionerId, @RequestBody Patient newPatient) throws Exception {
-		Patient createdPatient = iPatientService.createPatient(practitionerId, newPatient);
+	@PostMapping("/patients/patient/create")
+	public ResponseEntity<Patient> createPatient(@RequestBody Patient newPatient) throws Exception {
+		Patient createdPatient = iPatientService.createPatient(newPatient);
 
 		if (createdPatient == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -59,9 +58,9 @@ public class PatientController {
 		}
 	}
 
-	@PutMapping("/{practitionerId}/patients/patient/update")
-	public ResponseEntity<Integer> updatePatient(@PathVariable("practitionerId") int practitionerId, @RequestParam("id") int patientId, @RequestBody Patient updatedPatient) throws Exception {
-		Integer isUpdated = iPatientService.updatePatientById(practitionerId, patientId, updatedPatient);
+	@PutMapping("/patients/patient/update")
+	public ResponseEntity<Integer> updatePatient(@RequestParam("id") int patientId, @RequestBody Patient updatedPatient) throws Exception {
+		Integer isUpdated = iPatientService.updatePatientById(patientId, updatedPatient);
 
 		if (isUpdated == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -70,8 +69,8 @@ public class PatientController {
 		}
 	}
 
-	@DeleteMapping("/{practitionerId}/patients/patient/delete")
-	public void deletePatientById(@PathVariable("practitionerId") int practitionerId, @RequestParam("id") int patientId) {
-		iPatientService.deletePatientById(practitionerId, patientId);
+	@DeleteMapping("/patients/patient/delete")
+	public void deletePatientById(@RequestParam("id") int patientId) {
+		iPatientService.deletePatientById(patientId);
 	}
 }

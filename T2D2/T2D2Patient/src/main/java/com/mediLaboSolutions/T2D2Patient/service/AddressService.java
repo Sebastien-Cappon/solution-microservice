@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.mediLaboSolutions.T2D2Patient.model.Address;
 import com.mediLaboSolutions.T2D2Patient.repository.IAddressRepository;
+import com.mediLaboSolutions.T2D2Patient.service.contracts.IAddressService;
 
 @Service
 public class AddressService implements IAddressService {
@@ -26,8 +27,7 @@ public class AddressService implements IAddressService {
 	@Override
 	public Address getAddressById(int addressId) {
 		if (iAddressRepository.findById(addressId).isPresent()) {
-			Address addressRequested = iAddressRepository.findById(addressId).get();
-			return addressRequested;
+			return iAddressRepository.findById(addressId).get();
 		}
 
 		return null;

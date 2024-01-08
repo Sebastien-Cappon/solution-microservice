@@ -1,4 +1,4 @@
-package com.mediLaboSolutions.T2D2patient.util;
+package com.mediLaboSolutions.T2D2Patient.util;
 
 import java.time.LocalDate;
 
@@ -10,7 +10,8 @@ import com.mediLaboSolutions.T2D2Patient.model.PractitionerPatient;
 import com.mediLaboSolutions.T2D2Patient.model.key.PatientAddressKey;
 import com.mediLaboSolutions.T2D2Patient.model.key.PractitionerPatientKey;
 
-public class InstanceBuilder {
+
+public class ModelInstanceBuilder {
 
 	public static Address createAddress(int id, String number, String wayType, String wayName, String postcode, String city, String country) {
 		Address address = new Address();

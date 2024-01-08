@@ -1,4 +1,4 @@
-package com.mediLaboSolutions.T2D2patient.controller;
+package com.mediLaboSolutions.T2D2Patient.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -21,16 +21,13 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mediLaboSolutions.T2D2Patient.controller.AddressController;
 import com.mediLaboSolutions.T2D2Patient.model.Address;
-import com.mediLaboSolutions.T2D2Patient.service.IAddressService;
-import com.mediLaboSolutions.T2D2patient.util.InstanceBuilder;
+import com.mediLaboSolutions.T2D2Patient.service.contracts.IAddressService;
+import com.mediLaboSolutions.T2D2Patient.util.ModelInstanceBuilder;
 
 @WebMvcTest(controllers = AddressController.class)
 @TestMethodOrder(OrderAnnotation.class)
@@ -43,7 +40,7 @@ public class AddressControllerTest {
 	@MockBean
 	private IAddressService iAddressService;
 
-	private Address addressResponse = InstanceBuilder.createAddress(1, "1A", "Street", "Unknown St.", "W1", "Marylebone", "England");
+	private Address addressResponse = ModelInstanceBuilder.createAddress(1, "1A", "Street", "Unknown St.", "W1", "Marylebone", "England");
 	private List<Address> addressResponseList = new ArrayList<>(Arrays.asList(addressResponse, addressResponse, addressResponse));
 
 	@Test
@@ -130,10 +127,10 @@ public class AddressControllerTest {
 	@Order(6)
 	public void createAddress_shouldReturnBadRequest() throws Exception {
 		when(iAddressService.createAddress(any(Address.class)))
-			.thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
+			.thenReturn(null);
 		
 		mockMvc.perform(post("/addresses/address/create")
-				.content(objectMapper.writeValueAsString(null))
+				.content(objectMapper.writeValueAsString(addressResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest());
@@ -157,11 +154,11 @@ public class AddressControllerTest {
 	@Order(8)
 	public void updateAddressById_shouldReturnBadRequest() throws Exception {
 		when(iAddressService.updateAddressById(anyInt(), any(Address.class)))
-			.thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST));
+			.thenReturn(null);
 		
 		mockMvc.perform(put("/addresses/address/update")
 				.param("id", "0")
-				.content(objectMapper.writeValueAsString(null))
+				.content(objectMapper.writeValueAsString(addressResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest());

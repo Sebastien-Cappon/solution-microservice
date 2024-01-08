@@ -1,4 +1,4 @@
-package com.mediLaboSolutions.T2D2Patient.service;
+package com.mediLaboSolutions.T2D2Patient.service.contracts;
 
 import java.util.List;
 

@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.mediLaboSolutions.T2D2Patient.model.Address;
-import com.mediLaboSolutions.T2D2Patient.service.IAddressService;
+import com.mediLaboSolutions.T2D2Patient.service.contracts.IAddressService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class AddressController {
 
 	@Autowired
-	IAddressService iAddressService;
+	private IAddressService iAddressService;
 
 	@GetMapping("/addresses")
 	public ResponseEntity<List<Address>> getAddresses() {
