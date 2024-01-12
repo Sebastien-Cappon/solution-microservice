@@ -78,8 +78,7 @@ public class PractitionerControllerTest {
 		when(iPractitionerService.getPractitionerById(anyInt()))
 			.thenReturn(practitionerResponse);
 			
-		mockMvc.perform(get("/practitioners/practitioner")
-				.param("id", "1")
+		mockMvc.perform(get("/practitioners/{practitionerId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.id").value(1))
@@ -95,8 +94,7 @@ public class PractitionerControllerTest {
 		when(iPractitionerService.getPractitionerById(anyInt()))
 			.thenReturn(null);
 		
-		mockMvc.perform(get("/practitioners/practitioner")
-				.param("id", "0")
+		mockMvc.perform(get("/practitioners/{practitionerId}", "0")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNoContent());
 	}
@@ -116,9 +114,7 @@ public class PractitionerControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.id").value(1))
 			.andExpect(jsonPath("$.lastname").value("Eliot"))
-			.andExpect(jsonPath("$.firstname").value("Ramesh"))
-			.andExpect(jsonPath("$.email").value("ramesh.eliot@abernathyclinic.com"))
-			.andExpect(jsonPath("$.password").value("UnsecuredPassword"));
+			.andExpect(jsonPath("$.firstname").value("Ramesh"));
 	}
 
 	@Test
@@ -140,7 +136,7 @@ public class PractitionerControllerTest {
 		when(iPractitionerService.createPractitioner(any(Practitioner.class)))
 			.thenReturn(practitionerResponse);
 		
-		mockMvc.perform(post("/practitioners/practitioner/create")
+		mockMvc.perform(post("/practitioner-creation")
 				.content(objectMapper.writeValueAsString(practitionerResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -158,7 +154,7 @@ public class PractitionerControllerTest {
 		when(iPractitionerService.createPractitioner(any(Practitioner.class)))
 			.thenReturn(null);
 	
-		mockMvc.perform(post("/practitioners/practitioner/create")
+		mockMvc.perform(post("/practitioner-creation")
 			.content(objectMapper.writeValueAsString(practitionerResponse))
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON))
@@ -171,8 +167,7 @@ public class PractitionerControllerTest {
 		when(iPractitionerService.updatePractitionerById(anyInt(), any(Practitioner.class)))
 			.thenReturn(1);
 		
-		mockMvc.perform(put("/practitioners/practitioner/update")
-				.param("id", "1")
+		mockMvc.perform(put("/practitioner-edition/{practitionerId}", "1")
 				.content(objectMapper.writeValueAsString(practitionerResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -185,8 +180,7 @@ public class PractitionerControllerTest {
 		when(iPractitionerService.updatePractitionerById(anyInt(), any(Practitioner.class)))
 			.thenReturn(null);
 	
-		mockMvc.perform(put("/practitioners/practitioner/update")
-				.param("id", "0")
+		mockMvc.perform(put("/practitioner-edition/{practitionerId}", "0")
 				.content(objectMapper.writeValueAsString(practitionerResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -196,8 +190,7 @@ public class PractitionerControllerTest {
 	@Test
 	@Order(11)
 	public void deletePractitionerById_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/practitioners/practitioner/delete")
-				.param("id", "1")
+		mockMvc.perform(delete("/practitioner-deletion/{practitionerId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

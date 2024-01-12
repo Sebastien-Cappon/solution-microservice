@@ -78,8 +78,7 @@ public class AddressControllerTest {
 		when(iAddressService.getAddressById(anyInt()))
 			.thenReturn(addressResponse);
 		
-		mockMvc.perform(get("/addresses/address")
-				.param("id", "1")
+		mockMvc.perform(get("/addresses/{addressId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.id").value(1))
@@ -97,8 +96,7 @@ public class AddressControllerTest {
 		when(iAddressService.getAddressById(anyInt()))
 			.thenReturn(null);
 		
-		mockMvc.perform(get("/addresses/address")
-				.param("id", "1")
+		mockMvc.perform(get("/addresses/{addressId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNoContent());
 	}
@@ -109,7 +107,7 @@ public class AddressControllerTest {
 		when(iAddressService.createAddress(any(Address.class)))
 			.thenReturn(addressResponse);
 		
-		mockMvc.perform(post("/addresses/address/create")
+		mockMvc.perform(post("/address-creation")
 				.content(objectMapper.writeValueAsString(addressResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -129,7 +127,7 @@ public class AddressControllerTest {
 		when(iAddressService.createAddress(any(Address.class)))
 			.thenReturn(null);
 		
-		mockMvc.perform(post("/addresses/address/create")
+		mockMvc.perform(post("/address-creation")
 				.content(objectMapper.writeValueAsString(addressResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -142,8 +140,7 @@ public class AddressControllerTest {
 		when(iAddressService.updateAddressById(anyInt(), any(Address.class)))
 			.thenReturn(1);
 		
-		mockMvc.perform(put("/addresses/address/update")
-				.param("id", "1")
+		mockMvc.perform(put("/address-edition/{addressId}", "1")
 				.content(objectMapper.writeValueAsString(addressResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -156,8 +153,7 @@ public class AddressControllerTest {
 		when(iAddressService.updateAddressById(anyInt(), any(Address.class)))
 			.thenReturn(null);
 		
-		mockMvc.perform(put("/addresses/address/update")
-				.param("id", "0")
+		mockMvc.perform(put("/address-edition/{addressId}", "0")
 				.content(objectMapper.writeValueAsString(addressResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -167,8 +163,7 @@ public class AddressControllerTest {
 	@Test
 	@Order(9)
 	void deleteAddressById_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/addresses/address/delete")
-				.param("id", "1")
+		mockMvc.perform(delete("/address-deletion/{addressId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

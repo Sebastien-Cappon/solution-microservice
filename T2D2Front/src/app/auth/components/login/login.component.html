@@ -1,0 +1,46 @@
+<div class="container">
+    <mat-card *ngIf="!isLogged" [formGroup]="loginForm" id="loginCard">
+        <mat-card-header>
+            <mat-card-title background-color="primary"><h1>Log in</h1></mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field color="primary">
+                <mat-label>E-mail address</mat-label>
+                <input matInput type="text" [formControl]="loginEmailCtrl" placeholder="monadresse@email.com">
+                <mat-error>{{ getLoginFormControlErrorText(loginEmailCtrl) }}</mat-error>
+            </mat-form-field>
+            <mat-form-field color="primary">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password">
+                <mat-error>This input field is required.</mat-error>
+            </mat-form-field>
+            <div id="credentialErrorField" *ngIf="isWrongCredentials">
+                <mat-error>Incorrects login. Please try again.</mat-error>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <div *ngIf="loginForm.invalid" id="newAccountLinkDiv">
+                <span (click)="openNewAccountDialog()">Create an account</span>
+            </div>
+            <button *ngIf="loginForm.valid" mat-stroked-button color="primary" (click)="onLogin()" [disabled]="isLoading" >
+                <span *ngIf="!isLoading">Log in</span>
+                <mat-spinner *ngIf="isLoading" color="primary" mode="indeterminate"></mat-spinner>
+            </button>
+        </mat-card-actions>
+    </mat-card>
+    
+    <mat-card *ngIf="isLogged" [formGroup]="loginForm" id="loginCard">
+        <mat-card-header>
+            <mat-card-title background-color="primary"><h1>Log out</h1></mat-card-title>
+        </mat-card-header>
+        <mat-card-content *ngIf="currentPractitioner$ | async as currentPractitioner">
+            <div id="logoutMessage">
+                You are logged in as <b>{{ currentPractitioner.lastname | titlecase }} {{ currentPractitioner.firstname | titlecase }}</b>.<br>
+                Are you sure you want to log out ?
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-stroked-button color="warn" (click)="onLogout()" >Log out</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

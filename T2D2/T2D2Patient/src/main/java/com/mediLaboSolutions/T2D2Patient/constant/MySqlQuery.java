@@ -10,6 +10,6 @@ package com.mediLaboSolutions.T2D2Patient.constant;
  */
 public class MySqlQuery {
 
-	public static final String allPatientAddressesByPatientId = "SELECT * FROM patient_address WHERE patient_address_patient_id = ?1";
-	public static final String allPatientsByPractitionerId = "SELECT * FROM practitioner_patient WHERE practitioner_patient_practitioner_id = ?1";
+	public static final String allPersonAddressesByPersonId = "SELECT * FROM person_address WHERE person_address_person_id = ?1";
+	public static final String allPersonsByPractitionerId = "SELECT * FROM practitioner_person WHERE practitioner_person_practitioner_id = ?1";
 }

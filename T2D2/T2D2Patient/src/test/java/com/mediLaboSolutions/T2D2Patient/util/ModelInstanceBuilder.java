@@ -3,12 +3,12 @@ package com.mediLaboSolutions.T2D2Patient.util;
 import java.time.LocalDate;
 
 import com.mediLaboSolutions.T2D2Patient.model.Address;
-import com.mediLaboSolutions.T2D2Patient.model.Patient;
-import com.mediLaboSolutions.T2D2Patient.model.PatientAddress;
+import com.mediLaboSolutions.T2D2Patient.model.Person;
+import com.mediLaboSolutions.T2D2Patient.model.PersonAddress;
 import com.mediLaboSolutions.T2D2Patient.model.Practitioner;
-import com.mediLaboSolutions.T2D2Patient.model.PractitionerPatient;
-import com.mediLaboSolutions.T2D2Patient.model.key.PatientAddressKey;
-import com.mediLaboSolutions.T2D2Patient.model.key.PractitionerPatientKey;
+import com.mediLaboSolutions.T2D2Patient.model.PractitionerPerson;
+import com.mediLaboSolutions.T2D2Patient.model.key.PersonAddressKey;
+import com.mediLaboSolutions.T2D2Patient.model.key.PractitionerPersonKey;
 
 
 public class ModelInstanceBuilder {
@@ -26,17 +26,17 @@ public class ModelInstanceBuilder {
 		return address;
 	}
 
-	public static Patient createPatient(int id, Boolean gender, String lastname, String firstname, LocalDate birthdate, String phone, String email) {
-		Patient patient = new Patient();
-		patient.setId(id);
-		patient.setGender(gender);
-		patient.setLastname(lastname);
-		patient.setFirstname(firstname);
-		patient.setBirthdate(birthdate);
-		patient.setPhone(phone);
-		patient.setEmail(email);
+	public static Person createPerson(int id, Boolean gender, String lastname, String firstname, LocalDate birthdate, String phone, String email) {
+		Person person = new Person();
+		person.setId(id);
+		person.setGender(gender);
+		person.setLastname(lastname);
+		person.setFirstname(firstname);
+		person.setBirthdate(birthdate);
+		person.setPhone(phone);
+		person.setEmail(email);
 		
-		return patient;
+		return person;
 	}
 
 	public static Practitioner createPractitioner(int id, String lastname, String firstname, String email, String password) {
@@ -50,33 +50,33 @@ public class ModelInstanceBuilder {
 		return practitioner;
 	}
 	
-	public static PatientAddressKey createPatientAddressKey(Patient patient, Address address) {
-		PatientAddressKey patientAddressKey = new PatientAddressKey();
-		patientAddressKey.setPatient(patient);
-		patientAddressKey.setAddress(address);
+	public static PersonAddressKey createPersonAddressKey(Person person, Address address) {
+		PersonAddressKey personAddressKey = new PersonAddressKey();
+		personAddressKey.setPerson(person);
+		personAddressKey.setAddress(address);
 		
-		return patientAddressKey;
+		return personAddressKey;
 	}
 	
-	public static PatientAddress createPatientAddress(PatientAddressKey patientAddressKey) {
-		PatientAddress patientAddress = new PatientAddress();
-		patientAddress.setId(patientAddressKey);
+	public static PersonAddress createPersonAddress(PersonAddressKey personAddressKey) {
+		PersonAddress personAddress = new PersonAddress();
+		personAddress.setId(personAddressKey);
 		
-		return patientAddress;
+		return personAddress;
 	}
 	
-	public static PractitionerPatientKey createPractitionerPatientKey(Practitioner practitioner, Patient patient) {
-		PractitionerPatientKey practitionerPatientKey = new PractitionerPatientKey();
-		practitionerPatientKey.setPractitioner(practitioner);
-		practitionerPatientKey.setPatient(patient);
+	public static PractitionerPersonKey createPractitionerPersonKey(Practitioner practitioner, Person person) {
+		PractitionerPersonKey practitionerPersonKey = new PractitionerPersonKey();
+		practitionerPersonKey.setPractitioner(practitioner);
+		practitionerPersonKey.setPerson(person);
 		
-		return practitionerPatientKey;
+		return practitionerPersonKey;
 	}
 	
-	public static PractitionerPatient createPractitionerPatient(PractitionerPatientKey practitionerPatientKey) {
-		PractitionerPatient practitionerPatient = new PractitionerPatient();
-		practitionerPatient.setId(practitionerPatientKey);
+	public static PractitionerPerson createPractitionerPerson(PractitionerPersonKey practitionerPersonKey) {
+		PractitionerPerson practitionerPerson = new PractitionerPerson();
+		practitionerPerson.setId(practitionerPersonKey);
 		
-		return practitionerPatient;
+		return practitionerPerson;
 	}
 }

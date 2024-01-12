@@ -1,0 +1,44 @@
+@media (max-width : 800px) {
+    #loginCard {
+        width: calc(100% - 32px);
+        margin: 16px;
+    }
+}
+
+@media (min-width : 800px) {
+    #loginCard {
+        width: 500px;
+    }
+}
+
+#loginCard {
+    max-width: 500px;
+}
+
+#credentialErrorField {
+    padding-bottom: 16px;
+    text-align: center;
+}
+
+#logoutMessage {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+mat-card-actions {
+    #newAccountLinkDiv {
+        width: 100%;
+    
+        color: #00B0FF;
+        text-align: center;
+        text-decoration: underline;
+    
+        span {
+            cursor: pointer;
+        }
+    }
+
+    button {
+        min-width: 150px;
+    }
+}

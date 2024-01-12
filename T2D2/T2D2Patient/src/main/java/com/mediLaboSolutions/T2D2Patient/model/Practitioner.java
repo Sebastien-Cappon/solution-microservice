@@ -2,6 +2,9 @@ package com.mediLaboSolutions.T2D2Patient.model;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.mediLaboSolutions.T2D2Patient.view.PractitionerView;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,12 +19,16 @@ public class Practitioner {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonView(PractitionerView.IdView.class)
 	@Column(name = "practitioner_id")
 	private int id;
+	@JsonView(PractitionerView.LastnameView.class)
 	@Column(name = "practitioner_lastname")
 	private String lastname;
+	@JsonView(PractitionerView.FirstnameView.class)
 	@Column(name = "practitioner_firstname")
 	private String firstname;
+	@JsonView(PractitionerView.EmailView.class)
 	@Column(name = "practitioner_email")
 	private String email;
 	@Column(name = "practitioner_password")

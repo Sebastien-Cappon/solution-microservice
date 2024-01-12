@@ -8,10 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -36,8 +36,8 @@ public class AddressController {
 		}
 	}
 
-	@GetMapping("/addresses/address")
-	public ResponseEntity<Address> getAddressById(@RequestParam("id") int addressId) {
+	@GetMapping("/addresses/{addressId}")
+	public ResponseEntity<Address> getAddressById(@PathVariable("addressId") int addressId) {
 		Address address = iAddressService.getAddressById(addressId);
 
 		if (address == null) {
@@ -47,7 +47,7 @@ public class AddressController {
 		}
 	}
 
-	@PostMapping("/addresses/address/create")
+	@PostMapping("/address-creation")
 	public ResponseEntity<Address> createAddress(@RequestBody Address newAddress) throws Exception {
 		Address createdAddress = iAddressService.createAddress(newAddress);
 
@@ -58,8 +58,8 @@ public class AddressController {
 		}
 	}
 
-	@PutMapping("/addresses/address/update")
-	public ResponseEntity<Integer> updateAddress(@RequestParam("id") int addressId, @RequestBody Address updatedAddress) throws Exception {
+	@PutMapping("/address-edition/{addressId}")
+	public ResponseEntity<Integer> updateAddress(@PathVariable("addressId") int addressId, @RequestBody Address updatedAddress) throws Exception {
 		Integer isUpdated = iAddressService.updateAddressById(addressId, updatedAddress);
 
 		if (isUpdated == null) {
@@ -69,8 +69,8 @@ public class AddressController {
 		}
 	}
 
-	@DeleteMapping("/addresses/address/delete")
-	public void deleteAddress(@RequestParam("id") int addressId) {
+	@DeleteMapping("/address-deletion/{addressId}")
+	public void deleteAddress(@PathVariable("addressId") int addressId) {
 		iAddressService.deleteAddressById(addressId);
 	}
 }

@@ -1,0 +1,67 @@
+@media (max-width : 700px) {
+    mat-toolbar {
+        background-image: url('/assets/images/mediLaboSolutionsSimpleLogo.png');
+        background-repeat: no-repeat;
+        background-position: 5px;
+        background-size: 60px;
+    }
+
+    ul li {
+        margin-left: 1.7em;
+    }
+}
+
+@media (min-width : 700px) {
+    mat-toolbar {
+        background-image: url('/assets/images/mediLaboSolutionsLogo.png');
+        background-repeat: no-repeat;
+        background-position: left;
+        background-size: contain;
+    }
+
+    ul li {
+        margin-left: 2em;
+    }
+}
+
+mat-toolbar {
+    top: 0px;
+    z-index: 99;
+    
+    padding-left: 210px;
+    justify-content: right;
+
+    background-color: #FFF;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, .5);
+}
+
+ul {
+    padding: 0 8px 0 0;
+
+    font-size: 18px;
+    list-style: none;
+
+    li {
+        display: inline-block;
+    }
+
+    a {
+        color: #00B0FF;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    #logLink {
+        display: inline-block;
+        width: 20px;
+        height: 17px;
+        margin-bottom: -2px;
+
+        background-image: url('/assets/images/powerOffSolid.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+}

@@ -7,8 +7,8 @@ import java.time.format.DateTimeFormatter;
 
 import org.junit.jupiter.api.Test;
 
-import com.mediLaboSolutions.T2D2Patient.model.key.PatientAddressKey;
-import com.mediLaboSolutions.T2D2Patient.model.key.PractitionerPatientKey;
+import com.mediLaboSolutions.T2D2Patient.model.key.PersonAddressKey;
+import com.mediLaboSolutions.T2D2Patient.model.key.PractitionerPersonKey;
 import com.mediLaboSolutions.T2D2Patient.util.ModelInstanceBuilder;
 
 
@@ -17,7 +17,7 @@ public class ModelTest {
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	
 	private Address address = ModelInstanceBuilder.createAddress(1, "1A", "Street", "Unknown St.", "W1", "Marylebone", "England");
-	private Patient patient = ModelInstanceBuilder.createPatient(1, false, "Byron", "Ada", LocalDate.parse("1815-12-10", dateTimeFormatter), "0102030405", "ada.byron@countess.lvl");
+	private Person person = ModelInstanceBuilder.createPerson(1, false, "Byron", "Ada", LocalDate.parse("1815-12-10", dateTimeFormatter), "0102030405", "ada.byron@countess.lvl");
 	private Practitioner practitioner = ModelInstanceBuilder.createPractitioner(1, "Eliot", "Ramesh", "ramesh.eliot@abernathyclinic.com", "UnsecuredPassword");
 	
 	@Test
@@ -26,15 +26,15 @@ public class ModelTest {
 	}
 	
 	@Test
-	public void patientToString_isNotBlank() {
-		assertThat(patient.toString()).isNotBlank();
+	public void personToString_isNotBlank() {
+		assertThat(person.toString()).isNotBlank();
 	}
 
 	@Test
-	public void patientAddressToString_isNotBlank() {
-		PatientAddressKey patientAddressKey = ModelInstanceBuilder.createPatientAddressKey(patient, address);
-		PatientAddress patientAddress = ModelInstanceBuilder.createPatientAddress(patientAddressKey);
-		assertThat(patientAddress.toString()).isNotBlank();
+	public void personAddressToString_isNotBlank() {
+		PersonAddressKey personAddressKey = ModelInstanceBuilder.createPersonAddressKey(person, address);
+		PersonAddress personAddress = ModelInstanceBuilder.createPersonAddress(personAddressKey);
+		assertThat(personAddress.toString()).isNotBlank();
 	}
 
 	@Test
@@ -43,9 +43,9 @@ public class ModelTest {
 	}
 
 	@Test
-	public void practitionerPatientToString_isNotBlank() {
-		PractitionerPatientKey practitionerPatientKey = ModelInstanceBuilder.createPractitionerPatientKey(practitioner, patient);
-		PractitionerPatient practitionerPatient = ModelInstanceBuilder.createPractitionerPatient(practitionerPatientKey);
-		assertThat(practitionerPatient.toString()).isNotBlank();
+	public void practitionerPersonToString_isNotBlank() {
+		PractitionerPersonKey practitionerPersonKey = ModelInstanceBuilder.createPractitionerPersonKey(practitioner, person);
+		PractitionerPerson practitionerPerson = ModelInstanceBuilder.createPractitionerPerson(practitionerPersonKey);
+		assertThat(practitionerPerson.toString()).isNotBlank();
 	}
 }
