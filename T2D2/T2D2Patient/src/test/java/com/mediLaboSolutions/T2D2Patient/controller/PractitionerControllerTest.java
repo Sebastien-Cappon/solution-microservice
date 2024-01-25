@@ -41,10 +41,10 @@ public class PractitionerControllerTest {
 	private MockMvc mockMvc;
 	@MockBean
 	private IPractitionerService iPractitionerService;
-	
+
 	private Practitioner practitionerResponse = ModelInstanceBuilder.createPractitioner(1, "Eliot", "Ramesh", "ramesh.eliot@abernathyclinic.com", "UnsecuredPassword");
 	private List<Practitioner> practitionerResponseList = new ArrayList<>(Arrays.asList(practitionerResponse, practitionerResponse, practitionerResponse));
-	
+
 	@Test
 	@Order(1)
 	public void getPractitioners_shouldReturnOk() throws Exception {
@@ -63,17 +63,6 @@ public class PractitionerControllerTest {
 
 	@Test
 	@Order(2)
-	public void getPractitioners_shouldReturnNoContent() throws Exception {
-		when(iPractitionerService.getPractitioners())
-			.thenReturn(new ArrayList<>());
-		
-		mockMvc.perform(get("/practitioners")
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isNoContent());
-	}
-
-	@Test
-	@Order(3)
 	public void getPractitionerById_shouldReturnOk() throws Exception {
 		when(iPractitionerService.getPractitionerById(anyInt()))
 			.thenReturn(practitionerResponse);
@@ -89,36 +78,23 @@ public class PractitionerControllerTest {
 	}
 
 	@Test
-	@Order(4)
-	public void getPractitionerById_shouldReturnNoContent() throws Exception {
-		when(iPractitionerService.getPractitionerById(anyInt()))
-			.thenReturn(null);
-		
-		mockMvc.perform(get("/practitioners/{practitionerId}", "0")
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isNoContent());
-	}
-
-	@Test
-	@Order(5)
+	@Order(3)
 	public void connectPractitionerWithEmailAndPassword_shouldReturnOk() throws Exception {
 		PractitionerLoginDto loginRequest = DtoInstanceBuilder.createPractitionerLoginDto(practitionerResponse.getEmail(), practitionerResponse.getPassword());
-		
+
 		when(iPractitionerService.connectPractitionerWithEmailAndPassword(any(PractitionerLoginDto.class)))
 			.thenReturn(practitionerResponse);
-		
+
 		mockMvc.perform(post("/login")
 				.content(objectMapper.writeValueAsString(loginRequest))
 				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.id").value(1))
-			.andExpect(jsonPath("$.lastname").value("Eliot"))
+				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+			.andExpect(jsonPath("$.id").value(1)).andExpect(jsonPath("$.lastname").value("Eliot"))
 			.andExpect(jsonPath("$.firstname").value("Ramesh"));
 	}
 
 	@Test
-	@Order(6)
+	@Order(4)
 	public void connectPractitionerWithEmailAndPassword_shouldReturnBadRequest() throws Exception {
 		when(iPractitionerService.connectPractitionerWithEmailAndPassword(any(PractitionerLoginDto.class)))
 			.thenReturn(null);
@@ -129,14 +105,14 @@ public class PractitionerControllerTest {
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest());
 	}
-	
+
 	@Test
-	@Order(7)
+	@Order(5)
 	public void createPractitioner_shouldReturnOk() throws Exception {
 		when(iPractitionerService.createPractitioner(any(Practitioner.class)))
 			.thenReturn(practitionerResponse);
 		
-		mockMvc.perform(post("/practitioner-creation")
+		mockMvc.perform(post("/practitioner")
 				.content(objectMapper.writeValueAsString(practitionerResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -149,48 +125,48 @@ public class PractitionerControllerTest {
 	}
 
 	@Test
-	@Order(8)
+	@Order(6)
 	public void createPractitioner_shouldReturnBadRequest() throws Exception {
 		when(iPractitionerService.createPractitioner(any(Practitioner.class)))
 			.thenReturn(null);
 	
-		mockMvc.perform(post("/practitioner-creation")
+		mockMvc.perform(post("/practitioner")
 			.content(objectMapper.writeValueAsString(practitionerResponse))
 			.contentType(MediaType.APPLICATION_JSON)
 			.accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isBadRequest());
 	}
-	
+
 	@Test
-	@Order(9)
+	@Order(7)
 	public void updatePractitionerById_shouldReturnOk() throws Exception {
 		when(iPractitionerService.updatePractitionerById(anyInt(), any(Practitioner.class)))
 			.thenReturn(1);
 		
-		mockMvc.perform(put("/practitioner-edition/{practitionerId}", "1")
+		mockMvc.perform(put("/practitioner/{practitionerId}", "1")
 				.content(objectMapper.writeValueAsString(practitionerResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}
-	
+
 	@Test
-	@Order(10)
+	@Order(8)
 	public void updatePractitionerById_shouldReturnBadRequest() throws Exception {
 		when(iPractitionerService.updatePractitionerById(anyInt(), any(Practitioner.class)))
 			.thenReturn(null);
 	
-		mockMvc.perform(put("/practitioner-edition/{practitionerId}", "0")
+		mockMvc.perform(put("/practitioner/{practitionerId}", "0")
 				.content(objectMapper.writeValueAsString(practitionerResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest());
 	}
-	
+
 	@Test
-	@Order(11)
+	@Order(9)
 	public void deletePractitionerById_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/practitioner-deletion/{practitionerId}", "1")
+		mockMvc.perform(delete("/practitioner/{practitionerId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

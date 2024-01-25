@@ -5,12 +5,14 @@ import { PatientsRoutingModule } from './patients-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PatientListComponent } from './components/patient-list/patient-list.component';
-import { PatientsService } from './services/patients.service';
+import { PatientService } from './services/patient.service';
+import { SinglePersonComponent } from '../person/components/single-person/single-person.component';
 
 
 @NgModule({
   declarations: [
-    PatientListComponent
+    PatientListComponent,
+    SinglePersonComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,7 @@ import { PatientsService } from './services/patients.service';
     ReactiveFormsModule
   ],
   providers: [
-    PatientsService
+    PatientService
   ]
 })
 export class PatientsModule { }

@@ -75,12 +75,9 @@ mat-card-actions {
         width: 30%;
         margin: 0 auto;
         font-size: 14px;
+        font-weight: 400;
         text-transform: uppercase;
     }
-}
-
-button mat-spinner {
-    width: 20px !important;
 }
 
 mat-form-field mat-error {
@@ -91,10 +88,25 @@ mat-form-field mat-error {
     text-align: right;
 }
 
+button mat-spinner {
+    width: 20px !important;
+}
+
 .groupControlError {
     margin-top: -24px;
     padding-bottom: 5px;
 
     font-size: 12px;
+    text-align: center;
+}
+
+.emptyObservableDiv {
+    min-width: 350px;
+    height: 200px;
+    line-height: 200px;
+    margin: 0;
+
+    color: #d3d3d3;
+    font-size: 18px;
     text-align: center;
 }

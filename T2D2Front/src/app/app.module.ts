@@ -7,8 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
-import { HomeModule } from './home/home.module';
 import { PatientsModule } from './patients/patients.module';
+import { PersonModule } from './person/person.module';
 
 @NgModule({
   declarations: [
@@ -21,8 +21,8 @@ import { PatientsModule } from './patients/patients.module';
     CoreModule,
     SharedModule,
     AuthModule,
-    HomeModule,
-    PatientsModule
+    PatientsModule,
+    PersonModule
   ],
   bootstrap: [
     AppComponent

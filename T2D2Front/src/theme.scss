@@ -5,6 +5,12 @@ $my-primary: mat-palette($mat-light-blue, A400);
 $my-accent: mat-palette($mat-teal, A400);
 $my-warn: mat-palette($mat-red, A700);
 
-$my-theme: mat-light-theme($my-primary, $my-accent, $my-warn);
+$my-theme: mat-light-theme((
+    color: (
+        primary: $my-primary,
+        accent: $my-accent,
+        warn: $my-warn
+    )
+));
 
 @include angular-material-theme($my-theme);

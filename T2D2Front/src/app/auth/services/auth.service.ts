@@ -8,13 +8,15 @@ import { Practitioner } from "src/app/core/models/practitioner.model";
 @Injectable()
 export class AuthService {
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(
+        private httpClient: HttpClient
+    ) { }
 
-    getPractitionerById(practitionerId: number): Observable<Practitioner> {
+    public getPractitionerById(practitionerId: number): Observable<Practitioner> {
         return this.httpClient.get<Practitioner>(`${environment.apiUrl}/practitioners/${practitionerId}`);
     }
 
-    login(authValue: AuthValue): Observable<boolean> {
+    public login(authValue: AuthValue): Observable<boolean> {
         return this.httpClient.post(`${environment.apiUrl}/login`, authValue).pipe(
             tap((apiResponse) => {
                 sessionStorage.setItem('authToken', this.setToken(512));
@@ -25,18 +27,18 @@ export class AuthService {
         );
     }
 
-    isLogged(): boolean {
+    public isLogged(): boolean {
         return sessionStorage.getItem('currentPractitionerId') ? true : false;
     }
 
-    logout(): boolean {
+    public logout(): boolean {
         sessionStorage.removeItem('authToken');
         sessionStorage.removeItem('currentPractitionerId');
         
         return (sessionStorage.getItem('authToken') == null && sessionStorage.getItem('currentPractitionerId') == null);
     }
 
-    setToken(length: number): string {
+    public setToken(length: number): string {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         const randomValues = new Uint32Array(length);
         let result = '';
@@ -47,7 +49,7 @@ export class AuthService {
         return result;
     }
 
-    getToken() {
+    public getToken() {
         let authToken = sessionStorage.getItem('authToken');
         return authToken;
     }

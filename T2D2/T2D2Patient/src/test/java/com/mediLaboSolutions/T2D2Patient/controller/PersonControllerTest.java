@@ -64,20 +64,9 @@ public class PersonControllerTest {
 			.andExpect(jsonPath("$.[*].phone").isNotEmpty())
 			.andExpect(jsonPath("$.[*].email").isNotEmpty());
 	}
-	
-	@Test
-	@Order(2)
-	public void getPersons_shouldReturnNoContent() throws Exception {
-		when(iPersonService.getPersons())
-			.thenReturn(new ArrayList<>());
-		
-		mockMvc.perform(get("/persons")
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isNoContent());
-	}
 
 	@Test
-	@Order(3)
+	@Order(2)
 	public void getPersonById_shouldReturnOk() throws Exception {
 		when(iPersonService.getPersonById(anyInt()))
 			.thenReturn(personResponse);
@@ -93,25 +82,32 @@ public class PersonControllerTest {
 			.andExpect(jsonPath("$.phone").value("0102030405"))
 			.andExpect(jsonPath("$.email").value("ada.byron@countess.lvl"));
 	}
-	
+
 	@Test
-	@Order(4)
-	public void getPersonsById_shouldReturnNoContent() throws Exception {
-		when(iPersonService.getPersonById(anyInt()))
-			.thenReturn(null);
+	@Order(3)
+	public void getPersonByEmail_shouldReturnOk() throws Exception {
+		when(iPersonService.getPersonByEmail(any(String.class)))
+			.thenReturn(personResponse);
 		
-		mockMvc.perform(get("/persons/{personId}", "1")
+		mockMvc.perform(get("/persons/email/{personEmail}", "ada.byron@countess.lvl")
 				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isNoContent());
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.id").value("1"))
+			.andExpect(jsonPath("$.gender").value(false))
+			.andExpect(jsonPath("$.lastname").value("Byron"))
+			.andExpect(jsonPath("$.firstname").value("Ada"))
+			.andExpect(jsonPath("$.birthdate").value("1815-12-10"))
+			.andExpect(jsonPath("$.phone").value("0102030405"))
+			.andExpect(jsonPath("$.email").value("ada.byron@countess.lvl"));
 	}
 
 	@Test
-	@Order(5)
+	@Order(4)
 	public void createPerson_shouldReturnCreated() throws Exception {
 		when(iPersonService.createPerson(any(Person.class)))
 			.thenReturn(personResponse);
 		
-		mockMvc.perform(post("/person-creation")
+		mockMvc.perform(post("/person")
 				.content(objectMapper.writeValueAsString(personResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -126,12 +122,12 @@ public class PersonControllerTest {
 	}
 
 	@Test
-	@Order(6)
+	@Order(5)
 	public void createPerson_shouldReturnBadRequest() throws Exception {
 		when(iPersonService.createPerson(any(Person.class)))
 			.thenReturn(null);
 		
-		mockMvc.perform(post("/person-creation")
+		mockMvc.perform(post("/person")
 				.content(objectMapper.writeValueAsString(personResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -139,12 +135,12 @@ public class PersonControllerTest {
 	}
 
 	@Test
-	@Order(7)
+	@Order(6)
 	public void updatePersonById_shouldReturnOk() throws Exception {
 		when(iPersonService.updatePersonById(anyInt(), any(Person.class)))
 			.thenReturn(1);
 		
-		mockMvc.perform(put("/person-edition/{personId}", "1")
+		mockMvc.perform(put("/person/{personId}", "1")
 				.content(objectMapper.writeValueAsString(personResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -152,12 +148,12 @@ public class PersonControllerTest {
 	}
 
 	@Test
-	@Order(8)
+	@Order(7)
 	public void updatePersonById_shouldReturnBadRequest() throws Exception {
 		when(iPersonService.updatePersonById(anyInt(), any(Person.class)))
 			.thenReturn(null);
 		
-		mockMvc.perform(put("/person-edition/{personId}", "0")
+		mockMvc.perform(put("/person/{personId}", "0")
 				.content(objectMapper.writeValueAsString(personResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -165,9 +161,9 @@ public class PersonControllerTest {
 	}
 
 	@Test
-	@Order(9)
+	@Order(8)
 	public void deletePersonById_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/person-deletion/{personId}", "1")
+		mockMvc.perform(delete("/person/{personId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

@@ -1,0 +1,33 @@
+mat-card {
+    overflow: hidden;
+}
+
+mat-card-content {
+    h2:first-child {
+        margin-top: 0;
+    }
+
+    #genderTile {
+        ::ng-deep {
+            .mat-grid-tile-content {
+                justify-content: flex-start;
+            }
+        }
+    }
+
+    .upperInput {
+        text-transform: uppercase;
+    }
+
+    .capInput {
+        text-transform: capitalize;
+    }
+}
+
+mat-card-actions {
+    padding: 16px 16px 16px 16px !important;
+    
+    button {
+        min-width: 150px;
+    }
+}

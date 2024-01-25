@@ -10,7 +10,6 @@ import com.mediLaboSolutions.T2D2Patient.model.PractitionerPerson;
 import com.mediLaboSolutions.T2D2Patient.model.key.PersonAddressKey;
 import com.mediLaboSolutions.T2D2Patient.model.key.PractitionerPersonKey;
 
-
 public class ModelInstanceBuilder {
 
 	public static Address createAddress(int id, String number, String wayType, String wayName, String postcode, String city, String country) {
@@ -22,7 +21,7 @@ public class ModelInstanceBuilder {
 		address.setPostcode(postcode);
 		address.setCity(city);
 		address.setCountry(country);
-		
+
 		return address;
 	}
 
@@ -35,7 +34,7 @@ public class ModelInstanceBuilder {
 		person.setBirthdate(birthdate);
 		person.setPhone(phone);
 		person.setEmail(email);
-		
+
 		return person;
 	}
 
@@ -46,37 +45,37 @@ public class ModelInstanceBuilder {
 		practitioner.setFirstname(firstname);
 		practitioner.setEmail(email);
 		practitioner.setPassword(password);
-		
+
 		return practitioner;
 	}
-	
+
 	public static PersonAddressKey createPersonAddressKey(Person person, Address address) {
 		PersonAddressKey personAddressKey = new PersonAddressKey();
 		personAddressKey.setPerson(person);
 		personAddressKey.setAddress(address);
-		
+
 		return personAddressKey;
 	}
-	
+
 	public static PersonAddress createPersonAddress(PersonAddressKey personAddressKey) {
 		PersonAddress personAddress = new PersonAddress();
 		personAddress.setId(personAddressKey);
-		
+
 		return personAddress;
 	}
-	
+
 	public static PractitionerPersonKey createPractitionerPersonKey(Practitioner practitioner, Person person) {
 		PractitionerPersonKey practitionerPersonKey = new PractitionerPersonKey();
 		practitionerPersonKey.setPractitioner(practitioner);
 		practitionerPersonKey.setPerson(person);
-		
+
 		return practitionerPersonKey;
 	}
-	
+
 	public static PractitionerPerson createPractitionerPerson(PractitionerPersonKey practitionerPersonKey) {
 		PractitionerPerson practitionerPerson = new PractitionerPerson();
 		practitionerPerson.setId(practitionerPersonKey);
-		
+
 		return practitionerPerson;
 	}
 }

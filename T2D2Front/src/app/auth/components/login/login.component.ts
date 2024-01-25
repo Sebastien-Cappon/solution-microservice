@@ -22,18 +22,18 @@ export class LoginComponent {
     private dialog: MatDialog
   ) { }
 
-  loginForm!: FormGroup;
-  loginEmailCtrl!: FormControl;
+  public loginForm!: FormGroup;
+  public loginEmailCtrl!: FormControl;
 
-  isLogged = this.authService.isLogged();
-  isWrongCredentials = false;
-  isLoading = false;
-  isAccountCreated!: boolean;
+  public isLogged = this.authService.isLogged();
+  public isWrongCredentials = false;
+  public isLoading = false;
+  private isAccountCreated!: boolean;
 
   private currentPractitionerId = Number(sessionStorage.getItem('currentPractitionerId'));
-  currentPractitioner$! : Observable<Practitioner>
+  public currentPractitioner$! : Observable<Practitioner>
 
-  ngOnInit(): void {
+  private ngOnInit(): void {
     this.currentPractitioner$ = this.authService.getPractitionerById(this.currentPractitionerId);
     this.initLoginFormControls();
     this.initLoginForm();
@@ -50,7 +50,7 @@ export class LoginComponent {
     });
   }
 
-  getLoginFormControlErrorText(ctrl: AbstractControl): string {
+  public getLoginFormControlErrorText(ctrl: AbstractControl): string {
     if(ctrl.hasError('required')) {
       return 'This input field is required.';
     } else {
@@ -58,7 +58,7 @@ export class LoginComponent {
     }
   }
 
-  openNewAccountDialog() {
+  public openNewAccountDialog() {
     const newAccountDialog = this.dialog.open(NewAccountComponent, {
       width: '800px',
       maxWidth: 'calc(100vw - 32px)',
@@ -73,7 +73,7 @@ export class LoginComponent {
     });
   }
 
-  onLogin(): void {
+  public onLogin(): void {
     this.isLoading = true;
     this.isWrongCredentials = false;
     this.authService.login(this.loginForm.value).pipe(
@@ -89,7 +89,7 @@ export class LoginComponent {
     ).subscribe();
   }
 
-  onLogout(): void {
+  public onLogout(): void {
     if(this.authService.logout()) {
       this.isLogged=false;
     }

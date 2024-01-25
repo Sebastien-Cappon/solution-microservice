@@ -13,8 +13,8 @@ export class NewAccountService {
         private authService: AuthService
     ) { }
 
-    createNewAccount(newPractitionerValue: NewPractitionerValue): Observable<boolean> {
-        return this.httpClient.post(`${environment.apiUrl}/practitioners/practitioner/create`, newPractitionerValue).pipe(
+    public createNewAccount(newPractitionerValue: NewPractitionerValue): Observable<boolean> {
+        return this.httpClient.post(`${environment.apiUrl}/practitioner`, newPractitionerValue).pipe(
             tap((apiResponse) => {
                 sessionStorage.setItem('authToken', this.authService.setToken(512));
                 sessionStorage.setItem('currentPractitionerId', JSON.parse(JSON.stringify(apiResponse)).id);

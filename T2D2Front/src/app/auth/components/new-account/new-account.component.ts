@@ -6,7 +6,6 @@ import { confirmEqualsValidator } from 'src/app/shared/validators/confirmEquals.
 import { emailPatternValidator } from 'src/app/shared/validators/emailPattern.validator';
 import { passwordPatternValidator } from 'src/app/shared/validators/passwordPattern.validator';
 import { NewAccountService } from '../../services/new-account.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-account',
@@ -16,49 +15,44 @@ import { Router } from '@angular/router';
 export class NewAccountComponent {
 
   constructor(
-    public newAccountDialog: MatDialogRef<NewAccountComponent>,
+    private newAccountDialog: MatDialogRef<NewAccountComponent>,
     private formBuilder: FormBuilder,
     private newAccountService: NewAccountService
-  ) {}
+  ) { }
 
-  newAccountForm!: FormGroup;
-  newAccountFirstnameCtrl!: FormControl;
-  newAccountLastnameCtrl!: FormControl;
+  public newAccountForm!: FormGroup;
+  public newAccountFirstnameCtrl!: FormControl;
+  public newAccountLastnameCtrl!: FormControl;
 
-  newAccountEmailForm!: FormGroup;
-  newAccountEmailCtrl!: FormControl;
-  newAccountConfirmEmailCtrl!: FormControl;
-  showNewAccountConfirmEmail$!: Observable<boolean>;
-  showNewAccountEmailError$!: Observable<boolean>;
+  public newAccountEmailForm!: FormGroup;
+  public newAccountEmailCtrl!: FormControl;
+  public newAccountConfirmEmailCtrl!: FormControl;
+  public showNewAccountConfirmEmail$!: Observable<boolean>;
+  public showNewAccountEmailError$!: Observable<boolean>;
 
-  newAccountPasswordForm!: FormGroup;
-  newAccountPasswordCtrl!: FormControl;
-  newAccountConfirmPasswordCtrl!: FormControl;
-  showNewAccountConfirmPassword$!: Observable<boolean>;
-  showNewAccountPasswordError$!: Observable<boolean>;
+  public newAccountPasswordForm!: FormGroup;
+  public newAccountPasswordCtrl!: FormControl;
+  public newAccountConfirmPasswordCtrl!: FormControl;
+  public showNewAccountConfirmPassword$!: Observable<boolean>;
+  public showNewAccountPasswordError$!: Observable<boolean>;
 
-  isLoading = false;
-  isAlreadyCreated = false;
+  public isLoading = false;
+  public isAlreadyCreated = false;
 
-  ngOnInit() {
-    this.initObservables();
+  private ngOnInit() {
     this.initNewAccountFormControls();
     this.initNewAccountForm();
     this.initNewAccountFormObservables();
   }
 
-  initObservables() {
-
-  }
-
-  initNewAccountFormControls() {
+  private initNewAccountFormControls() {
     this.newAccountFirstnameCtrl = this.formBuilder.control('', [Validators.required]);
     this.newAccountLastnameCtrl = this.formBuilder.control('', [Validators.required]);
     this.initNewAccountEmailFormControl();
     this.initNewAccountPasswordFormControl();
   }
 
-  initNewAccountEmailFormControl() {
+  private initNewAccountEmailFormControl() {
     this.newAccountEmailCtrl = this.formBuilder.control('', [Validators.required, Validators.email, emailPatternValidator()]);
     this.newAccountConfirmEmailCtrl = this.formBuilder.control('');
     this.newAccountEmailForm = this.formBuilder.group({
@@ -69,7 +63,7 @@ export class NewAccountComponent {
     });
   }
 
-  initNewAccountPasswordFormControl() {
+  private initNewAccountPasswordFormControl() {
     this.newAccountPasswordCtrl = this.formBuilder.control('', [Validators.required, passwordPatternValidator()]);
     this.newAccountConfirmPasswordCtrl = this.formBuilder.control('');
     this.newAccountPasswordForm = this.formBuilder.group({
@@ -80,7 +74,7 @@ export class NewAccountComponent {
     });
   }
 
-  initNewAccountForm() {
+  private initNewAccountForm() {
     this.newAccountForm = this.formBuilder.group({
       firstname: this.newAccountFirstnameCtrl,
       lastname: this.newAccountLastnameCtrl,
@@ -92,12 +86,12 @@ export class NewAccountComponent {
     })
   }
 
-  initNewAccountFormObservables() {
+  private initNewAccountFormObservables() {
     this.initNewAccountEmailFormObservables();
     this.initNewAccountPasswordFormObservables();
   }
 
-  initNewAccountEmailFormObservables() {
+  private initNewAccountEmailFormObservables() {
     this.showNewAccountConfirmEmail$ = this.newAccountEmailCtrl.valueChanges.pipe(
       map(() => this.newAccountEmailCtrl.value),
       tap(showNewAccountConfirmEmail => this.setNewAcccountEmailValidators(showNewAccountConfirmEmail))
@@ -112,7 +106,7 @@ export class NewAccountComponent {
     );
   }
 
-  initNewAccountPasswordFormObservables() {
+  private initNewAccountPasswordFormObservables() {
     this.showNewAccountConfirmPassword$ = this.newAccountPasswordCtrl.valueChanges.pipe(
       map(() => this.newAccountPasswordCtrl.value),
       tap(showNewAccountConfirmPassword => this.setProfilePasswordValidators(showNewAccountConfirmPassword))
@@ -127,7 +121,7 @@ export class NewAccountComponent {
     );
   }
 
-  setNewAcccountEmailValidators(showNewAccountConfirmEmail: boolean) {
+  private setNewAcccountEmailValidators(showNewAccountConfirmEmail: boolean) {
     if (showNewAccountConfirmEmail) {
       this.newAccountConfirmEmailCtrl.addValidators([
         Validators.required,
@@ -142,7 +136,7 @@ export class NewAccountComponent {
     this.newAccountConfirmEmailCtrl.updateValueAndValidity();
   }
 
-  setProfilePasswordValidators(showNewAccountConfirmPassword: boolean) {
+  private setProfilePasswordValidators(showNewAccountConfirmPassword: boolean) {
     if (showNewAccountConfirmPassword) {
       this.newAccountConfirmPasswordCtrl.addValidators([
         Validators.required,
@@ -156,7 +150,7 @@ export class NewAccountComponent {
     this.newAccountConfirmPasswordCtrl.updateValueAndValidity();
   }
 
-  getNewAccountFormControlErrorText(ctrl: AbstractControl) {
+  public getNewAccountFormControlErrorText(ctrl: AbstractControl) {
     if(ctrl.hasError('required')) {
       return 'Please confirm previous input.';
     } else if (ctrl.hasError('email') || ctrl.hasError('emailPatternValidator')){
@@ -168,7 +162,7 @@ export class NewAccountComponent {
     }
   }
 
-  onCreateAccount() {
+  public onCreateAccount() {
     this.isLoading = true;
     this.newAccountService.createNewAccount(this.newAccountForm.value).pipe(
       tap(created => {

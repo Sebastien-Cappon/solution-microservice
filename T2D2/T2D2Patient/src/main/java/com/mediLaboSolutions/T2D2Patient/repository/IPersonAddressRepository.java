@@ -9,7 +9,7 @@ import com.mediLaboSolutions.T2D2Patient.constant.MySqlQuery;
 import com.mediLaboSolutions.T2D2Patient.model.PersonAddress;
 
 public interface IPersonAddressRepository extends JpaRepository<PersonAddress, Integer> {
-	
+
 	@Query(value = MySqlQuery.allPersonAddressesByPersonId, nativeQuery = true)
 	public List<PersonAddress> getPersonAddressesByPersonId(int personId);
 }

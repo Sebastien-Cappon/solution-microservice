@@ -6,9 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.mediLaboSolutions.T2D2Patient.model.Person;
 
-public interface IPersonRepository extends JpaRepository<Person, Integer>{
+public interface IPersonRepository extends JpaRepository<Person, Integer> {
 
 	Optional<Person> findById(int personId);
-	
+	Optional<Person> findByEmail(String personEmail);
+
 	void deleteById(int personId);
 }

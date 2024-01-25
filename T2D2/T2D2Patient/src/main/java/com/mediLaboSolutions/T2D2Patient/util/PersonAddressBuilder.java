@@ -11,16 +11,16 @@ public class PersonAddressBuilder {
 		PersonAddressKey personAddressKey = new PersonAddressKey();
 		personAddressKey.setPerson(person);
 		personAddressKey.setAddress(address);
-		
+
 		return personAddressKey;
 	}
-	
+
 	public static PersonAddress createPersonAddress(Person person, Address address) {
 		PersonAddressKey personAddressKey = createPersonAddressKey(person, address);
-		
+
 		PersonAddress personAddress = new PersonAddress();
 		personAddress.setId(personAddressKey);
-		
+
 		return personAddress;
 	}
 }

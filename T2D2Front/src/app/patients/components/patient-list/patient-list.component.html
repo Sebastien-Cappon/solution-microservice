@@ -1,1 +1,41 @@
-<p>patient-list works!</p>
+<div class="container">
+    <div class="matCardWrapper">
+        <mat-card *ngIf="patients$ | async as patients" [formGroup]="patientListForm">
+            <mat-card-header>
+                <mat-card-title background-color="primary"><h1>Patient list</h1></mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-nav-list>
+                    <a class="patientsTabRow" *ngFor="let person of patients" mat-list-item>
+                        <div>
+                            <a [routerLink]="[person.id, person.email]"><p>{{ person.lastname | uppercase }} {{ person.firstname }}</p></a>
+                        </div>
+                        <div>
+                            <a [routerLink]="[person.id, person.email]"><p>{{ person.email }}</p></a>
+                        </div>
+                        <div>
+                            <button id="editButton" *ngIf="!isLoading" (click)="openAddNoteDialog()" [disabled]="isLoading"><mat-icon>note_add</mat-icon></button>
+                            <a class="noInteraction" *ngIf="isLoading"><mat-icon>create</mat-icon></a>
+                            <button id="deleteButton"  *ngIf="!isLoading" (click)="onDeletePatient(person.id)" [disabled]="isLoading"><mat-icon>clear</mat-icon></button>
+                            <a class="noInteraction" *ngIf="isLoading"><mat-icon>clear</mat-icon></a>
+                        </div>
+                    </a>
+                </mat-nav-list>
+                <div class="emptyObservableDiv" *ngIf="patients.length == 0">Your patient list is empty.</div>
+            </mat-card-content>
+           <mat-card-actions *ngIf="notPatients$ | async as notPatients">
+                <mat-form-field color="primary">
+                    <mat-label>New patient e-mail</mat-label>
+                    <input matInput type="text" [formControl]="newPatientEmailCtrl" [matAutocomplete]="autoPersons" placeholder="new.patient@email.com">
+                    <mat-autocomplete #autoPersons="matAutocomplete" hideSingleSelectionIndicator>
+                        <mat-option *ngFor="let autoPerson of notPatients | slice:0:2" [value]="autoPerson.email">
+                            {{ autoPerson.email }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-error>{{ getNewPatientEmailControlErrorText(newPatientEmailCtrl) }}</mat-error>
+                </mat-form-field>
+                <button mat-icon-button color="primary" (click)="openNewPersonDialog(autoPersons)" [disabled]="newPatientEmailCtrl.invalid"><mat-icon matSuffix>add</mat-icon></button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

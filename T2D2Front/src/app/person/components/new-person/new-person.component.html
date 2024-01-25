@@ -1,0 +1,136 @@
+<mat-card *ngIf="existingPerson$ | async as existingPerson">
+    <ng-container *ngIf="existingAddress$ | async as existingAddress">
+        <mat-card-header>
+            <mat-card-title background-color="primary"><h1>New Person</h1></mat-card-title>
+        </mat-card-header>
+        <mat-card-content [formGroup]="newPersonForm" >
+            <h2>Gender*</h2>
+            <mat-grid-list cols="1" rowHeight="40px">
+                <mat-grid-tile id="genderTile">
+                    <mat-radio-group [ngModel]="existingPerson.gender" color="primary" [formControl]="newPersonGenderCtrl">
+                        <mat-radio-button [value]="true">Mr.</mat-radio-button>
+                        <mat-radio-button [value]="false">Mrs.</mat-radio-button>
+                    </mat-radio-group>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+            <h2>Identity</h2>
+            <mat-grid-list cols="2" rowHeight="76px">
+                <mat-grid-tile>
+                    <mat-form-field color="primary" style="margin-right: 8px;">
+                        <mat-label>Lastname</mat-label>
+                        <input class="upperInput" matInput [ngModel]="existingPerson.lastname" maxlength="100" type="text" [formControl]="newPersonLastnameCtrl">
+                        <mat-error>Lastname required.</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-form-field color="primary" style="margin-left: 8px;">
+                        <mat-label>Firstname</mat-label>
+                        <input class="capInput" matInput [ngModel]="existingPerson.firstname" maxlength="100" type="text" [formControl]="newPersonFirstnameCtrl">
+                        <mat-error>Firstname required.</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-form-field color="primary" style="margin-right: 8px;">
+                        <mat-label>Birthdate</mat-label>
+                        <input matInput [ngModel]="existingPerson.birthdate" [matDatepicker]="newPersonBirthdatePicker" [formControl]="newPersonBirthdateCtrl">
+                        <mat-datepicker-toggle matIconSuffix [for]="newPersonBirthdatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #newPersonBirthdatePicker></mat-datepicker>
+                        <mat-error>Birthdate required.</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+            <h2>Address</h2>
+            <ng-container [formGroup]="newAddressForm">
+                <mat-grid-list cols="6" rowHeight="76px">
+                    <mat-grid-tile>
+                        <mat-form-field color="primary" style="margin-right: 8px;">
+                            <mat-label>Number</mat-label>
+                            <input matInput [ngModel]="existingAddress[0].number" maxlength="6" type="text" [formControl]="newAddressNumberCtrl">
+                            <mat-error>Number required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field color="primary">
+                            <mat-label>Way</mat-label>
+                            <mat-select [ngModel]="existingAddress[0].wayType" [formControl]="newAddressWayTypeCtrl">
+                                <mat-option *ngFor="let wayType of wayTypes" [value]="wayType">{{wayType}}</mat-option>
+                            </mat-select>
+                            <mat-error>Way required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="4">
+                        <mat-form-field color="primary" style="margin-left: 8px;">
+                            <mat-label>Name</mat-label>
+                            <input matInput [ngModel]="existingAddress[0].wayName" type="text" [formControl]="newAddressWayNameCtrl">
+                            <mat-error>Name required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+                <mat-grid-list cols="5" rowHeight="76px">
+                    <mat-grid-tile>
+                        <mat-form-field color="primary" style="margin-right: 8px;">
+                            <mat-label>Postcode</mat-label>
+                            <input class="upperInput" matInput [ngModel]="existingAddress[0].postcode" maxlength="10" type="text" [formControl]="newAddressPostcodeCtrl">
+                            <mat-error>Postcode required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field color="primary">
+                            <mat-label>City</mat-label>
+                            <input class="upperInput" matInput [ngModel]="existingAddress[0].city" maxlength="100" type="text" [formControl]="newAddressCityCtrl">
+                            <mat-error>City required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile colspan="2">
+                        <mat-form-field color="primary" style="margin-left: 8px;">
+                            <mat-label>Country</mat-label>
+                            <input class="upperInput" matInput [ngModel]="existingAddress[0].country" maxlength="100" type="text" [formControl]="newAddressCountryCtrl">
+                            <mat-error>Country required.</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </ng-container>
+
+            <h2>Contact</h2>
+            <mat-grid-list cols="2" rowHeight="76px" [formGroup]="newPersonEmailForm">
+                <mat-grid-tile>
+                    <mat-form-field color="primary" style="margin-right: 8px;">
+                        <mat-label>E-mail address</mat-label>
+                        <input matInput type="text" [formControl]="newPersonEmailCtrl" placeholder="newemail@adress.com">
+                        <mat-error>Valid e-mail address required.</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-form-field color="primary" style="margin-left: 8px;" *ngIf="showNewPersonConfirmEmail$ | async">
+                        <mat-label>E-mail address confirmation</mat-label>
+                        <input matInput type="text" [formControl]="newPersonConfirmEmailCtrl" placeholder="confirmemail@please.com">
+                        <mat-error>{{ getNewPersonFormControlErrorText(newPersonConfirmEmailCtrl) }}</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
+            <mat-error class="groupControlError" *ngIf="showNewPersonEmailError$ | async">Both e-mail addresses don't match.</mat-error>
+            <p id="alreadyPatientError" *ngIf="isAlreadyPatient">An patient already exist with this e-mail address.</p>
+            <mat-grid-list cols="2" rowHeight="76px">
+                <mat-grid-tile>
+                    <mat-form-field color="primary" style="margin-right: 8px;">
+                        <mat-label>Phone number</mat-label>
+                        <input matInput [ngModel]="existingPerson.phone" maxlength="20" type="text" [formControl]="newPersonPhoneCtrl">
+                        <mat-error>Phone number required.</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-flat-button color="primary" *ngIf="existingPerson.id > 0" (click)="onAddPatient(existingAddress[0].id, existingPerson.id)" [disabled]="isLoading  || newAddressForm.invalid || newPersonEmailForm.invalid || newPersonForm.invalid">
+                <span *ngIf="!isLoading" style="color: #FFF;">Add patient</span>
+                <mat-spinner *ngIf="isLoading" color="primary" mode="indeterminate"></mat-spinner>
+            </button>
+            <button mat-flat-button color="primary" *ngIf="existingPerson.id == 0" (click)="onCreatePatient()" [disabled]="isLoading ||  newAddressForm.invalid ||  newPersonEmailForm.invalid || newPersonForm.invalid">
+                <span *ngIf="!isLoading" style="color: #FFF;">Create patient</span>
+                <mat-spinner *ngIf="isLoading" color="primary" mode="indeterminate"></mat-spinner>
+            </button>
+        </mat-card-actions>
+    </ng-container>
+</mat-card>

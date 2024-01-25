@@ -26,28 +26,16 @@ public class AddressController {
 	private IAddressService iAddressService;
 
 	@GetMapping("/addresses")
-	public ResponseEntity<List<Address>> getAddresses() {
-		List<Address> addressList = iAddressService.getAddresses();
-
-		if (addressList.isEmpty()) {
-			return new ResponseEntity<List<Address>>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<List<Address>>(addressList, HttpStatus.OK);
-		}
+	public List<Address> getAddresses() {
+		return iAddressService.getAddresses();
 	}
 
 	@GetMapping("/addresses/{addressId}")
-	public ResponseEntity<Address> getAddressById(@PathVariable("addressId") int addressId) {
-		Address address = iAddressService.getAddressById(addressId);
-
-		if (address == null) {
-			return new ResponseEntity<Address>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<Address>(address, HttpStatus.OK);
-		}
+	public Address getAddressById(@PathVariable("addressId") int addressId) {
+		return iAddressService.getAddressById(addressId);
 	}
 
-	@PostMapping("/address-creation")
+	@PostMapping("/address")
 	public ResponseEntity<Address> createAddress(@RequestBody Address newAddress) throws Exception {
 		Address createdAddress = iAddressService.createAddress(newAddress);
 
@@ -58,7 +46,7 @@ public class AddressController {
 		}
 	}
 
-	@PutMapping("/address-edition/{addressId}")
+	@PutMapping("/address/{addressId}")
 	public ResponseEntity<Integer> updateAddress(@PathVariable("addressId") int addressId, @RequestBody Address updatedAddress) throws Exception {
 		Integer isUpdated = iAddressService.updateAddressById(addressId, updatedAddress);
 
@@ -69,7 +57,7 @@ public class AddressController {
 		}
 	}
 
-	@DeleteMapping("/address-deletion/{addressId}")
+	@DeleteMapping("/address/{addressId}")
 	public void deleteAddress(@PathVariable("addressId") int addressId) {
 		iAddressService.deleteAddressById(addressId);
 	}

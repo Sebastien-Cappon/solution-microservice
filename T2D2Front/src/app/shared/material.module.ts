@@ -10,8 +10,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatAutocompleteModule } from '@angular/material/autocomplete'
-import { MatDialogModule } from '@angular/material/dialog'
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatSelectModule } from '@angular/material/select'
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
     exports: [
@@ -27,7 +31,14 @@ import { MatDialogModule } from '@angular/material/dialog'
         MatListModule,
         MatExpansionModule,
         MatAutocompleteModule,
-        MatDialogModule
+        MatDialogModule,
+        MatRadioModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSelectModule
+    ],
+    providers: [
+        { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
     ]
 })
 export class MaterialModule { }

@@ -60,20 +60,9 @@ public class AddressControllerTest {
 			.andExpect(jsonPath("$.[*].city").isNotEmpty())
 			.andExpect(jsonPath("$.[*].country").isNotEmpty());
 	}
-	
-	@Test
-	@Order(2)
-	public void getAddresses_shouldReturnNoContent() throws Exception {
-		when(iAddressService.getAddresses())
-			.thenReturn(new ArrayList<>());
-		
-		mockMvc.perform(get("/addresses")
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isNoContent());
-	}
 
 	@Test
-	@Order(3)
+	@Order(2)
 	public void getAddressById_shouldReturnOk() throws Exception {
 		when(iAddressService.getAddressById(anyInt()))
 			.thenReturn(addressResponse);
@@ -91,23 +80,12 @@ public class AddressControllerTest {
 	}
 
 	@Test
-	@Order(4)
-	public void getAddressById_shouldReturnNoContent() throws Exception {
-		when(iAddressService.getAddressById(anyInt()))
-			.thenReturn(null);
-		
-		mockMvc.perform(get("/addresses/{addressId}", "1")
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isNoContent());
-	}
-
-	@Test
-	@Order(5)
+	@Order(3)
 	public void createAddress_shouldReturnCreated() throws Exception {
 		when(iAddressService.createAddress(any(Address.class)))
 			.thenReturn(addressResponse);
 		
-		mockMvc.perform(post("/address-creation")
+		mockMvc.perform(post("/address")
 				.content(objectMapper.writeValueAsString(addressResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -122,12 +100,38 @@ public class AddressControllerTest {
 	}
 
 	@Test
-	@Order(6)
+	@Order(4)
 	public void createAddress_shouldReturnBadRequest() throws Exception {
 		when(iAddressService.createAddress(any(Address.class)))
 			.thenReturn(null);
 		
-		mockMvc.perform(post("/address-creation")
+		mockMvc.perform(post("/address")
+				.content(objectMapper.writeValueAsString(addressResponse))
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	@Order(5)
+	public void updateAddress_shouldReturnOk() throws Exception {
+		when(iAddressService.updateAddressById(anyInt(), any(Address.class)))
+			.thenReturn(1);
+		
+		mockMvc.perform(put("/address/{addressId}", "1")
+				.content(objectMapper.writeValueAsString(addressResponse))
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
+	}
+
+	@Test
+	@Order(6)
+	public void updateAddressById_shouldReturnBadRequest() throws Exception {
+		when(iAddressService.updateAddressById(anyInt(), any(Address.class)))
+			.thenReturn(null);
+		
+		mockMvc.perform(put("/address/{addressId}", "0")
 				.content(objectMapper.writeValueAsString(addressResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -136,34 +140,8 @@ public class AddressControllerTest {
 
 	@Test
 	@Order(7)
-	public void updateAddress_shouldReturnOk() throws Exception {
-		when(iAddressService.updateAddressById(anyInt(), any(Address.class)))
-			.thenReturn(1);
-		
-		mockMvc.perform(put("/address-edition/{addressId}", "1")
-				.content(objectMapper.writeValueAsString(addressResponse))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk());
-	}
-
-	@Test
-	@Order(8)
-	public void updateAddressById_shouldReturnBadRequest() throws Exception {
-		when(iAddressService.updateAddressById(anyInt(), any(Address.class)))
-			.thenReturn(null);
-		
-		mockMvc.perform(put("/address-edition/{addressId}", "0")
-				.content(objectMapper.writeValueAsString(addressResponse))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isBadRequest());
-	}
-
-	@Test
-	@Order(9)
 	void deleteAddressById_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/address-deletion/{addressId}", "1")
+		mockMvc.perform(delete("/address/{addressId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

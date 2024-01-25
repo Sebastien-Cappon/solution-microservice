@@ -26,28 +26,21 @@ public class PersonController {
 	private IPersonService iPersonService;
 
 	@GetMapping("/persons")
-	public ResponseEntity<List<Person>> getPersons() {
-		List<Person> personList = iPersonService.getPersons();
-
-		if (personList.isEmpty()) {
-			return new ResponseEntity<List<Person>>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<List<Person>>(personList, HttpStatus.OK);
-		}
+	public List<Person> getPersons() {
+		return iPersonService.getPersons();
 	}
 
 	@GetMapping("/persons/{personId}")
-	public ResponseEntity<Person> getPersonById(@PathVariable("personId") int personId) {
-		Person person = iPersonService.getPersonById(personId);
-
-		if (person == null) {
-			return new ResponseEntity<Person>(HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<Person>(person, HttpStatus.OK);
-		}
+	public Person getPersonById(@PathVariable("personId") int personId) {
+		return iPersonService.getPersonById(personId);
 	}
 
-	@PostMapping("/person-creation")
+	@GetMapping("/persons/email/{personEmail}")
+	public Person getPersonByEmail(@PathVariable("personEmail") String personEmail) {
+		return iPersonService.getPersonByEmail(personEmail);
+	}
+
+	@PostMapping("/person")
 	public ResponseEntity<Person> createPerson(@RequestBody Person newPerson) throws Exception {
 		Person createdPerson = iPersonService.createPerson(newPerson);
 
@@ -58,7 +51,7 @@ public class PersonController {
 		}
 	}
 
-	@PutMapping("/person-edition/{personId}")
+	@PutMapping("/person/{personId}")
 	public ResponseEntity<Integer> updatePersonById(@PathVariable("personId") int personId, @RequestBody Person updatedPerson) throws Exception {
 		Integer isUpdated = iPersonService.updatePersonById(personId, updatedPerson);
 
@@ -69,7 +62,7 @@ public class PersonController {
 		}
 	}
 
-	@DeleteMapping("/person-deletion/{personId}")
+	@DeleteMapping("/person/{personId}")
 	public void deletePatientById(@PathVariable("personId") int personId) {
 		iPersonService.deletePersonById(personId);
 	}

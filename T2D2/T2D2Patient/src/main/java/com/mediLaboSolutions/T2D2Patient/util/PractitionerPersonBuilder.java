@@ -11,16 +11,16 @@ public class PractitionerPersonBuilder {
 		PractitionerPersonKey practitionerPersonKey = new PractitionerPersonKey();
 		practitionerPersonKey.setPractitioner(practitioner);
 		practitionerPersonKey.setPerson(person);
-		
+
 		return practitionerPersonKey;
 	}
-	
+
 	public static PractitionerPerson createPractitionerPerson(Practitioner practitioner, Person person) {
 		PractitionerPersonKey practitionerPersonKey = createPractitionerPersonKey(practitioner, person);
-		
+
 		PractitionerPerson practitionerPerson = new PractitionerPerson();
 		practitionerPerson.setId(practitionerPersonKey);
-		
+
 		return practitionerPerson;
 	}
 }

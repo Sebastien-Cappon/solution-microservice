@@ -1,0 +1,102 @@
+mat-card {
+    margin: 16px;
+}
+
+mat-nav-list a:nth-child(2n+1) {
+    background-color: #e5f6fe;
+}
+
+mat-nav-list {
+    padding: 0;
+
+    .patientsTabRow {
+        padding: 0 6px 0 0;
+
+        div {
+            display: inline-block;
+            
+            a {
+                text-decoration: none;
+                font-size: 14px;
+                color: rgba(0, 0, 0, .87);
+
+                p {
+                    height: 45px;
+                    line-height: 45px;
+                    margin: 0;
+                }
+            }
+
+            #editButton, #deleteButton, .noInteraction {
+                display: inline-block;
+                width: 22px;
+                height: 45px;
+                margin: 2px 5px;
+
+                mat-icon {
+                    margin-top: -5px;
+                    vertical-align: middle;
+                }
+            }
+
+            #editButton, #deleteButton {
+                margin: 0;
+                padding: 0;
+                border: none;
+
+                cursor: pointer;
+                background: none;
+            }
+
+            #editButton {
+                margin-right: 5px;
+                color: #293133;
+
+                :hover {
+                    color : #00B0FF;
+                }
+            }
+
+            #deleteButton {
+                color : #D50000;
+
+                :hover {
+                    color: red;
+                }
+            }
+
+            .noInteraction {
+                color: lightgrey;
+            }
+        }
+    
+        div:first-child {
+            width: 28%;
+            padding-left: 2%;
+        }
+    
+        div:nth-child(2) {
+            width: 59%;
+        }
+    
+        div:last-child {
+            width: 10%;
+            line-height: 45px;
+            text-align: right;
+        }
+    }
+}
+
+mat-form-field {
+    width: 100%;
+    margin-top: 16px;
+    margin-bottom: -16px;
+
+    input {
+        width: 90%;
+    }
+}
+
+button {
+    margin-top: 12px;
+}

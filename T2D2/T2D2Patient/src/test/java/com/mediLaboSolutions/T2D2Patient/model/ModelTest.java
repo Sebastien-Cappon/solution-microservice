@@ -11,20 +11,19 @@ import com.mediLaboSolutions.T2D2Patient.model.key.PersonAddressKey;
 import com.mediLaboSolutions.T2D2Patient.model.key.PractitionerPersonKey;
 import com.mediLaboSolutions.T2D2Patient.util.ModelInstanceBuilder;
 
-
 public class ModelTest {
 
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	
+
 	private Address address = ModelInstanceBuilder.createAddress(1, "1A", "Street", "Unknown St.", "W1", "Marylebone", "England");
 	private Person person = ModelInstanceBuilder.createPerson(1, false, "Byron", "Ada", LocalDate.parse("1815-12-10", dateTimeFormatter), "0102030405", "ada.byron@countess.lvl");
 	private Practitioner practitioner = ModelInstanceBuilder.createPractitioner(1, "Eliot", "Ramesh", "ramesh.eliot@abernathyclinic.com", "UnsecuredPassword");
-	
+
 	@Test
 	public void addressToString_isNotBlank() {
 		assertThat(address.toString()).isNotBlank();
 	}
-	
+
 	@Test
 	public void personToString_isNotBlank() {
 		assertThat(person.toString()).isNotBlank();
