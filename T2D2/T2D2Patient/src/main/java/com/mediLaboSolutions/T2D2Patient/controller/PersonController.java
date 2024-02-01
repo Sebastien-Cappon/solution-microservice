@@ -51,7 +51,7 @@ public class PersonController {
 		}
 	}
 
-	@PutMapping("/person/{personId}")
+	@PutMapping("/persons/{personId}")
 	public ResponseEntity<Integer> updatePersonById(@PathVariable("personId") int personId, @RequestBody Person updatedPerson) throws Exception {
 		Integer isUpdated = iPersonService.updatePersonById(personId, updatedPerson);
 
@@ -62,7 +62,7 @@ public class PersonController {
 		}
 	}
 
-	@DeleteMapping("/person/{personId}")
+	@DeleteMapping("/persons/{personId}")
 	public void deletePatientById(@PathVariable("personId") int personId) {
 		iPersonService.deletePersonById(personId);
 	}

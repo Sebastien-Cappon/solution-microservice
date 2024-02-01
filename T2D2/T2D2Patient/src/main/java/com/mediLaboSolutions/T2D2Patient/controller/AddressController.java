@@ -46,7 +46,7 @@ public class AddressController {
 		}
 	}
 
-	@PutMapping("/address/{addressId}")
+	@PutMapping("/addresses/{addressId}")
 	public ResponseEntity<Integer> updateAddress(@PathVariable("addressId") int addressId, @RequestBody Address updatedAddress) throws Exception {
 		Integer isUpdated = iAddressService.updateAddressById(addressId, updatedAddress);
 
@@ -57,7 +57,7 @@ public class AddressController {
 		}
 	}
 
-	@DeleteMapping("/address/{addressId}")
+	@DeleteMapping("/addresses/{addressId}")
 	public void deleteAddress(@PathVariable("addressId") int addressId) {
 		iAddressService.deleteAddressById(addressId);
 	}

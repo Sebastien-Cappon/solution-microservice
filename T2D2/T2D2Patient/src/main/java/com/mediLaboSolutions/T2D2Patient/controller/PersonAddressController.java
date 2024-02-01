@@ -46,7 +46,7 @@ public class PersonAddressController {
 		}
 	}
 
-	@DeleteMapping("/residence/persons/{personId}/addresses/{addressId}")
+	@DeleteMapping("/residences/persons/{personId}/addresses/{addressId}")
 	public void deletePersonAddress(@PathVariable("personId") int personId, @PathVariable("addressId") int addressId) {
 		iPersonAddressService.deletePersonAddress(personId, addressId);
 	}

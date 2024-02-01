@@ -23,7 +23,7 @@ export class PatientService {
     }
 
     public getPatientsByPractitionerId(practitionerId: number) {
-        this.httpClient.get<Person[]>(`${environment.apiUrl}/patient/practitioners/${practitionerId}/persons`).pipe(
+        this.httpClient.get<Person[]>(`${environment.apiUrl}/patients/practitioners/${practitionerId}/persons`).pipe(
             tap(patients => {
                 this._patients$.next(patients);
             })
@@ -31,15 +31,11 @@ export class PatientService {
     }
 
     public getNotPatientsByPractitionerId(practitionerId: number) {
-        this.httpClient.get<Person[]>(`${environment.apiUrl}/patient/practitioners/${practitionerId}/persons/not-patients`).pipe(
+        this.httpClient.get<Person[]>(`${environment.apiUrl}/patients/practitioners/${practitionerId}/persons/not-patients`).pipe(
             tap(notPatients => {
                 this._notPatients$.next(notPatients);
             })
         ).subscribe();
-    }
-
-    public deletePatient(practitionerId: number, personId: number) {
-        return this.httpClient.delete(`${environment.apiUrl}/patient/practitioners/${practitionerId}/persons/${personId}`)
     }
 
     public addPatient(patientValue: PatientValue): Observable<boolean> {
@@ -47,5 +43,9 @@ export class PatientService {
             map(() => true),
             catchError(() => of(false))
         );
+    }
+
+    public deletePatient(practitionerId: number, personId: number) {
+        return this.httpClient.delete(`${environment.apiUrl}/patients/practitioners/${practitionerId}/persons/${personId}`)
     }
 }

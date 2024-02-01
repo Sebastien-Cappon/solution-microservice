@@ -25,12 +25,12 @@ public class PractitionerPersonController {
 	@Autowired
 	IPractitionerPersonService iPractitionerPersonService;
 
-	@GetMapping("/patient/practitioners/{practitionerId}/persons")
+	@GetMapping("/patients/practitioners/{practitionerId}/persons")
 	public List<Person> getPersonsByPractitionerId(@PathVariable("practitionerId") int practitionerId) {
 		return iPractitionerPersonService.getPersonsByPractitionerId(practitionerId);
 	}
 
-	@GetMapping("/patient/practitioners/{practitionerId}/persons/not-patients")
+	@GetMapping("/patients/practitioners/{practitionerId}/persons/not-patients")
 	public List<Person> getNotPatientsByPractitionerId(@PathVariable("practitionerId") int practitionerId) {
 		return iPractitionerPersonService.getNotPatientsByPractitionerId(practitionerId);
 	}
@@ -46,7 +46,7 @@ public class PractitionerPersonController {
 		}
 	}
 
-	@DeleteMapping("/patient/practitioners/{practitionerId}/persons/{personId}")
+	@DeleteMapping("/patients/practitioners/{practitionerId}/persons/{personId}")
 	public void deletePersonFromPractitioner(@PathVariable("practitionerId") int practitionerId, @PathVariable("personId") int personId) {
 		iPractitionerPersonService.deletePersonFromPractitioner(practitionerId, personId);
 	}

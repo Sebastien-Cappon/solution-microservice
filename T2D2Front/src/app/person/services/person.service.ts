@@ -31,7 +31,7 @@ export class PersonService {
     }
 
     public updatePersonById(personId: number, personUpdate: Person) {
-        return this.httpClient.put(`${environment.apiUrl}/person/${personId}`, personUpdate).pipe(
+        return this.httpClient.put(`${environment.apiUrl}/persons/${personId}`, personUpdate).pipe(
             map(() => true),
             catchError(() => of(false))
         );

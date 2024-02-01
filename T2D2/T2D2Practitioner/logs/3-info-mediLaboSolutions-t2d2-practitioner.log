@@ -1,0 +1,17 @@
+[2024-02-01 14:52:39][INFO ] NoteControllerTest   : Starting NoteControllerTest using Java 19.0.2 with PID 2288 (started by Sylance in C:\Users\Sylance\Desktop\Formation OpenClassrooms\P9 - Développez une solution en microservices pour votre client\Projet 9 - MediLaboSolutions\T2D2\T2D2Practitioner)
+[2024-02-01 14:52:39][INFO ] NoteControllerTest   : No active profile set, falling back to 1 default profile: "default"
+[2024-02-01 14:52:43][INFO ] NoteControllerTest   : Started NoteControllerTest in 4.906 seconds (process running for 7.604)
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Endpoint requested : GET http://localhost/notes
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Response : Status 200 OK
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Endpoint requested : GET http://localhost/notes/persons/1
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Response : Status 200 OK
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Endpoint requested : GET http://localhost/notes/1a
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Response : Status 200 OK
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Endpoint requested : POST http://localhost/note
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Response : Status 201 Created
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Endpoint requested : POST http://localhost/note
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Endpoint requested : PUT http://localhost/notes/1a
+[2024-02-01 14:52:43][INFO ] HandlerInterceptorImpl : Response : Status 200 OK
+[2024-02-01 14:52:44][INFO ] HandlerInterceptorImpl : Endpoint requested : PUT http://localhost/notes/0
+[2024-02-01 14:52:44][INFO ] HandlerInterceptorImpl : Endpoint requested : DELETE http://localhost/notes/1a
+[2024-02-01 14:52:44][INFO ] HandlerInterceptorImpl : Response : Status 200 OK

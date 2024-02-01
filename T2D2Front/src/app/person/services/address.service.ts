@@ -19,7 +19,7 @@ export class AddressService {
     }
 
     public updateAddressById(addressId: number, addressesUpdate: Address) {
-        return this.httpClient.put(`${environment.apiUrl}/address/${addressId}`, addressesUpdate).pipe(
+        return this.httpClient.put(`${environment.apiUrl}/addresses/${addressId}`, addressesUpdate).pipe(
             map(() => true),
             catchError(() => of(false))
         );
