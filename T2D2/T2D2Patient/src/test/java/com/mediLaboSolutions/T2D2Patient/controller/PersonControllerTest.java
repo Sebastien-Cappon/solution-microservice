@@ -140,7 +140,7 @@ public class PersonControllerTest {
 		when(iPersonService.updatePersonById(anyInt(), any(Person.class)))
 			.thenReturn(1);
 		
-		mockMvc.perform(put("/person/{personId}", "1")
+		mockMvc.perform(put("/persons/{personId}", "1")
 				.content(objectMapper.writeValueAsString(personResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -153,7 +153,7 @@ public class PersonControllerTest {
 		when(iPersonService.updatePersonById(anyInt(), any(Person.class)))
 			.thenReturn(null);
 		
-		mockMvc.perform(put("/person/{personId}", "0")
+		mockMvc.perform(put("/persons/{personId}", "0")
 				.content(objectMapper.writeValueAsString(personResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -163,7 +163,7 @@ public class PersonControllerTest {
 	@Test
 	@Order(8)
 	public void deletePersonById_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/person/{personId}", "1")
+		mockMvc.perform(delete("/persons/{personId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

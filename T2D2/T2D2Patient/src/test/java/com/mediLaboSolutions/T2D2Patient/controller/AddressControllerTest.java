@@ -118,7 +118,7 @@ public class AddressControllerTest {
 		when(iAddressService.updateAddressById(anyInt(), any(Address.class)))
 			.thenReturn(1);
 		
-		mockMvc.perform(put("/address/{addressId}", "1")
+		mockMvc.perform(put("/addresses/{addressId}", "1")
 				.content(objectMapper.writeValueAsString(addressResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -131,7 +131,7 @@ public class AddressControllerTest {
 		when(iAddressService.updateAddressById(anyInt(), any(Address.class)))
 			.thenReturn(null);
 		
-		mockMvc.perform(put("/address/{addressId}", "0")
+		mockMvc.perform(put("/addresses/{addressId}", "0")
 				.content(objectMapper.writeValueAsString(addressResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -141,7 +141,7 @@ public class AddressControllerTest {
 	@Test
 	@Order(7)
 	void deleteAddressById_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/address/{addressId}", "1")
+		mockMvc.perform(delete("/addresses/{addressId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

@@ -110,7 +110,7 @@ public class PersonAddressControllerTest {
 	@Test
 	@Order(5)
 	public void deletePersonAddress_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/residence/persons/{personId}/addresses/{addressId}", "1", "1")
+		mockMvc.perform(delete("/residences/persons/{personId}/addresses/{addressId}", "1", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

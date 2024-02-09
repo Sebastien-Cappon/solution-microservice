@@ -55,7 +55,7 @@ public class PractitionerPersonControllerTest {
 		when(iPractitionerPersonService.getPersonsByPractitionerId(anyInt()))
 			.thenReturn(personResponseList);
 		
-		mockMvc.perform(get("/patient/practitioners/{practitionerId}/persons", "1")
+		mockMvc.perform(get("/patients/practitioners/{practitionerId}/persons", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.[*].id").isNotEmpty())
@@ -73,7 +73,7 @@ public class PractitionerPersonControllerTest {
 		when(iPractitionerPersonService.getNotPatientsByPractitionerId(anyInt()))
 			.thenReturn(personResponseList);
 		
-		mockMvc.perform(get("/patient/practitioners/{practitionerId}/persons/not-patients", "1")
+		mockMvc.perform(get("/patients/practitioners/{practitionerId}/persons/not-patients", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.[*].id").isNotEmpty())
@@ -114,7 +114,7 @@ public class PractitionerPersonControllerTest {
 	@Test
 	@Order(5)
 	public void deletePersonFromPractitioner_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/patient/practitioners/{practitionerId}/persons/{personId}", "1", "1")
+		mockMvc.perform(delete("/patients/practitioners/{practitionerId}/persons/{personId}", "1", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

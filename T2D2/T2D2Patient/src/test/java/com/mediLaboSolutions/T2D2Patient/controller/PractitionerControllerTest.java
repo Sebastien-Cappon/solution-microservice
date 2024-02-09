@@ -143,7 +143,7 @@ public class PractitionerControllerTest {
 		when(iPractitionerService.updatePractitionerById(anyInt(), any(Practitioner.class)))
 			.thenReturn(1);
 		
-		mockMvc.perform(put("/practitioner/{practitionerId}", "1")
+		mockMvc.perform(put("/practitioners/{practitionerId}", "1")
 				.content(objectMapper.writeValueAsString(practitionerResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -156,7 +156,7 @@ public class PractitionerControllerTest {
 		when(iPractitionerService.updatePractitionerById(anyInt(), any(Practitioner.class)))
 			.thenReturn(null);
 	
-		mockMvc.perform(put("/practitioner/{practitionerId}", "0")
+		mockMvc.perform(put("/practitioners/{practitionerId}", "0")
 				.content(objectMapper.writeValueAsString(practitionerResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -166,7 +166,7 @@ public class PractitionerControllerTest {
 	@Test
 	@Order(9)
 	public void deletePractitionerById_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/practitioner/{practitionerId}", "1")
+		mockMvc.perform(delete("/practitioners/{practitionerId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}
