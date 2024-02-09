@@ -1,0 +1,101 @@
+mat-accordion {
+    font-size: 14px;
+
+    mat-expansion-panel {
+        border-radius: 0 !important;
+        box-shadow: none;
+
+        mat-expansion-panel-header {
+            mat-panel-title {
+                font-weight: 500;
+            }
+
+            mat-panel-description {
+                width: 100%;
+                margin: 0;
+                padding-top: 2px;
+            }
+        }
+
+        .noteContent {
+            margin: 0px 24px;
+        }
+
+        mat-form-field {
+            width: calc(100% - 24px) !important;
+            margin: 0px 12px;
+
+            ::ng-deep {
+                .mdc-text-field {
+                    background: none;
+                }
+            }
+        }
+
+        .noteActions {
+            margin: 8px;
+            text-align: right;
+
+            .editNoteButton,
+            .deleteNoteButton,
+            .noInteraction {
+                width: 30px;
+                height: 30px;
+                margin: 0;
+                padding: 0;
+
+                border: none;
+                cursor: pointer;
+
+                background: none;
+
+                mat-icon {
+                    vertical-align: middle;
+                }
+            }
+
+            .editNoteButton {
+                color: rgba(0, 0, 0, .54);
+            }
+
+            .deleteNoteButton {
+                color: #D50000;
+
+                :hover {
+                    color: red;
+                }
+            }
+
+            .editNoteButton :hover {
+                color: #00B0FF;
+            }
+
+            .noInteraction {
+                color: lightgrey;
+            }
+        }
+    }
+
+    mat-expansion-panel:nth-child(2n) {
+        background-color: #f0faff;
+    }
+
+    mat-expansion-panel:nth-child(2n+1) {
+        background-color: #dcf3fd;
+    }
+}
+
+#noteListAction {
+    margin: 16px;
+    text-align: right;
+
+    button {
+        width: 30%;
+        margin: 0 auto;
+
+        color: #FFF;
+        font-size: 14px;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+}

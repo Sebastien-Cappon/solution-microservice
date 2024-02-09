@@ -1,0 +1,180 @@
+<ng-container *ngIf="residences$ | async as residences" [formGroup]="personEditForm">
+    <h2>Gender*</h2>
+    <mat-grid-list cols="1" rowHeight="40px">
+        <mat-grid-tile id="genderTile">
+            <mat-radio-group [ngModel]="currentPerson.gender" color="primary" [formControl]="personGenderCtrl">
+                <mat-radio-button [value]="true" [disabled]="!isEditing">Mr.</mat-radio-button>
+                <mat-radio-button [value]="false" [disabled]="!isEditing">Mrs.</mat-radio-button>
+            </mat-radio-group>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <h2>Identity</h2>
+    <mat-grid-list *ngIf="!isEditing" cols="2" rowHeight="76px">
+        <mat-grid-tile>
+            <mat-label class="profileInfoLabel" style="left: 16px;">Lastname</mat-label>
+            <div class="profileInfoDiv upperInput" style="margin-right: 8px;">{{ currentPerson.lastname }}</div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-label class="profileInfoLabel" style="left: 24px;">Firstname</mat-label>
+            <div class="profileInfoDiv capInput" style="margin-left: 8px; text-transform: capitalize;">{{ currentPerson.firstname }}</div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-label class="profileInfoLabel" style="left: 16px;">Birthdate</mat-label>
+            <div class="profileInfoDiv" style="margin-right: 8px;">{{ currentPerson.birthdate | date:'dd/MM/YYYY'}}
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list *ngIf="isEditing" cols="2" rowHeight="76px">
+        <mat-grid-tile>
+            <mat-form-field color="primary" style="margin-right: 8px;">
+                <mat-label>Lastname</mat-label>
+                <input class="upperInput" style="text-transform: uppercase;" matInput [ngModel]="currentPerson.lastname" type="text" [formControl]="personLastnameCtrl">
+                <mat-error>Lastname required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field color="primary" style="margin-left: 8px;">
+                <mat-label>Firstname</mat-label>
+                <input class="capInput" matInput style="text-transform: capitalize;" [ngModel]="currentPerson.firstname" type="text" [formControl]="personFirstnameCtrl">
+                <mat-error>Firstname required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field color="primary" style="margin-right: 8px;">
+                <mat-label>Birthdate</mat-label>
+                <input matInput [ngModel]="currentPerson.birthdate" [matDatepicker]="personBirthdatePicker" [max]="birthdateMaxDate" [formControl]="personBirthdateCtrl">
+                <mat-datepicker-toggle matIconSuffix [for]="personBirthdatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #personBirthdatePicker></mat-datepicker>
+                <mat-error>Birthdate required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <h2>Address</h2>
+    <mat-grid-list *ngIf="!isEditing" cols="6" rowHeight="76px">
+        <mat-grid-tile>
+            <mat-label class="profileInfoLabel" style="left: 16px;">Number</mat-label>
+            <div class="profileInfoDiv" style="margin-right: 8px;">{{ residences[0].number }}</div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-label class="profileInfoLabel" style="left: 16px;">Way</mat-label>
+            <div class="profileInfoDiv">{{ residences[0].wayType }}</div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="4">
+            <mat-label class="profileInfoLabel" style="left: 24px;">Name</mat-label>
+            <div class="profileInfoDiv" style="margin-left: 8px;">{{ residences[0].wayName }}</div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list *ngIf="isEditing" cols="6" rowHeight="76px">
+        <mat-grid-tile>
+            <mat-form-field color="primary" style="margin-right: 8px;">
+                <mat-label>Number</mat-label>
+                <input matInput [ngModel]="residences[0].number" maxlength="6" type="text" [formControl]="personResidenceNumberCtrl">
+                <mat-error>Number required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field color="primary">
+                <mat-label>Way</mat-label>
+                <mat-select [ngModel]="residences[0].wayType" [formControl]="personResidenceWayTypeCtrl">
+                    <mat-option *ngFor="let wayType of wayTypes" [value]="wayType">{{wayType}}</mat-option>
+                </mat-select>
+                <mat-error>Way required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="4">
+            <mat-form-field color="primary" style="margin-left: 8px;">
+                <mat-label>Name</mat-label>
+                <input matInput [ngModel]="residences[0].wayName" type="text" [formControl]="personResidenceWayNameCtrl">
+                <mat-error>Name required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list *ngIf="!isEditing" cols="5" rowHeight="76px">
+        <mat-grid-tile>
+            <mat-label class="profileInfoLabel" style="left: 16px;">Postcode</mat-label>
+            <div class="profileInfoDiv upperInput" style="margin-right: 8px;">{{ residences[0].postcode }}</div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2">
+            <mat-label class="profileInfoLabel" style="left: 16px;">City</mat-label>
+            <div class="profileInfoDiv upperInput">{{ residences[0].city }}</div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2">
+            <mat-label class="profileInfoLabel" style="left: 24px;">Country</mat-label>
+            <div class="profileInfoDiv upperInput" style="margin-left: 8px;">{{ residences[0].country }}</div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list *ngIf="isEditing" cols="5" rowHeight="76px">
+        <mat-grid-tile>
+            <mat-form-field color="primary" style="margin-right: 8px;">
+                <mat-label>Postcode</mat-label>
+                <input class="upperInput" matInput [ngModel]="residences[0].postcode" maxlength="10" type="text" [formControl]="personResidencePostcodeCtrl">
+                <mat-error>Postcode required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2">
+            <mat-form-field color="primary">
+                <mat-label>City</mat-label>
+                <input class="upperInput" matInput [ngModel]="residences[0].city" maxlength="100" type="text" [formControl]="personResidenceCityCtrl">
+                <mat-error>City required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="2">
+            <mat-form-field color="primary" style="margin-left: 8px;">
+                <mat-label>Country</mat-label>
+                <input class="upperInput" matInput [ngModel]="residences[0].country" maxlength="100" type="text" [formControl]="personResidenceCountryCtrl">
+                <mat-error>Country required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <h2>Contact</h2>
+    <mat-grid-list *ngIf="!isEditing" cols="2" rowHeight="76px">
+        <mat-grid-tile>
+            <mat-label class="profileInfoLabel" style="left: 16px;">E-mail address</mat-label>
+            <div class="profileInfoDiv" style="margin-right: 8px;">{{ currentPerson.email }}</div>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list *ngIf="isEditing" cols="2" rowHeight="76px">
+        <mat-grid-tile>
+            <mat-form-field color="primary" style="margin-right: 8px;">
+                <mat-label>E-mail address</mat-label>
+                <input matInput [ngModel]="currentPerson.email" type="text" [formControl]="personEmailCtrl" placeholder="newemail@adress.com">
+                <mat-error>Valid e-mail address required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-form-field color="primary" style="margin-left: 8px;" *ngIf="showPersonConfirmEmail$ | async">
+                <mat-label>E-mail address confirmation</mat-label>
+                <input matInput [ngModel]="currentPerson.email" type="text" [formControl]="personConfirmEmailCtrl" placeholder="confirmemail@please.com">
+                <mat-error>{{ getPersonEditFormControlErrorText(personConfirmEmailCtrl) }}</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-error class="groupControlError" *ngIf="showPersonEmailError$ | async">Both e-mail addresses don't match.</mat-error>
+    <mat-grid-list *ngIf="!isEditing" cols="2" rowHeight="76px">
+        <mat-grid-tile>
+            <mat-label class="profileInfoLabel" style="left: 16px;">Phone number</mat-label>
+            <div class="profileInfoDiv" style="margin-right: 8px;">{{ currentPerson.phone }}</div>
+        </mat-grid-tile>
+        <mat-grid-tile class="inFormButtonTile">
+            <button mat-stroked-button color="primary" (click)="onEditPerson()">Edit</button>
+        </mat-grid-tile>
+    </mat-grid-list>
+    <mat-grid-list *ngIf="isEditing" cols="2" rowHeight="76px">
+        <mat-grid-tile>
+            <mat-form-field color="primary" style="margin-right: 8px;">
+                <mat-label>Phone number</mat-label>
+                <input matInput [ngModel]="currentPerson.phone" maxlength="20" type="text" [formControl]="personPhoneCtrl">
+                <mat-error>Phone number required.</mat-error>
+            </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile class="inFormButtonTile">
+            <button mat-flat-button color="primary" (click)="onConfirmPersonEdition(residences[0].id, currentPersonId)" [disabled]="isLoading ||  personResidenceEditForm.invalid ||  personEmailEditForm.invalid || personEditForm.invalid">
+                <span *ngIf="!isLoading" style="color: #FFF;">Confirm</span>
+                <mat-spinner *ngIf="isLoading" color="primary" mode="indeterminate"></mat-spinner>
+            </button>
+        </mat-grid-tile>
+    </mat-grid-list>
+</ng-container>

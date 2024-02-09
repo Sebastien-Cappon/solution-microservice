@@ -3,6 +3,7 @@
         <mat-card-header>
             <mat-card-title background-color="primary"><h1>Log in</h1></mat-card-title>
         </mat-card-header>
+
         <mat-card-content (keyup.enter)="onLogin()">
             <mat-form-field color="primary">
                 <mat-label>E-mail address</mat-label>
@@ -18,6 +19,7 @@
                 <mat-error>Incorrects login. Please try again.</mat-error>
             </div>
         </mat-card-content>
+        
         <mat-card-actions>
             <div *ngIf="loginForm.invalid" id="newAccountLinkDiv">
                 <span (click)="openNewAccountDialog()">Create an account</span>

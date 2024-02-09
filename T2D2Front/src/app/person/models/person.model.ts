@@ -5,5 +5,5 @@ export class Person {
     firstname!: string;
     birthdate!: string;
     phone!: string;
-	email!: string;
+    email!: string;
 }

@@ -1,24 +1,24 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Observable, combineLatest, map, startWith, tap } from 'rxjs';
-import { Person } from '../../../core/models/person.model';
+import { Person } from '../../../person/models/person.model';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { emailPatternValidator } from 'src/app/shared/validators/emailPattern.validator';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAutocomplete } from '@angular/material/autocomplete';
 import { NewPersonComponent } from 'src/app/person/components/new-person/new-person.component';
+import { NewNoteComponent } from 'src/app/note/components/new-note/new-note.component';
 
 @Component({
   selector: 'app-patient-list',
   templateUrl: './patient-list.component.html',
-  styleUrls: ['./patient-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./patient-list.component.scss']
 })
 export class PatientListComponent {
 
   constructor(
     private patientService: PatientService,
-    private formBuilder : FormBuilder,
+    private formBuilder: FormBuilder,
     private dialog: MatDialog
   ) { }
 
@@ -32,14 +32,11 @@ export class PatientListComponent {
   public isLoading = false;
   public newPatientEmail!: string;
 
-  private ngOnInit() : void {
+  private ngOnInit(): void {
     this.initObservables();
     this.initNewPatientFormControls();
     this.initNewPatientForm();
     this.initNewPatientFormObservables();
-
-    this.patientService.getPatientsByPractitionerId(this.currentPractitionerId);
-    this.patientService.getNotPatientsByPractitionerId(this.currentPractitionerId);
   }
 
   private initNewPatientForm() {
@@ -71,27 +68,38 @@ export class PatientListComponent {
 
   private initObservables() {
     this.patients$ = this.patientService.patients$;
+    this.patientService.getPatientsByPractitionerId(this.currentPractitionerId);
+
+    this.notPatients$ = this.patientService.notPatients$;
+    this.patientService.getNotPatientsByPractitionerId(this.currentPractitionerId);
   }
 
   public getNewPatientEmailControlErrorText(ctrl: AbstractControl): string {
-    if(ctrl.hasError('required')) {
+    if (ctrl.hasError('required')) {
       return 'The future patient email address is required.';
-    } else if (ctrl.hasError('email') || ctrl.hasError('emailPatternValidator')){
+    } else if (ctrl.hasError('email') || ctrl.hasError('emailPatternValidator')) {
       return 'A valid email address is mandatory.';
-    }  else {
+    } else {
       return 'An error has occured.';
     }
   }
 
-  public openAddNoteDialog() {
-    
+  public openNewNoteDialog(personId: number) {
+    const newNoteDialog = this.dialog.open(NewNoteComponent, {
+      width: '800px',
+      maxWidth: 'calc(100vw - 32px)',
+      maxHeight: 'calc(100vh - 32px)',
+      data: {
+        personId: personId
+      }
+    })
   }
 
   public openNewPersonDialog(auto: MatAutocomplete) {
     const newPersonDialog = this.dialog.open(NewPersonComponent, {
       width: '800px',
-      maxWidth: 'calc(100vw - 32px',
-      maxHeight: 'calc(100vh - 32px',
+      maxWidth: 'calc(100vw - 32px)',
+      maxHeight: 'calc(100vh - 32px)',
       data: {
         currentPractitionerId: this.currentPractitionerId,
         newPatientEmail: this.patientListForm.value.newPatientEmail
@@ -103,15 +111,16 @@ export class PatientListComponent {
     });
 
     newPersonDialog.afterClosed().subscribe(newPatient => {
-      if(newPatient) {
+      if (newPatient) {
         this.patientService.addPatient(newPatient).pipe(
           tap(linked => {
-            if(linked) {
-              this.patientListForm.reset;
-              this.ngOnInit();
+            if (linked) {
+              this.patientListForm.reset();
             }
           })
-        ).subscribe();
+        ).subscribe(() => {
+          this.initObservables();
+        });
       }
     })
   }
@@ -120,6 +129,10 @@ export class PatientListComponent {
     this.isLoading = true;
     this.patientService.deletePatient(this.currentPractitionerId, patientId).subscribe(() => {
       this.isLoading = false;
+      this.patientListForm.reset();
+
+      // WORKAROUND : AUTOSUGGESTION LIST MUST CONTAIN PERSONS WHO HAVE BEEN >>CREATED<< (NOT UPDATED)
+      // WHEN THEY'RE ADDED, WITHOUT REFRESH THE ALL PAGE.
       this.ngOnInit();
     });
   }

@@ -1,0 +1,46 @@
+.inFormButtonTile {
+    ::ng-deep {
+        .mat-grid-tile-content {
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+    }
+
+    button {
+        width: 50%;
+        margin-bottom: 20px;
+        font-size: 14px;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+}
+
+#genderTile::ng-deep {
+    .mat-grid-tile-content {
+        justify-content: flex-start;
+    }
+}
+
+.upperInput {
+    text-transform: uppercase;
+}
+
+.capInput {
+    text-transform: capitalize;
+}
+
+.profileInfoLabel {
+    position: absolute;
+    top: 8px;
+
+    font-size: 12px;
+    color: rgba(0, 0, 0, .6);
+}
+
+.profileInfoDiv {
+    width: 100%;
+    padding: 24px 16px 13px 16px;
+
+    align-self: flex-start;
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+}

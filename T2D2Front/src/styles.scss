@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -33,22 +34,21 @@ mat-card {
 mat-card-header {
     margin: 3px !important;
     padding: 0 !important;
-    
-    
     background-color: #00B0FF;
-    
+
     mat-card-title {
         width: 100%;
         padding: 12px !important;
         color: #fff;
 
-        h1, h2 {
+        h1,
+        h2 {
             margin: 0;
 
             font-weight: normal;
             font-size: 20px !important;
         }
-    }    
+    }
 }
 
 mat-card-content {

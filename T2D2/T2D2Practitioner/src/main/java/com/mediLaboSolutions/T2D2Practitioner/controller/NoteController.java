@@ -52,8 +52,8 @@ public class NoteController {
 	}
 
 	@PutMapping("/notes/{noteId}")
-	public ResponseEntity<Integer> updateNote(@PathVariable("noteId") String noteId, @RequestBody String updatedNoteContent) throws Exception {
-		Integer isUpdated = iNoteService.updateNoteById(noteId, updatedNoteContent);
+	public ResponseEntity<Integer> updateNote(@PathVariable("noteId") String noteId, @RequestBody Note updatedNote) throws Exception {
+		Integer isUpdated = iNoteService.updateNoteById(noteId, updatedNote);
 
 		if (isUpdated == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

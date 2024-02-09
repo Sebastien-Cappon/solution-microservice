@@ -12,7 +12,7 @@ public interface INoteService {
 
 	public Note createNote(Note newNote) throws Exception;
 
-	public Integer updateNoteById(String noteId, String updatedNoteContent) throws Exception;
+	public Integer updateNoteById(String noteId, Note updatedNote) throws Exception;
 
 	public void deleteNoteById(String noteId);
 }

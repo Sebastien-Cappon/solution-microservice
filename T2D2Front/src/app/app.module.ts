@@ -9,6 +9,7 @@ import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { PatientsModule } from './patients/patients.module';
 import { PersonModule } from './person/person.module';
+import { NoteModule } from './note/note.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { PersonModule } from './person/person.module';
     SharedModule,
     AuthModule,
     PatientsModule,
-    PersonModule
+    PersonModule,
+    NoteModule
   ],
   bootstrap: [
     AppComponent

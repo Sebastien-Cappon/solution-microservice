@@ -126,11 +126,11 @@ public class NoteControllerTest {
 	@Test
 	@Order(6)
 	public void updateNoteById_shouldReturnOk() throws Exception {
-		when(iNoteService.updateNoteById(anyString(), anyString()))
+		when(iNoteService.updateNoteById(anyString(), any(Note.class)))
 			.thenReturn(1);
 		
 		mockMvc.perform(put("/notes/{noteId}", "1a")
-				.content(objectMapper.writeValueAsString("New Content"))
+				.content(objectMapper.writeValueAsString(noteResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
@@ -139,11 +139,11 @@ public class NoteControllerTest {
 	@Test
 	@Order(7)
 	public void updateNoteById_shouldReturnBadRequest() throws Exception {
-		when(iNoteService.updateNoteById(anyString(), anyString()))
+		when(iNoteService.updateNoteById(anyString(), any(Note.class)))
 			.thenReturn(null);
 		
 		mockMvc.perform(put("/notes/{noteId}", "0")
-				.content(objectMapper.writeValueAsString("New Content"))
+				.content(objectMapper.writeValueAsString(noteResponse))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest());

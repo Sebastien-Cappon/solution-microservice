@@ -1,0 +1,23 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title background-color="primary">
+            <h1>New Note</h1>
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content [formGroup]="editNoteForm">
+        <h2>Note du {{ data.currentNote.date| date: 'dd/MM/yyyy' }}</h2>
+        <mat-form-field color="primary">
+            <mat-label>Write a note</mat-label>
+            <textarea matInput [ngModel]="data.currentNote.content" [formControl]="editNoteContentCtrl" cdkTextareaAutosize></textarea>
+            <mat-error>A note musn't be empty.</mat-error>
+        </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="onUpdateNote()" [disabled]="isLoading || editNoteForm.invalid || editNoteForm.pristine">
+            <span *ngIf="!isLoading" style="color: #FFF;">Edit note</span>
+            <mat-spinner *ngIf="isLoading" color="primary" mode="indeterminate"></mat-spinner>
+        </button>
+    </mat-card-actions>
+</mat-card>

@@ -13,11 +13,11 @@ export class AuthService {
     ) { }
 
     public getPractitionerById(practitionerId: number): Observable<Practitioner> {
-        return this.httpClient.get<Practitioner>(`${environment.apiUrl}/practitioners/${practitionerId}`);
+        return this.httpClient.get<Practitioner>(`${environment.msPatientUrl}/practitioners/${practitionerId}`);
     }
 
     public login(authValue: AuthValue): Observable<boolean> {
-        return this.httpClient.post(`${environment.apiUrl}/login`, authValue).pipe(
+        return this.httpClient.post(`${environment.msPatientUrl}/login`, authValue).pipe(
             tap((apiResponse) => {
                 sessionStorage.setItem('authToken', this.setToken(512));
                 sessionStorage.setItem('currentPractitionerId', JSON.parse(JSON.stringify(apiResponse)).id);

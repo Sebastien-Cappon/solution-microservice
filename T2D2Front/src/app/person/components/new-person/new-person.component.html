@@ -1,9 +1,12 @@
 <mat-card *ngIf="existingPerson$ | async as existingPerson">
     <ng-container *ngIf="existingAddress$ | async as existingAddress">
         <mat-card-header>
-            <mat-card-title background-color="primary"><h1>New Person</h1></mat-card-title>
+            <mat-card-title background-color="primary">
+                <h1>New Person</h1>
+            </mat-card-title>
         </mat-card-header>
-        <mat-card-content [formGroup]="newPersonForm" >
+
+        <mat-card-content [formGroup]="newPersonForm">
             <h2>Gender*</h2>
             <mat-grid-list cols="1" rowHeight="40px">
                 <mat-grid-tile id="genderTile">
@@ -33,7 +36,7 @@
                 <mat-grid-tile>
                     <mat-form-field color="primary" style="margin-right: 8px;">
                         <mat-label>Birthdate</mat-label>
-                        <input matInput [ngModel]="existingPerson.birthdate" [matDatepicker]="newPersonBirthdatePicker" [formControl]="newPersonBirthdateCtrl">
+                        <input matInput [ngModel]="existingPerson.birthdate" [matDatepicker]="newPersonBirthdatePicker" [max]="birthdateMaxDate" [formControl]="newPersonBirthdateCtrl">
                         <mat-datepicker-toggle matIconSuffix [for]="newPersonBirthdatePicker"></mat-datepicker-toggle>
                         <mat-datepicker #newPersonBirthdatePicker></mat-datepicker>
                         <mat-error>Birthdate required.</mat-error>
@@ -122,6 +125,7 @@
                 </mat-grid-tile>
             </mat-grid-list>
         </mat-card-content>
+        
         <mat-card-actions>
             <button mat-flat-button color="primary" *ngIf="existingPerson.id > 0" (click)="onAddPatient(existingAddress[0].id, existingPerson.id)" [disabled]="isLoading  || newAddressForm.invalid || newPersonEmailForm.invalid || newPersonForm.invalid">
                 <span *ngIf="!isLoading" style="color: #FFF;">Add patient</span>

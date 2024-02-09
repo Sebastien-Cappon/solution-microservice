@@ -3,12 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
 @NgModule({
-  declarations: [
-    
-  ],
   imports: [
     CommonModule,
     MaterialModule,
@@ -16,9 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   exports: [
     MaterialModule
-  ],
-  providers: [
-    
   ]
 })
 export class SharedModule { }

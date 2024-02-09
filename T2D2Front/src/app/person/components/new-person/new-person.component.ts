@@ -2,14 +2,14 @@ import { Component, Inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, map, tap } from 'rxjs';
-import { Address } from 'src/app/core/models/address.model';
-import { Person } from 'src/app/core/models/person.model';
+import { Address } from 'src/app/person/models/address.model';
+import { Person } from 'src/app/person/models/person.model';
 import { PersonService } from 'src/app/person/services/person.service';
-import { ResidenceService } from 'src/app/shared/services/residence.service';
+import { ResidenceService } from 'src/app/person/services/residence.service';
 import { confirmEqualsValidator } from 'src/app/shared/validators/confirmEquals.validator';
 import { emailPatternValidator } from 'src/app/shared/validators/emailPattern.validator';
 import { AddressService } from '../../services/address.service';
-import { ResidenceValue } from 'src/app/core/models/residence.model';
+import { ResidenceValue } from 'src/app/person/models/residence.model';
 import { PatientValue } from 'src/app/patients/models/patient.model';
 
 @Component({
@@ -21,7 +21,7 @@ export class NewPersonComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data : {
+    public data: {
       currentPractitionerId: any,
       newPatientEmail: string
     },
@@ -31,7 +31,7 @@ export class NewPersonComponent {
     private addressService: AddressService,
     private personService: PersonService,
     private residenceService: ResidenceService
-  ) {}
+  ) { }
 
   public newAddressForm!: FormGroup;
   public newPersonEmailForm!: FormGroup;
@@ -64,10 +64,11 @@ export class NewPersonComponent {
   public newPersonId!: number;
   public newAddressId!: number;
   public wayTypes!: string[];
+  public birthdateMaxDate = new Date();
 
-  private ngOnInit() : void {
+  private ngOnInit(): void {
     this.wayTypes = this.residenceService.wayTypes;
-    
+
     this.initObservables();
     this.initNewAddressFormControls();
     this.initNewAddressForm();
@@ -98,9 +99,9 @@ export class NewPersonComponent {
   private initNewPersonFormControls() {
     this.newPersonGenderCtrl = this.formBuilder.control('', [Validators.required]);
     this.newPersonLastnameCtrl = this.formBuilder.control('', [Validators.required]);
-    this.newPersonFirstnameCtrl = this.formBuilder.control('' , [Validators.required]);
+    this.newPersonFirstnameCtrl = this.formBuilder.control('', [Validators.required]);
     this.newPersonBirthdateCtrl = this.formBuilder.control('', [Validators.required]);
-    this.newPersonPhoneCtrl = this.formBuilder.control('' , [Validators.required]);
+    this.newPersonPhoneCtrl = this.formBuilder.control('', [Validators.required]);
     this.initNewPersonEmailFormControls();
   }
 
@@ -135,7 +136,7 @@ export class NewPersonComponent {
       email: this.newPersonEmailForm.get('email'),
     })
   }
-  
+
   private initNewPersonFormObservables() {
     this.showNewPersonConfirmEmail$ = this.newPersonEmailCtrl.valueChanges.pipe(
       map(() => this.newPersonEmailCtrl.value),
@@ -151,7 +152,7 @@ export class NewPersonComponent {
     );
   }
 
-  public setNewPersonEmailValidators(showNewPersonConfirmEmail: boolean){
+  public setNewPersonEmailValidators(showNewPersonConfirmEmail: boolean) {
     if (showNewPersonConfirmEmail) {
       this.newPersonConfirmEmailCtrl.addValidators([
         Validators.required,
@@ -166,10 +167,10 @@ export class NewPersonComponent {
     this.newPersonConfirmEmailCtrl.updateValueAndValidity();
   }
 
-  public getNewPersonFormControlErrorText(ctrl: AbstractControl){
-    if(ctrl.hasError('required')) {
+  public getNewPersonFormControlErrorText(ctrl: AbstractControl) {
+    if (ctrl.hasError('required')) {
       return 'Please confirm previous input.';
-    } else if (ctrl.hasError('email') || ctrl.hasError('emailPatternValidator')){
+    } else if (ctrl.hasError('email') || ctrl.hasError('emailPatternValidator')) {
       return 'Valid email address required.'
     } else {
       return 'An error has occured.';
@@ -177,7 +178,7 @@ export class NewPersonComponent {
   }
 
   public onAddPatient(addressId: number, personId: number) {
-    if(this.newAddressNumberCtrl.dirty
+    if (this.newAddressNumberCtrl.dirty
       || this.newAddressWayTypeCtrl.dirty
       || this.newAddressWayNameCtrl.dirty
       || this.newAddressPostcodeCtrl.dirty
@@ -185,8 +186,8 @@ export class NewPersonComponent {
       || this.newAddressCountryCtrl.dirty) {
       this.addressService.updateAddressById(addressId, this.newAddressForm.value).subscribe();
     }
-    
-    if(this.newPersonGenderCtrl.dirty
+
+    if (this.newPersonGenderCtrl.dirty
       || this.newPersonLastnameCtrl.dirty
       || this.newPersonFirstnameCtrl.dirty
       || this.newPersonBirthdateCtrl.dirty
@@ -206,7 +207,7 @@ export class NewPersonComponent {
     this.isLoading = true;
     this.addressService.createNewAddress(this.newAddressForm.value).pipe(
       tap(newAddressId => {
-        if(newAddressId != 0) {
+        if (newAddressId != 0) {
           this.newAddressId = newAddressId;
           this.personService.createNewPerson(this.newPersonForm.value).pipe(
             tap(newPersonId => {
@@ -221,14 +222,8 @@ export class NewPersonComponent {
             }
             this.residenceService.addResidence(newResidence).pipe(
               tap(linked => {
-                if(linked) {
+                if (linked) {
                   this.isLoading = false;
-                  const newPatient: PatientValue = {
-                    practitionerId: this.data.currentPractitionerId,
-                    personEmail: this.newPersonEmailCtrl.value
-                  }
-                  this.personDialog.close(newPatient);
-
                   this.newAddressForm.reset();
                   this.newPersonForm.reset();
                 }
@@ -237,6 +232,12 @@ export class NewPersonComponent {
           });
         }
       })
-    ).subscribe();
+    ).subscribe(() => {
+      const newPatient: PatientValue = {
+        practitionerId: this.data.currentPractitionerId,
+        personEmail: this.newPersonEmailCtrl.value
+      }
+      this.personDialog.close(newPatient);
+    });
   }
 }

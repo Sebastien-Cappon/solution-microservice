@@ -47,11 +47,11 @@ public class NoteService implements INoteService {
 	}
 
 	@Override
-	public Integer updateNoteById(String noteId, String updatedNoteContent) throws Exception {
+	public Integer updateNoteById(String noteId, Note updatedNote) throws Exception {
 		if (iNoteRepository.findById(noteId).isPresent()) {
 			Note noteToUpdate = iNoteRepository.findById(noteId).get();
 
-			noteToUpdate.setContent(updatedNoteContent);
+			noteToUpdate.setContent(updatedNote.getContent());
 
 			iNoteRepository.save(noteToUpdate);
 			return 1;

@@ -1,4 +1,5 @@
 export const environment = {
     production: false,
-    apiUrl: 'http://localhost:8081'
+    msPatientUrl: 'http://localhost:8081',
+    msPractitionnerUrl: 'http://localhost:8082'
 };

@@ -5,7 +5,7 @@ import { SinglePersonComponent } from '../person/components/single-person/single
 
 const routes: Routes = [
   { path: '', component: PatientListComponent },
-  { path: ':personId/:personEmail', component: SinglePersonComponent}
+  { path: ':personId', component: SinglePersonComponent }
 ];
 
 @NgModule({
