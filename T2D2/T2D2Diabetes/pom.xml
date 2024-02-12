@@ -11,10 +11,10 @@
 	</parent>
 	
 	<groupId>com.mediLaboSolutions</groupId>
-	<artifactId>T2D2Practitioner</artifactId>
+	<artifactId>T2D2Diabetes</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>T2 Diabetes Detector Practitioner MS</name>
-	<description>OpenClassroomsP9 : Micro-Service Practitioner of MLS T2D2 App</description>
+	<name>T2 Diabetes Detector Diabetes MS</name>
+	<description>OpenClassroomsP9 : Micro-Service Diabetes of MLS T2D2 App</description>
 	
 	<properties>
 		<java.version>17</java.version>
@@ -42,9 +42,14 @@
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
