@@ -31,7 +31,11 @@ public class NoteService implements INoteService {
 
 	@Override
 	public Note getNoteById(String noteId) {
-		return iNoteRepository.findById(noteId).get();
+		if (iNoteRepository.findById(noteId).isPresent()) {
+			return iNoteRepository.findById(noteId).get();
+		}
+
+		return null;
 	}
 
 	@Override
