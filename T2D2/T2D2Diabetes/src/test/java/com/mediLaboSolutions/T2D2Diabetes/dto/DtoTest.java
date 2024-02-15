@@ -1,27 +1,27 @@
-package com.mediLaboSolutions.T2D2Practitioner.model;
+package com.mediLaboSolutions.T2D2Diabetes.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import com.mediLaboSolutions.T2D2Practitioner.util.ModelInstanceBuilder;
+import com.mediLaboSolutions.T2D2Diabetes.util.DtoInstanceBuilder;
 
 @TestMethodOrder(OrderAnnotation.class)
-public class ModelTest {
+public class DtoTest {
 
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-	private Note note = ModelInstanceBuilder.createNote("a1", 1, LocalDate.parse("1970-01-01", dateTimeFormatter), "The patient will probably die within 4 days. Sadly, our profit are going to suffer.");
-
+	
 	@Test
 	@Order(1)
-	public void noteToString_isNotBlank() {
-		assertThat(note.toString()).isNotBlank();
+	public void riskFactorsDtoToString_isNotBlank() {
+		RiskFactorsDto riskFactorsDto = DtoInstanceBuilder.createRiskFactorsDto(false, LocalDate.parse("1989-04-13", dateTimeFormatter), new ArrayList<String>());
+		assertThat(riskFactorsDto.toString()).isNotBlank();
 	}
 }
