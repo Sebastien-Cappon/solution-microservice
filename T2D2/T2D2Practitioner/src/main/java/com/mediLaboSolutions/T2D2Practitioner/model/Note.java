@@ -1,6 +1,6 @@
 package com.mediLaboSolutions.T2D2Practitioner.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,7 +14,7 @@ public class Note {
 	@Field("note_person_id")
 	private int personId;
 	@Field("note_date")
-	private LocalDate date;
+	private LocalDateTime date;
 	@Field("note_content")
 	private String content;
 
@@ -34,11 +34,11 @@ public class Note {
 		this.personId = personId;
 	}
 
-	public LocalDate getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 

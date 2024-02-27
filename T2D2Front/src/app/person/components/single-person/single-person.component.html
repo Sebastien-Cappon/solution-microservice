@@ -5,30 +5,38 @@
                 <mat-card-title background-color="primary">
                     <h1><span style="text-transform: uppercase;">{{ person.lastname }}</span> {{ person.firstname }}</h1>
                 </mat-card-title>
+                <ng-container *ngIf="risk$ | async as risk">
+                    <div id="riskLabel">
+                        <div id="riskLabelLevel" [ngStyle]="{'color': risk.badgeColor}">{{ risk.level }}</div>
+                        <div id="riskLabelBadge" [ngStyle]="{'background-color': risk.badgeColor}">{{ risk.badgeSymbol }}</div>
+                    </div>
+                </ng-container>
             </mat-card-header>
 
             <mat-card-content>
                 <mat-accordion>
-                    <mat-expansion-panel>
+                    <mat-expansion-panel *ngIf="residences$ | async as residences">
                         <mat-expansion-panel-header>
                             <mat-panel-title>Personal data</mat-panel-title>
-                            <mat-panel-description>Gender, identity, address and contact informations</mat-panel-description>
+                            <mat-panel-description>Gender, identity, address and contact
+                                informations</mat-panel-description>
                         </mat-expansion-panel-header>
-                        <app-person-profile [currentPersonId]="personId" [currentPerson]="person"></app-person-profile>
+                        <app-person-profile [currentPersonId]="personId" [currentPersonResidence]="residences[0]" [currentPerson]="person"></app-person-profile>
                     </mat-expansion-panel>
 
-                    <mat-expansion-panel id="notePanel">
+                    <mat-expansion-panel id="notePanel" *ngIf="notes$ | async as notes">
                         <mat-expansion-panel-header>
                             <mat-panel-title>Notes history</mat-panel-title>
                             <mat-panel-description>List of observation notes</mat-panel-description>
                         </mat-expansion-panel-header>
-                        <app-note-list [currentPersonId]="personId"></app-note-list>
+                        <app-note-list [currentPersonId]="personId" [currentPersonNotes]="notes"></app-note-list>
                     </mat-expansion-panel>
                 </mat-accordion>
             </mat-card-content>
 
-            <mat-card-actions>
+            <mat-card-actions *ngIf="notes$ | async as notes">
                 <button mat-stroked-button color="warn" (click)="onBack()">Back</button>
+                <button id="checkButton" *ngIf="riskIsChecked$ | async" mat-flat-button color="warn" (click)="calculateRisks(person.gender, person.birthdate, notes)">Check Risks</button>
             </mat-card-actions>
         </mat-card>
     </div>

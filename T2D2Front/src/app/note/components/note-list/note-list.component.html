@@ -1,21 +1,25 @@
-<ng-container *ngIf="notes$ | async as notes">
-    <div class="emptyObservableDiv" *ngIf="notes.length == 0">
+<ng-container *ngIf="currentPersonNotes">
+    <div class="emptyObservableDiv" *ngIf="currentPersonNotes.length == 0">
         A single tumbleweed rolls from one side of the list to another.
     </div>
 
-    <mat-accordion *ngIf="notes.length > 0">
-        <mat-expansion-panel *ngFor="let note of notes; index as panelId; trackBy:trackById" (opened)="panelOpened(panelId)" (closed)="panelClosed(panelId)" [expanded]="isPanelExpanded(panelId)" hideToggle>
+    <mat-accordion *ngIf="currentPersonNotes.length > 0">
+        <mat-expansion-panel *ngFor="let note of currentPersonNotes; index as panelId; trackBy:trackById"
+            (opened)="panelOpened(panelId)" (closed)="panelClosed(panelId)" [expanded]="isPanelExpanded(panelId)"
+            hideToggle>
             <mat-expansion-panel-header>
-                <mat-panel-title>Note of {{ note.date }}</mat-panel-title>
+                <mat-panel-title>Note of {{ note.date | date:'yyyy-MM-dd' }}</mat-panel-title>
                 <mat-panel-description></mat-panel-description>
             </mat-expansion-panel-header>
             <p class="noteContent">
                 {{ note.content }}
             </p>
             <div class="noteActions">
-                <button class="editNoteButton" style="margin-right: 4px;" *ngIf="!isLoading" (click)="openEditNoteDialog(note)" [disabled]="isLoading"><mat-icon>edit</mat-icon></button>
+                <button class="editNoteButton" style="margin-right: 4px;" *ngIf="!isLoading"
+                    (click)="openEditNoteDialog(note)" [disabled]="isLoading"><mat-icon>edit</mat-icon></button>
                 <a class="noInteraction" style="margin-right: 4px;" *ngIf="isLoading"><mat-icon>edit</mat-icon></a>
-                <button class="deleteNoteButton" *ngIf="!isLoading" (click)="onDeleteNote(note.id)" color="warn" [disabled]="isLoading"><mat-icon>clear</mat-icon></button>
+                <button class="deleteNoteButton" *ngIf="!isLoading" (click)="onDeleteNote(note.id)" color="warn"
+                    [disabled]="isLoading"><mat-icon>clear</mat-icon></button>
                 <a class="noInteraction" *ngIf="isLoading"><mat-icon>clear</mat-icon></a>
             </div>
         </mat-expansion-panel>

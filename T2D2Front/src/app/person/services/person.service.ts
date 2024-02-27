@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, catchError, map, of, tap } from "rxjs";
-import { Person } from "src/app/person/models/person.model";
+import { Person } from "src/app/shared/models/person.model";
 import { environment } from "src/app/environments/environment";
 
 @Injectable()
@@ -12,7 +12,7 @@ export class PersonService {
     ) { }
 
     private _person$ = new BehaviorSubject<Person>(new Person);
-    get person$(): Observable<Person> {
+    public get person$(): Observable<Person> {
         return this._person$.asObservable();
     }
 

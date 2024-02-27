@@ -10,8 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,9 +41,7 @@ public class PersonControllerTest {
 	@MockBean
 	private IPersonService iPersonService;
 
-	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-	private Person personResponse = ModelInstanceBuilder.createPerson(1, false, "Byron", "Ada", LocalDate.parse("1815-12-10", dateTimeFormatter), "0102030405", "ada.byron@countess.lvl");
+	private Person personResponse = ModelInstanceBuilder.createPerson(1, false, "Byron", "Ada", ZonedDateTime.parse("1815-12-10T00:00:00Z"), "0102030405", "ada.byron@countess.lvl");
 	private List<Person> personResponseList = new ArrayList<Person>(Arrays.asList(personResponse, personResponse, personResponse));
 
 	@Test
@@ -78,7 +75,7 @@ public class PersonControllerTest {
 			.andExpect(jsonPath("$.gender").value(false))
 			.andExpect(jsonPath("$.lastname").value("Byron"))
 			.andExpect(jsonPath("$.firstname").value("Ada"))
-			.andExpect(jsonPath("$.birthdate").value("1815-12-10"))
+			.andExpect(jsonPath("$.birthdate").value("1815-12-10T00:00:00Z"))
 			.andExpect(jsonPath("$.phone").value("0102030405"))
 			.andExpect(jsonPath("$.email").value("ada.byron@countess.lvl"));
 	}
@@ -96,7 +93,7 @@ public class PersonControllerTest {
 			.andExpect(jsonPath("$.gender").value(false))
 			.andExpect(jsonPath("$.lastname").value("Byron"))
 			.andExpect(jsonPath("$.firstname").value("Ada"))
-			.andExpect(jsonPath("$.birthdate").value("1815-12-10"))
+			.andExpect(jsonPath("$.birthdate").value("1815-12-10T00:00:00Z"))
 			.andExpect(jsonPath("$.phone").value("0102030405"))
 			.andExpect(jsonPath("$.email").value("ada.byron@countess.lvl"));
 	}
@@ -116,7 +113,7 @@ public class PersonControllerTest {
 			.andExpect(jsonPath("$.gender").value(false))
 			.andExpect(jsonPath("$.lastname").value("Byron"))
 			.andExpect(jsonPath("$.firstname").value("Ada"))
-			.andExpect(jsonPath("$.birthdate").value("1815-12-10"))
+			.andExpect(jsonPath("$.birthdate").value("1815-12-10T00:00:00Z"))
 			.andExpect(jsonPath("$.phone").value("0102030405"))
 			.andExpect(jsonPath("$.email").value("ada.byron@countess.lvl"));
 	}

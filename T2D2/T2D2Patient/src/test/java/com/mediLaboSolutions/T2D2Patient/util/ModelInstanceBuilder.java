@@ -1,6 +1,6 @@
 package com.mediLaboSolutions.T2D2Patient.util;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import com.mediLaboSolutions.T2D2Patient.model.Address;
 import com.mediLaboSolutions.T2D2Patient.model.Person;
@@ -25,7 +25,7 @@ public class ModelInstanceBuilder {
 		return address;
 	}
 
-	public static Person createPerson(int id, Boolean gender, String lastname, String firstname, LocalDate birthdate, String phone, String email) {
+	public static Person createPerson(int id, Boolean gender, String lastname, String firstname, ZonedDateTime birthdate, String phone, String email) {
 		Person person = new Person();
 		person.setId(id);
 		person.setGender(gender);

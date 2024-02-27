@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { PatientsModule } from './patients/patients.module';
 import { PersonModule } from './person/person.module';
 import { NoteModule } from './note/note.module';
+import { FactorModule } from './factor/factor.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { NoteModule } from './note/note.module';
     AuthModule,
     PatientsModule,
     PersonModule,
-    NoteModule
+    NoteModule,
+    FactorModule
   ],
   bootstrap: [
     AppComponent

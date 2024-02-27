@@ -9,8 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,10 +42,8 @@ public class PractitionerPersonControllerTest {
 	@MockBean
 	IPractitionerPersonService iPractitionerPersonService;
 
-	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
 	private PractitionerPersonAddDto practitionerPersonAddDtoRequest = DtoInstanceBuilder.createPractitionerPersonAddDto(1, "clientTest@abernathyclinic.com");
-	private Person personResponse = ModelInstanceBuilder.createPerson(1, false, "Byron", "Ada", LocalDate.parse("1815-12-10", dateTimeFormatter), "0102030405", "ada.byron@countess.lvl");
+	private Person personResponse = ModelInstanceBuilder.createPerson(1, false, "Byron", "Ada", ZonedDateTime.parse("1815-12-10T00:00:00Z"), "0102030405", "ada.byron@countess.lvl");
 	private List<Person> personResponseList = new ArrayList<Person>(Arrays.asList(personResponse, personResponse, personResponse));
 
 	@Test

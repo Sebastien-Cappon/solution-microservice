@@ -10,6 +10,7 @@ import { AddressService } from './services/address.service';
 import { PersonProfileComponent } from './components/person-profile/person-profile.component';
 import { SinglePersonComponent } from './components/single-person/single-person.component';
 import { NoteModule } from '../note/note.module';
+import { RiskService } from './services/risk.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NoteModule } from '../note/note.module';
   providers: [
     PersonService,
     AddressService,
-    ResidenceService
+    ResidenceService,
+    RiskService
   ]
 })
 export class PersonModule { }

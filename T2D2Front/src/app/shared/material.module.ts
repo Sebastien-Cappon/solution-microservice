@@ -13,8 +13,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
-import { MatDatepickerModule } from '@angular/material/datepicker'
-import { MatSelectModule } from '@angular/material/select'
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
@@ -35,10 +36,11 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
         MatRadioModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatSelectModule
+        MatSelectModule,
+        MatBadgeModule
     ],
     providers: [
-        { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' }
+        { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
     ]
 })
 export class MaterialModule { }

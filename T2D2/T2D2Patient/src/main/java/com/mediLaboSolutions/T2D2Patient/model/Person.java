@@ -1,6 +1,6 @@
 package com.mediLaboSolutions.T2D2Patient.model;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -27,7 +27,7 @@ public class Person {
 	@Column(name = "person_firstname")
 	private String firstname;
 	@Column(name = "person_birthdate")
-	private LocalDate birthdate;
+	private ZonedDateTime birthdate;
 	@Column(name = "person_phone")
 	private String phone;
 	@Column(name = "person_email")
@@ -65,11 +65,11 @@ public class Person {
 		this.firstname = firstname;
 	}
 
-	public LocalDate getBirthdate() {
+	public ZonedDateTime getBirthdate() {
 		return birthdate;
 	}
 
-	public void setBirthdate(LocalDate birthdate) {
+	public void setBirthdate(ZonedDateTime birthdate) {
 		this.birthdate = birthdate;
 	}
 
@@ -91,7 +91,6 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return ("[" + id + "]" + "[" + gender + "]" + "[" + lastname + "]" + "[" + firstname + "]" + "[" + birthdate
-				+ "]" + "[" + phone + "]" + "[" + email + "]");
+		return ("[" + id + "]" + "[" + gender + "]" + "[" + lastname + "]" + "[" + firstname + "]" + "[" + birthdate + "]" + "[" + phone + "]" + "[" + email + "]");
 	}
 }

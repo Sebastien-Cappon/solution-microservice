@@ -2,6 +2,48 @@ mat-card {
     margin: 16px 16px 48px 16px;
 }
 
+mat-card-header {
+    justify-content: space-between;
+
+    mat-card-title {
+        h1 {
+            display: inline-block;
+        }
+    }
+
+    #riskLabel {
+        height: 30px;
+        margin-right: 9px;
+        align-self: center;
+
+        border-radius: 3px;
+        overflow: hidden;
+
+        #riskLabelLevel {
+            display: inline-block;
+            height: 20px;
+            line-height: 20px;
+            padding: 5px;
+
+            font-size: 1em;
+            font-weight: 500;
+
+            background-color: #FFF;
+        }
+
+        #riskLabelBadge {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+
+            color: #FFF;
+            font-size: 1em;
+            text-align: center;
+        }
+    }
+}
+
 mat-accordion {
     font-size: 15px;
     border-radius: 0;
@@ -61,5 +103,9 @@ mat-card-actions {
 
     button {
         min-width: 150px;
+    }
+
+    #checkButton {
+        color: #FFF;
     }
 }

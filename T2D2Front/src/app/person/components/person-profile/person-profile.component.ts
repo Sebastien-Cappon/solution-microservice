@@ -4,10 +4,11 @@ import { Observable, map, tap } from 'rxjs';
 import { confirmEqualsValidator } from 'src/app/shared/validators/confirmEquals.validator';
 import { emailPatternValidator } from 'src/app/shared/validators/emailPattern.validator';
 import { Address } from '../../models/address.model';
-import { Person } from '../../models/person.model';
+import { Person } from '../../../shared/models/person.model';
 import { AddressService } from '../../services/address.service';
 import { PersonService } from '../../services/person.service';
 import { ResidenceService } from '../../services/residence.service';
+import { RiskService } from '../../services/risk.service';
 
 @Component({
   selector: 'app-person-profile',
@@ -19,13 +20,16 @@ export class PersonProfileComponent {
   @Input()
   public currentPersonId!: number;
   @Input()
+  public currentPersonResidence!: Address;
+  @Input()
   public currentPerson!: Person;
 
   constructor(
     private formBuilder: FormBuilder,
     private addressService: AddressService,
+    private residenceService: ResidenceService,
     private personService: PersonService,
-    private residenceService: ResidenceService
+    private riskService: RiskService
   ) { }
 
   public personResidenceEditForm!: FormGroup;
@@ -50,8 +54,8 @@ export class PersonProfileComponent {
   public showPersonConfirmEmail$!: Observable<boolean>;
   public showPersonEmailError$!: Observable<boolean>;
 
+  public residence$!: Observable<Address>;
   public person$!: Observable<Person>;
-  public residences$!: Observable<Address[]>;
 
   public isLoading = false;
   public isEditing = false;
@@ -64,17 +68,11 @@ export class PersonProfileComponent {
   private ngOnInit() {
     this.wayTypes = this.residenceService.wayTypes;
 
-    this.initObservables();
     this.initPersonResidenceEditFormControls();
     this.initPersonResidenceEditForm();
     this.initPersonProfileEditFormControls();
     this.initPersonProfileEditForm();
     this.initPersonEditFormObservables();
-  }
-
-  private initObservables() {
-    this.residences$ = this.residenceService.residences$;
-    this.residenceService.getResidencesByPersonId(this.currentPersonId);
   }
 
   private reloadObservables() {
@@ -205,6 +203,7 @@ export class PersonProfileComponent {
           if (addressUpdated) {
             this.isEditing = false;
             this.addressDirty = false;
+            this.riskService.setRiskCheckingStatus(true);
             this.reloadObservables();
           }
         })
@@ -216,6 +215,7 @@ export class PersonProfileComponent {
           if (personUpdated) {
             this.isEditing = false;
             this.personDirty = false;
+            this.riskService.setRiskCheckingStatus(true);
             this.reloadObservables();
           }
         })
@@ -231,6 +231,7 @@ export class PersonProfileComponent {
                 if (personUpdated) {
                   this.isEditing = false;
                   this.personDirty = false;
+                  this.riskService.setRiskCheckingStatus(true);
                   this.reloadObservables();
                 }
               })

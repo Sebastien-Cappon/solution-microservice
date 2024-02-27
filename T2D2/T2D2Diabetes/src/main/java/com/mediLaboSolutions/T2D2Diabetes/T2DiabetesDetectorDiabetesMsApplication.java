@@ -9,5 +9,4 @@ public class T2DiabetesDetectorDiabetesMsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(T2DiabetesDetectorDiabetesMsApplication.class, args);
 	}
-
 }

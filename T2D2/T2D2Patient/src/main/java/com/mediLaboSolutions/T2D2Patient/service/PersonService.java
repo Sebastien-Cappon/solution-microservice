@@ -65,6 +65,8 @@ public class PersonService implements IPersonService {
 	@Override
 	public Integer updatePersonById(int personId, Person updatedPerson) throws Exception {
 		if (iPersonRepository.findById(personId).isPresent()) {
+			System.out.println(updatedPerson.getBirthdate());
+
 			Person personToUpdate = iPersonRepository.findById(personId).get();
 
 			updatedPerson.setId(personToUpdate.getId());

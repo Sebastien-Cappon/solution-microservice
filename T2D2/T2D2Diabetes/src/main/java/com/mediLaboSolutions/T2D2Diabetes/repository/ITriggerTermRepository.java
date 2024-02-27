@@ -1,5 +1,6 @@
 package com.mediLaboSolutions.T2D2Diabetes.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,8 @@ import com.mediLaboSolutions.T2D2Diabetes.model.TriggerTerm;
 public interface ITriggerTermRepository extends JpaRepository<TriggerTerm, Integer> {
 
 	Optional<TriggerTerm> findById(int triggerTermId);
+
+	List<TriggerTerm> findByOrderByTermAsc();
 
 	void deleteById(int triggerTermId);
 }

@@ -1,0 +1,90 @@
+mat-card {
+    margin: 16px;
+}
+
+mat-nav-list a:nth-child(2n+1) {
+    background-color: #e5f6fe;
+}
+
+mat-list {
+    padding: 0;
+
+    mat-list-item {
+        display: inline-block;
+        width: 50%;
+        margin-bottom: -4px;
+        padding: 0 2%;
+
+        div {
+            display: inline-block;
+            height: 45px;
+            line-height: 45px;
+            margin-top: 2px;
+
+            font-size: 14px;
+            color: rgba(0, 0, 0, .87);
+            text-decoration: none;
+
+            .deleteButton,
+            .noInteraction {
+                display: inline-block;
+                width: 22px;
+                height: 45px;
+                margin: 2px 5px;
+
+                mat-icon {
+                    margin-top: -5px;
+                    vertical-align: middle;
+                }
+            }
+
+            .deleteButton {
+                margin: 0;
+                padding: 0;
+
+                color: #D50000;
+                border: none;
+
+                cursor: pointer;
+                background: none;
+
+                :hover {
+                    color: red;
+                }
+            }
+
+            .noInteraction {
+                color: lightgrey;
+            }
+        }
+
+        div:first-child {
+            width: 90%;
+        }
+
+        div:last-child {
+            width: 10%;
+            line-height: 45px;
+            text-align: right;
+        }
+    }
+
+    mat-list-item:nth-child(4n),
+    mat-list-item:nth-child(4n+1) {
+        background-color: #e5f6fe;
+    }
+}
+
+mat-form-field {
+    width: 100%;
+    margin-top: 16px;
+    margin-bottom: -16px;
+
+    input {
+        width: 90%;
+    }
+}
+
+button {
+    margin-top: 12px;
+}

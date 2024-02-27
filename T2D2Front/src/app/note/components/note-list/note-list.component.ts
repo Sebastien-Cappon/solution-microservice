@@ -5,6 +5,7 @@ import { Note } from '../../models/note.model';
 import { MatDialog } from '@angular/material/dialog';
 import { EditNoteComponent } from '../edit-note/edit-note.component';
 import { NewNoteComponent } from '../new-note/new-note.component';
+import { RiskService } from 'src/app/person/services/risk.service';
 
 @Component({
   selector: 'app-note-list',
@@ -15,9 +16,12 @@ export class NoteListComponent {
 
   @Input()
   public currentPersonId!: number;
+  @Input()
+  public currentPersonNotes!: Note[];
 
   constructor(
     private noteService: NoteService,
+    private riskService: RiskService,
     private dialog: MatDialog
   ) { }
 
@@ -31,12 +35,7 @@ export class NoteListComponent {
   public isLoading = false;
 
   private ngOnInit() {
-    this.initObservables();
-  }
 
-  private initObservables() {
-    this.notes$ = this.noteService.notes$;
-    this.noteService.getNotes(this.currentPersonId);
   }
 
   public openEditNoteDialog(currentNote: Note) {
@@ -47,6 +46,10 @@ export class NoteListComponent {
       data: {
         currentNote: currentNote
       }
+    })
+
+    editNoteDialog.afterClosed().subscribe(() => {
+      this.riskService.setRiskCheckingStatus(true);
     })
   }
 
@@ -62,6 +65,7 @@ export class NoteListComponent {
 
     newNoteDialog.afterClosed().subscribe(() => {
       this.noteService.getNotes(this.currentPersonId);
+      this.riskService.setRiskCheckingStatus(true);
     })
   }
 
@@ -71,6 +75,7 @@ export class NoteListComponent {
       this.isLoading = false;
       this.panelOpenStateIndexes = new Set();
       this.noteService.getNotes(this.currentPersonId);
+      this.riskService.setRiskCheckingStatus(true);
     });
   }
 }

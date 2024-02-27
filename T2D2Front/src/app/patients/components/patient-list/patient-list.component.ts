@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Observable, combineLatest, map, startWith, tap } from 'rxjs';
-import { Person } from '../../../person/models/person.model';
+import { Person } from '../../../shared/models/person.model';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { emailPatternValidator } from 'src/app/shared/validators/emailPattern.validator';
 import { MatDialog } from '@angular/material/dialog';
@@ -39,15 +39,23 @@ export class PatientListComponent {
     this.initNewPatientFormObservables();
   }
 
+  private initObservables() {
+    this.patients$ = this.patientService.patients$;
+    this.patientService.getPatientsByPractitionerId(this.currentPractitionerId);
+
+    this.notPatients$ = this.patientService.notPatients$;
+    this.patientService.getNotPatientsByPractitionerId(this.currentPractitionerId);
+  }
+
+  private initNewPatientFormControls() {
+    this.newPatientEmailCtrl = this.formBuilder.control('', [Validators.required, Validators.email, emailPatternValidator()]);
+  }
+
   private initNewPatientForm() {
     this.patientListForm = this.formBuilder.group({
       practionnerId: this.currentPractitionerId,
       newPatientEmail: this.newPatientEmailCtrl
     });
-  }
-
-  private initNewPatientFormControls() {
-    this.newPatientEmailCtrl = this.formBuilder.control('', [Validators.required, Validators.email, emailPatternValidator()]);
   }
 
   private initNewPatientFormObservables() {
@@ -64,14 +72,6 @@ export class PatientListComponent {
         .toLowerCase()
         .includes(searchNotPatient)))
     );
-  }
-
-  private initObservables() {
-    this.patients$ = this.patientService.patients$;
-    this.patientService.getPatientsByPractitionerId(this.currentPractitionerId);
-
-    this.notPatients$ = this.patientService.notPatients$;
-    this.patientService.getNotPatientsByPractitionerId(this.currentPractitionerId);
   }
 
   public getNewPatientEmailControlErrorText(ctrl: AbstractControl): string {

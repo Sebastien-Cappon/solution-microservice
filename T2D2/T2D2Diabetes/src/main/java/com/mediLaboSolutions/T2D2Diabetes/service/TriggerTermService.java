@@ -21,7 +21,7 @@ public class TriggerTermService implements ITriggerTermService {
 
 	@Override
 	public List<TriggerTerm> getTriggerTerms() {
-		return iTriggerTermRepository.findAll();
+		return iTriggerTermRepository.findByOrderByTermAsc();
 	}
 
 	@Override

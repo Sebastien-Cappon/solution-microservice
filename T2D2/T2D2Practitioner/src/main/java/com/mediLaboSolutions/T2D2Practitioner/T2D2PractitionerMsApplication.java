@@ -9,5 +9,4 @@ public class T2D2PractitionerMsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(T2D2PractitionerMsApplication.class, args);
 	}
-
 }

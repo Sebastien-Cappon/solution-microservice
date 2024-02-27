@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable, map, tap } from 'rxjs';
 import { Address } from 'src/app/person/models/address.model';
-import { Person } from 'src/app/person/models/person.model';
+import { Person } from 'src/app/shared/models/person.model';
 import { PersonService } from 'src/app/person/services/person.service';
 import { ResidenceService } from 'src/app/person/services/residence.service';
 import { confirmEqualsValidator } from 'src/app/shared/validators/confirmEquals.validator';

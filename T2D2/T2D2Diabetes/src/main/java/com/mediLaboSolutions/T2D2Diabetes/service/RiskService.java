@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.mediLaboSolutions.T2D2Diabetes.constant.AgeScorePoint;
 import com.mediLaboSolutions.T2D2Diabetes.constant.GenderScorePoint;
 import com.mediLaboSolutions.T2D2Diabetes.dto.RiskFactorsDto;
+import com.mediLaboSolutions.T2D2Diabetes.model.Risk;
 import com.mediLaboSolutions.T2D2Diabetes.model.TriggerTerm;
 import com.mediLaboSolutions.T2D2Diabetes.service.contracts.IRiskService;
 import com.mediLaboSolutions.T2D2Diabetes.service.contracts.ITriggerTermService;
@@ -58,15 +59,46 @@ public class RiskService implements IRiskService {
 		return triggerTermScorePoints;
 	}
 
+	private Risk formatRisk(double riskScore) {
+		Risk risk = new Risk();
+
+		if (riskScore < 20) {
+			risk.setLevel("None");
+			risk.setBadgeSymbol("-");
+			risk.setBadgeColor("#26A69A");
+		} else if (riskScore >= 20 && riskScore < 60) {
+			risk.setLevel("Borderline");
+			risk.setBadgeSymbol("?");
+			risk.setBadgeColor("#FF9800");
+		} else if (riskScore >= 60 && riskScore < 80) {
+			risk.setLevel("Danger");
+			risk.setBadgeSymbol("!");
+			risk.setBadgeColor("#D32F2F");
+		} else {
+			risk.setLevel("Early onset");
+			risk.setBadgeSymbol("!!");
+			risk.setBadgeColor("#000000");
+		}
+
+		return risk;
+	}
+
 	@Override
-	public double calculateRiskScore(RiskFactorsDto riskFactors) {
-		int genderScorePoints = getGenderScorePoints(riskFactors.getGender());
-		int ageScorePoints = getAgeScorePoints(riskFactors.getBirthdate());
+	public Risk calculateRiskScore(RiskFactorsDto riskFactors) {
+		double riskScore;
+
 		int triggerTermScorePoints = getTriggerTermScorePoints(riskFactors.getNotes());
 
-		int riskPoint = genderScorePoints + ageScorePoints + triggerTermScorePoints;
-		double riskScore = riskPoint * 100d / 9d;
+		if (triggerTermScorePoints == 0) {
+			riskScore = 0;
+		} else {
+			int genderScorePoints = getGenderScorePoints(riskFactors.getGender());
+			int ageScorePoints = getAgeScorePoints(riskFactors.getBirthdate());
 
-		return riskScore;
+			int riskPoint = genderScorePoints + ageScorePoints + triggerTermScorePoints;
+			riskScore = riskPoint * 100d / 9d;
+		}
+
+		return formatRisk(riskScore);
 	}
 }

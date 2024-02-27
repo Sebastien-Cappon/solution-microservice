@@ -11,8 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,9 +42,7 @@ public class NoteControllerTest {
 	@MockBean
 	private INoteService iNoteService;
 
-	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-	private Note noteResponse = ModelInstanceBuilder.createNote("1a", 1, LocalDate.parse("1602-06-12", dateTimeFormatter), "Wonderfull day in the New World !");
+	private Note noteResponse = ModelInstanceBuilder.createNote("1a", 1, LocalDateTime.parse("1602-06-12T00:00:00"), "Wonderfull day in the New World !");
 	private List<Note> noteResponseList = new ArrayList<Note>(Arrays.asList(noteResponse, noteResponse, noteResponse));
 
 	@Test
@@ -89,7 +86,7 @@ public class NoteControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.id").value("1a"))
 			.andExpect(jsonPath("$.personId").value(1))
-			.andExpect(jsonPath("$.date").value("1602-06-12"))
+			.andExpect(jsonPath("$.date").value("1602-06-12T00:00:00"))
 			.andExpect(jsonPath("$.content").value("Wonderfull day in the New World !"));
 	}
 
@@ -106,7 +103,7 @@ public class NoteControllerTest {
 			.andExpect(status().isCreated())
 			.andExpect(jsonPath("$.id").value("1a"))
 			.andExpect(jsonPath("$.personId").value(1))
-			.andExpect(jsonPath("$.date").value("1602-06-12"))
+			.andExpect(jsonPath("$.date").value("1602-06-12T00:00:00"))
 			.andExpect(jsonPath("$.content").value("Wonderfull day in the New World !"));
 	}
 

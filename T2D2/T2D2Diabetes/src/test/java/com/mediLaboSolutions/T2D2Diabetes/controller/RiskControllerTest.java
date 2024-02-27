@@ -2,7 +2,7 @@ package com.mediLaboSolutions.T2D2Diabetes.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -22,8 +22,10 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mediLaboSolutions.T2D2Diabetes.dto.RiskFactorsDto;
+import com.mediLaboSolutions.T2D2Diabetes.model.Risk;
 import com.mediLaboSolutions.T2D2Diabetes.service.contracts.IRiskService;
 import com.mediLaboSolutions.T2D2Diabetes.util.DtoInstanceBuilder;
+import com.mediLaboSolutions.T2D2Diabetes.util.ModelInstanceBuilder;
 
 @WebMvcTest(controllers = RiskController.class)
 @TestMethodOrder(OrderAnnotation.class)
@@ -37,19 +39,22 @@ public class RiskControllerTest {
 	private IRiskService iRiskService;
 
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	private RiskFactorsDto riskFactorsDtoResponse = DtoInstanceBuilder.createRiskFactorsDto(false, LocalDate.parse("1989-04-13", dateTimeFormatter), new ArrayList<String>());
+	private RiskFactorsDto riskFactorsDtoRequest = DtoInstanceBuilder.createRiskFactorsDto(false, LocalDate.parse("1989-04-13", dateTimeFormatter), new ArrayList<String>());
+	private Risk riskResponse = ModelInstanceBuilder.createRisk("Miraculous cure", ":D", "#FFD700");
 
 	@Test
 	@Order(1)
 	public void getRiskScore_shouldReturnOk() throws Exception {
 		when(iRiskService.calculateRiskScore(any(RiskFactorsDto.class)))
-			.thenReturn(11.0);
+			.thenReturn(riskResponse);
 		
-		mockMvc.perform(get("/risk")
-				.content(objectMapper.writeValueAsString(riskFactorsDtoResponse))
+		mockMvc.perform(post("/risk")
+				.content(objectMapper.writeValueAsString(riskFactorsDtoRequest))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$").value(11.0));
+			.andExpect(jsonPath("$.level").value("Miraculous cure"))
+			.andExpect(jsonPath("$.badgeSymbol").value(":D"))
+			.andExpect(jsonPath("$.badgeColor").value("#FFD700"));
 	}
 }
