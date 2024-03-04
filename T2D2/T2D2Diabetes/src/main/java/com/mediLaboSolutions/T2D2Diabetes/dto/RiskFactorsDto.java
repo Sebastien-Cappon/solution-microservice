@@ -1,12 +1,12 @@
 package com.mediLaboSolutions.T2D2Diabetes.dto;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class RiskFactorsDto {
 
 	private Boolean gender;
-	private LocalDate birthdate;
+	private ZonedDateTime birthdate;
 	private List<String> notes;
 
 	public Boolean getGender() {
@@ -17,11 +17,11 @@ public class RiskFactorsDto {
 		this.gender = gender;
 	}
 
-	public LocalDate getBirthdate() {
+	public ZonedDateTime getBirthdate() {
 		return birthdate;
 	}
 
-	public void setBirthdate(LocalDate birthdate) {
+	public void setBirthdate(ZonedDateTime birthdate) {
 		this.birthdate = birthdate;
 	}
 

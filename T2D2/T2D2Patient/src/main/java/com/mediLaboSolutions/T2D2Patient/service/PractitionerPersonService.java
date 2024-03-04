@@ -60,8 +60,6 @@ public class PractitionerPersonService implements IPractitionerPersonService{
 	
 	@Override
 	public Integer addPersonToPractitioner(PractitionerPersonAddDto practitionerPersonAddDto) {
-		System.out.println(practitionerPersonAddDto.getPractitionerId());
-		System.out.println(practitionerPersonAddDto.getPersonEmail());
 		if(iPractitionerRepository.findById(practitionerPersonAddDto.getPractitionerId()).isPresent() && iPersonRepository.findByEmail(practitionerPersonAddDto.getPersonEmail()).isPresent()) {
 			Practitioner practitioner = iPractitionerRepository.findById(practitionerPersonAddDto.getPractitionerId()).get();
 			Person person = iPersonRepository.findByEmail(practitionerPersonAddDto.getPersonEmail()).get();

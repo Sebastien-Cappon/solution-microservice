@@ -1,8 +1,6 @@
-package com.mediLaboSolutions.T2D2Diabetes.controller;
+package com.mediLaboSolutions.T2D2Diabetes.integration;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -10,18 +8,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,26 +31,42 @@ import com.mediLaboSolutions.T2D2Diabetes.model.TriggerTerm;
 import com.mediLaboSolutions.T2D2Diabetes.service.contracts.ITriggerTermService;
 import com.mediLaboSolutions.T2D2Diabetes.util.ModelInstanceBuilder;
 
-@WebMvcTest(controllers = TriggerTermController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@TestPropertySource(locations = "file:config/application-test.properties")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
-public class TriggerTermControllerTest {
+public class TriggerTermServiceIT {
 
-	private TriggerTerm triggerTermResponse = ModelInstanceBuilder.createTrigger(1, "Plague");
-	private List<TriggerTerm> triggerTermResponseList = new ArrayList<TriggerTerm>(Arrays.asList(triggerTermResponse, triggerTermResponse, triggerTermResponse));
-
+	private static final Logger logger = LoggerFactory.getLogger(TriggerTermServiceIT.class);
+	
 	@Autowired
 	private ObjectMapper objectMapper;
 	@Autowired
 	private MockMvc mockMvc;
-	@MockBean
+	
+	@Autowired
 	private ITriggerTermService iTriggerTermService;
+	
+	private TriggerTerm firstTriggerTerm = ModelInstanceBuilder.createTrigger(1, "réaction");
+	private TriggerTerm secondTriggerTerm = ModelInstanceBuilder.createTrigger(2, "vertiges");
 
+	@BeforeAll
+	private void fillH2Database() throws Exception {
+		iTriggerTermService.createTriggerTerm(firstTriggerTerm);
+		iTriggerTermService.createTriggerTerm(secondTriggerTerm);
+		logger.info("triggerterm table in the H2 database filled.");
+	}
+	
+	@AfterAll
+	private void tearDown() {
+		logger.info("H2 test database cleaned.");
+	}
+	
 	@Test
 	@Order(1)
 	public void getTriggerTerms_shouldReturnOk() throws Exception {
-		when(iTriggerTermService.getTriggerTerms())
-			.thenReturn(triggerTermResponseList);
-		
 		mockMvc.perform(get("/triggers")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
@@ -59,39 +77,32 @@ public class TriggerTermControllerTest {
 	@Test
 	@Order(2)
 	public void getTriggerTermById_shouldReturnOk() throws Exception {
-		when(iTriggerTermService.getTriggerTermById(anyInt()))
-			.thenReturn(triggerTermResponse);
-		
 		mockMvc.perform(get("/triggers/{triggerTermId}", "1")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.id").value("1"))
-			.andExpect(jsonPath("$.term").value("Plague"));
+			.andExpect(jsonPath("$.id").value(firstTriggerTerm.getId()))
+			.andExpect(jsonPath("$.term").value(firstTriggerTerm.getTerm()));
 	}
 
 	@Test
 	@Order(3)
 	public void createTriggerTerm_shouldReturnCreated() throws Exception {
-		when(iTriggerTermService.createTriggerTerm(any(TriggerTerm.class)))
-			.thenReturn(triggerTermResponse);
+		TriggerTerm newTriggerTerm = ModelInstanceBuilder.createTrigger(3, "rechute");
 		
 		mockMvc.perform(post("/trigger")
-				.content(objectMapper.writeValueAsString(triggerTermResponse))
+				.content(objectMapper.writeValueAsString(newTriggerTerm))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isCreated())
-			.andExpect(jsonPath("$.id").value("1"))
-			.andExpect(jsonPath("$.term").value("Plague"));
+			.andExpect(jsonPath("$.id").value(newTriggerTerm.getId()))
+			.andExpect(jsonPath("$.term").value(newTriggerTerm.getTerm()));
 	}
 
 	@Test
 	@Order(4)
 	public void createTriggerTerm_shouldReturnBadRequest() throws Exception {
-		when(iTriggerTermService.createTriggerTerm(any(TriggerTerm.class)))
-			.thenReturn(null);
-		
 		mockMvc.perform(post("/trigger")
-				.content(objectMapper.writeValueAsString(triggerTermResponse))
+				.content(objectMapper.writeValueAsString(firstTriggerTerm))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest());
@@ -100,24 +111,26 @@ public class TriggerTermControllerTest {
 	@Test
 	@Order(5)
 	public void updateTriggerTermById_shouldReturnOk() throws Exception {
-		when(iTriggerTermService.updateTriggerTermById(anyInt(), any(TriggerTerm.class)))
-			.thenReturn(1);
+		TriggerTerm updatedTriggerTerm = ModelInstanceBuilder.createTrigger(4, "vertige");
 		
-		mockMvc.perform(put("/triggers/{triggerTermId}", "1")
-				.content(objectMapper.writeValueAsString(triggerTermResponse))
+		mockMvc.perform(put("/triggers/{triggerTermId}", "2")
+				.content(objectMapper.writeValueAsString(updatedTriggerTerm))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
+		
+		TriggerTerm triggerTermToUpdate = iTriggerTermService.getTriggerTermById(2);
+		assertThat(triggerTermToUpdate.getId()).isEqualTo(2);
+		assertThat(triggerTermToUpdate.getTerm()).isEqualTo(updatedTriggerTerm.getTerm());
 	}
 
 	@Test
 	@Order(6)
 	public void updateTriggerTermById_shouldReturnBadRequest() throws Exception {
-		when(iTriggerTermService.updateTriggerTermById(anyInt(), any(TriggerTerm.class)))
-			.thenReturn(null);
+		TriggerTerm updatedTriggerTerm = ModelInstanceBuilder.createTrigger(5, "anticorps");
 		
-		mockMvc.perform(put("/triggers/{triggerTermId}", "1")
-				.content(objectMapper.writeValueAsString(triggerTermResponse))
+		mockMvc.perform(put("/triggers/{triggerTermId}", "42")
+				.content(objectMapper.writeValueAsString(updatedTriggerTerm))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest());
@@ -126,7 +139,7 @@ public class TriggerTermControllerTest {
 	@Test
 	@Order(7)
 	public void deleteTriggerTermById_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/triggers/{triggerTermId}", "1")
+		mockMvc.perform(delete("/triggers/{triggerTermId}", "2")
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

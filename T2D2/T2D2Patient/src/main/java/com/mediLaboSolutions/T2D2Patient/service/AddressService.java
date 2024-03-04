@@ -38,10 +38,10 @@ public class AddressService implements IAddressService {
 		for (Address checkAddress : iAddressRepository.findAll()) {
 			if (checkAddress.getNumber().contentEquals(newAddress.getNumber())
 					&& checkAddress.getWayType().contentEquals(newAddress.getWayType())
-					&& checkAddress.getWayName().contentEquals(newAddress.getWayType())
-					&& checkAddress.getPostcode().contentEquals(newAddress.getWayType())
-					&& checkAddress.getCity().contentEquals(newAddress.getWayType())
-					&& checkAddress.getCountry().contentEquals(newAddress.getWayType())) {
+					&& checkAddress.getWayName().contentEquals(newAddress.getWayName())
+					&& checkAddress.getPostcode().contentEquals(newAddress.getPostcode())
+					&& checkAddress.getCity().contentEquals(newAddress.getCity())
+					&& checkAddress.getCountry().contentEquals(newAddress.getCountry())) {
 				logger.warn("This address already exists in the database.");
 				return null;
 			}

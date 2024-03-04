@@ -1,7 +1,7 @@
 package com.mediLaboSolutions.T2D2Diabetes.service;
 
-import java.time.LocalDate;
 import java.time.Period;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -30,8 +30,8 @@ public class RiskService implements IRiskService {
 		}
 	}
 
-	private int getAgeScorePoints(LocalDate riskFactorsDtoBirthdate) {
-		int personAge = Period.between(riskFactorsDtoBirthdate, LocalDate.now()).getYears();
+	private int getAgeScorePoints(ZonedDateTime riskFactorsDtoBirthdate) {
+		int personAge = Period.between(riskFactorsDtoBirthdate.toLocalDate(), ZonedDateTime.now().toLocalDate()).getYears();
 
 		if (personAge < 30) {
 			return AgeScorePoint.LESS_THAN_30;

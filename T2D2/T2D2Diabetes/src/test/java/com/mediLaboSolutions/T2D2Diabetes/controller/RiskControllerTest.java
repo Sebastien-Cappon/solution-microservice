@@ -6,8 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -38,8 +37,7 @@ public class RiskControllerTest {
 	@MockBean
 	private IRiskService iRiskService;
 
-	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	private RiskFactorsDto riskFactorsDtoRequest = DtoInstanceBuilder.createRiskFactorsDto(false, LocalDate.parse("1989-04-13", dateTimeFormatter), new ArrayList<String>());
+	private RiskFactorsDto riskFactorsDtoRequest = DtoInstanceBuilder.createRiskFactorsDto(false, ZonedDateTime.parse("1914-06-28T01:02:03Z"), new ArrayList<String>());
 	private Risk riskResponse = ModelInstanceBuilder.createRisk("Miraculous cure", ":D", "#FFD700");
 
 	@Test

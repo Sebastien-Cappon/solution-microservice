@@ -89,7 +89,8 @@ public class PractitionerControllerTest {
 				.content(objectMapper.writeValueAsString(loginRequest))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-			.andExpect(jsonPath("$.id").value(1)).andExpect(jsonPath("$.lastname").value("Eliot"))
+			.andExpect(jsonPath("$.id").value(1))
+			.andExpect(jsonPath("$.lastname").value("Eliot"))
 			.andExpect(jsonPath("$.firstname").value("Ramesh"));
 	}
 
@@ -100,7 +101,7 @@ public class PractitionerControllerTest {
 			.thenReturn(null);
 		
 		mockMvc.perform(post("/login")
-				.content(objectMapper.writeValueAsString(practitionerResponse))
+				.content(objectMapper.writeValueAsString(null))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isBadRequest());
