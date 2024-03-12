@@ -13,10 +13,17 @@ import com.mediLaboSolutions.T2D2Diabetes.util.ModelInstanceBuilder;
 public class ModelTest {
 
 	private TriggerTerm triggerTerm = ModelInstanceBuilder.createTrigger(1, "Plague");
+	private Risk risk = ModelInstanceBuilder.createRisk("Dead", "X", "#FFF");
 
 	@Test
 	@Order(1)
 	public void triggerTermToString_isNotBlank() {
 		assertThat(triggerTerm.toString()).isNotBlank();
+	}
+	
+	@Test
+	@Order(2)
+	public void riskToString_isNotBlank() {
+		assertThat(risk.toString()).isNotBlank();
 	}
 }

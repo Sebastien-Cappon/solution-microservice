@@ -14,7 +14,7 @@ export class NewAccountService {
     ) { }
 
     public createNewAccount(newPractitionerValue: NewPractitionerValue): Observable<boolean> {
-        return this.httpClient.post(`${environment.msPatientUrl}/practitioner`, newPractitionerValue).pipe(
+        return this.httpClient.post(`${environment.msAuthenticationUrl}/practitioner`, newPractitionerValue).pipe(
             tap((apiResponse) => {
                 sessionStorage.setItem('authToken', this.authService.setToken(512));
                 sessionStorage.setItem('currentPractitionerId', JSON.parse(JSON.stringify(apiResponse)).id);

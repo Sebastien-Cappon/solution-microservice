@@ -21,13 +21,6 @@ public class DtoTest {
 
 	@Test
 	@Order(2)
-	public void practitionerLoginDtoToString_isNotBlank() {
-		PractitionerLoginDto practitionerLoginDto = DtoInstanceBuilder.createPractitionerLoginDto("ramesh.eliot@abernathyclinic.com", "UnsecuredPassword");
-		assertThat(practitionerLoginDto.toString()).isNotBlank();
-	}
-
-	@Test
-	@Order(3)
 	public void practitionerPersonAddDtoToString_isNotBlank() {
 		PractitionerPersonAddDto practitionerPersonAddDto = DtoInstanceBuilder.createPractitionerPersonAddDto(1, "clientTest@abernathyclinic.com");
 		assertThat(practitionerPersonAddDto.toString()).isNotBlank();

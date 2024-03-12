@@ -5,7 +5,6 @@ import java.time.ZonedDateTime;
 import com.mediLaboSolutions.T2D2Patient.model.Address;
 import com.mediLaboSolutions.T2D2Patient.model.Person;
 import com.mediLaboSolutions.T2D2Patient.model.PersonAddress;
-import com.mediLaboSolutions.T2D2Patient.model.Practitioner;
 import com.mediLaboSolutions.T2D2Patient.model.PractitionerPerson;
 import com.mediLaboSolutions.T2D2Patient.model.key.PersonAddressKey;
 import com.mediLaboSolutions.T2D2Patient.model.key.PractitionerPersonKey;
@@ -38,17 +37,6 @@ public class ModelInstanceBuilder {
 		return person;
 	}
 
-	public static Practitioner createPractitioner(int id, String lastname, String firstname, String email, String password) {
-		Practitioner practitioner = new Practitioner();
-		practitioner.setId(id);
-		practitioner.setLastname(lastname);
-		practitioner.setFirstname(firstname);
-		practitioner.setEmail(email);
-		practitioner.setPassword(password);
-
-		return practitioner;
-	}
-
 	public static PersonAddressKey createPersonAddressKey(Person person, Address address) {
 		PersonAddressKey personAddressKey = new PersonAddressKey();
 		personAddressKey.setPerson(person);
@@ -64,9 +52,9 @@ public class ModelInstanceBuilder {
 		return personAddress;
 	}
 
-	public static PractitionerPersonKey createPractitionerPersonKey(Practitioner practitioner, Person person) {
+	public static PractitionerPersonKey createPractitionerPersonKey(int practitionerId, Person person) {
 		PractitionerPersonKey practitionerPersonKey = new PractitionerPersonKey();
-		practitionerPersonKey.setPractitioner(practitioner);
+		practitionerPersonKey.setPractitioner(practitionerId);
 		practitionerPersonKey.setPerson(person);
 
 		return practitionerPersonKey;

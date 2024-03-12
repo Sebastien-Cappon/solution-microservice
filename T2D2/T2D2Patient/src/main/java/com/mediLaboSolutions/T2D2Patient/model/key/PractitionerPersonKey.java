@@ -3,8 +3,8 @@ package com.mediLaboSolutions.T2D2Patient.model.key;
 import java.io.Serializable;
 
 import com.mediLaboSolutions.T2D2Patient.model.Person;
-import com.mediLaboSolutions.T2D2Patient.model.Practitioner;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -14,20 +14,19 @@ public class PractitionerPersonKey implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne()
-	@JoinColumn(name = "practitioner_person_practitioner_id")
-	private Practitioner practitioner;
+	@Column(name = "practitioner_person_practitioner_id")
+	private int practitionerId;
 
 	@ManyToOne()
 	@JoinColumn(name = "practitioner_person_person_id")
 	private Person person;
 
-	public Practitioner getPractitioner() {
-		return practitioner;
+	public int getPractitioner() {
+		return practitionerId;
 	}
 
-	public void setPractitioner(Practitioner practitioner) {
-		this.practitioner = practitioner;
+	public void setPractitioner(int practitionerId) {
+		this.practitionerId = practitionerId;
 	}
 
 	public Person getPerson() {

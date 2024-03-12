@@ -1,7 +1,6 @@
 package com.mediLaboSolutions.T2D2Patient.util;
 
 import com.mediLaboSolutions.T2D2Patient.dto.PersonAddressAddDto;
-import com.mediLaboSolutions.T2D2Patient.dto.PractitionerLoginDto;
 import com.mediLaboSolutions.T2D2Patient.dto.PractitionerPersonAddDto;
 
 public class DtoInstanceBuilder {
@@ -12,14 +11,6 @@ public class DtoInstanceBuilder {
 		personAddressAddDto.setAddressId(addressId);
 
 		return personAddressAddDto;
-	}
-
-	public static PractitionerLoginDto createPractitionerLoginDto(String email, String password) {
-		PractitionerLoginDto practitionerLoginDto = new PractitionerLoginDto();
-		practitionerLoginDto.setEmail(email);
-		practitionerLoginDto.setPassword(password);
-
-		return practitionerLoginDto;
 	}
 
 	public static PractitionerPersonAddDto createPractitionerPersonAddDto(int practitionerId, String personEmail) {

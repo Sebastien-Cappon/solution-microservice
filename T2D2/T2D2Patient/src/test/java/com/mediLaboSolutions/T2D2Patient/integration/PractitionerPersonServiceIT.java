@@ -31,10 +31,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mediLaboSolutions.T2D2Patient.dto.PractitionerPersonAddDto;
 import com.mediLaboSolutions.T2D2Patient.model.Person;
-import com.mediLaboSolutions.T2D2Patient.model.Practitioner;
 import com.mediLaboSolutions.T2D2Patient.service.contracts.IPersonService;
 import com.mediLaboSolutions.T2D2Patient.service.contracts.IPractitionerPersonService;
-import com.mediLaboSolutions.T2D2Patient.service.contracts.IPractitionerService;
 import com.mediLaboSolutions.T2D2Patient.util.DtoInstanceBuilder;
 import com.mediLaboSolutions.T2D2Patient.util.ModelInstanceBuilder;
 
@@ -54,29 +52,23 @@ public class PractitionerPersonServiceIT {
 	private MockMvc mockMvc;
 	
 	@Autowired
-	private IPractitionerService iPractitionerService;
-	@Autowired
 	private IPersonService iPersonService;
 	@Autowired
 	private IPractitionerPersonService iPractitionerPersonService;
-
-	private Practitioner firstPractitioner = ModelInstanceBuilder.createPractitioner(1, "LASTNAME1", "Firstname1", "practioner1@mail.com", "Pass1");
-	private Practitioner secondPractitioner = ModelInstanceBuilder.createPractitioner(2, "LASTNAME2", "Firstname2", "practioner2@mail.com", "Pass2");
+	
+	private int firstPractitionerId = 1;
+	private int secondPractitionerId = 2;
 	
 	private Person firstPerson = ModelInstanceBuilder.createPerson(1, false, "LASTNAME1", "Firstname1", ZonedDateTime.parse("1980-01-02T01:02:03Z"), "0102030405", "email1@mail.com");
 	private Person secondPerson = ModelInstanceBuilder.createPerson(2, true, "LASTNAME2", "Firstname2", ZonedDateTime.parse("1983-04-05T03:04:05Z"), "1020304050", "email2@mail.com");
 	
 	@BeforeAll
 	private void fillH2Database() throws Exception {
-		iPractitionerService.createPractitioner(firstPractitioner);
-		iPractitionerService.createPractitioner(secondPractitioner);
-		logger.info("practioner table in the H2 database filled.");
-		
 		iPersonService.createPerson(firstPerson);
 		iPersonService.createPerson(secondPerson);
 		logger.info("person table in the H2 database filled.");
 		
-		PractitionerPersonAddDto practitionerPersonAddDto = DtoInstanceBuilder.createPractitionerPersonAddDto(firstPractitioner.getId(), firstPerson.getEmail());
+		PractitionerPersonAddDto practitionerPersonAddDto = DtoInstanceBuilder.createPractitionerPersonAddDto(firstPractitionerId, firstPerson.getEmail());
 		iPractitionerPersonService.addPersonToPractitioner(practitionerPersonAddDto);
 		logger.info("practioner_person table in the H2 database filled.");
 	}
@@ -89,7 +81,7 @@ public class PractitionerPersonServiceIT {
 	@Test
 	@Order(1)
 	public void getPersonsByPractitionerId_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/patients/practitioners/{practitionerId}/persons", firstPractitioner.getId())
+		mockMvc.perform(get("/patients/practitioners/{practitionerId}/persons", firstPractitionerId)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.[0].id").value(firstPerson.getId()))
@@ -104,7 +96,7 @@ public class PractitionerPersonServiceIT {
 	@Test
 	@Order(2)
 	public void getNotPatientsByPractitionerId_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/patients/practitioners/{practitionerId}/persons/not-patients", firstPractitioner.getId())
+		mockMvc.perform(get("/patients/practitioners/{practitionerId}/persons/not-patients", firstPractitionerId)
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.[0].id").value(secondPerson.getId()))
@@ -119,7 +111,7 @@ public class PractitionerPersonServiceIT {
 	@Test
 	@Order(3)
 	public void addPersonToPractitioner_shouldReturnCreated() throws Exception {
-		PractitionerPersonAddDto newPractitionerPersonAddDto = DtoInstanceBuilder.createPractitionerPersonAddDto(secondPractitioner.getId(), secondPerson.getEmail());
+		PractitionerPersonAddDto newPractitionerPersonAddDto = DtoInstanceBuilder.createPractitionerPersonAddDto(secondPractitionerId, secondPerson.getEmail());
 		
 		mockMvc.perform(post("/patient")
 				.content(objectMapper.writeValueAsString(newPractitionerPersonAddDto))
@@ -127,7 +119,7 @@ public class PractitionerPersonServiceIT {
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isCreated());
 		
-		List<Person> practitionerNewPatients = iPractitionerPersonService.getPersonsByPractitionerId(secondPractitioner.getId());
+		List<Person> practitionerNewPatients = iPractitionerPersonService.getPersonsByPractitionerId(secondPractitionerId);
 		assertThat(practitionerNewPatients.get(0).getGender()).isEqualTo(secondPerson.getGender());
 		assertThat(practitionerNewPatients.get(0).getLastname()).isEqualTo(secondPerson.getLastname());
 		assertThat(practitionerNewPatients.get(0).getFirstname()).isEqualTo(secondPerson.getFirstname());
@@ -149,7 +141,7 @@ public class PractitionerPersonServiceIT {
 	@Test
 	@Order(5)
 	public void deletePersonFromPractitioner_shouldReturnOk() throws Exception {
-		mockMvc.perform(delete("/patients/practitioners/{practitionerId}/persons/{personId}", secondPractitioner.getId(), secondPerson.getId())
+		mockMvc.perform(delete("/patients/practitioners/{practitionerId}/persons/{personId}", secondPractitionerId, secondPerson.getId())
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}

@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.mediLaboSolutions.T2D2Patient.dto.PractitionerPersonAddDto;
 import com.mediLaboSolutions.T2D2Patient.model.Person;
-import com.mediLaboSolutions.T2D2Patient.model.Practitioner;
 import com.mediLaboSolutions.T2D2Patient.model.PractitionerPerson;
 import com.mediLaboSolutions.T2D2Patient.repository.IPersonRepository;
 import com.mediLaboSolutions.T2D2Patient.repository.IPractitionerPersonRepository;
-import com.mediLaboSolutions.T2D2Patient.repository.IPractitionerRepository;
 import com.mediLaboSolutions.T2D2Patient.service.contracts.IPractitionerPersonService;
 import com.mediLaboSolutions.T2D2Patient.util.PractitionerPersonBuilder;
 
@@ -21,8 +19,6 @@ public class PractitionerPersonService implements IPractitionerPersonService{
 
 	@Autowired
 	IPractitionerPersonRepository iPractitionerPersonRepository;
-	@Autowired
-	IPractitionerRepository iPractitionerRepository;
 	@Autowired
 	IPersonRepository iPersonRepository;
 	
@@ -60,11 +56,10 @@ public class PractitionerPersonService implements IPractitionerPersonService{
 	
 	@Override
 	public Integer addPersonToPractitioner(PractitionerPersonAddDto practitionerPersonAddDto) {
-		if(iPractitionerRepository.findById(practitionerPersonAddDto.getPractitionerId()).isPresent() && iPersonRepository.findByEmail(practitionerPersonAddDto.getPersonEmail()).isPresent()) {
-			Practitioner practitioner = iPractitionerRepository.findById(practitionerPersonAddDto.getPractitionerId()).get();
+		if(iPersonRepository.findByEmail(practitionerPersonAddDto.getPersonEmail()).isPresent()) {
 			Person person = iPersonRepository.findByEmail(practitionerPersonAddDto.getPersonEmail()).get();
 			
-			PractitionerPerson newPractitionerPerson = PractitionerPersonBuilder.createPractitionerPerson(practitioner, person);
+			PractitionerPerson newPractitionerPerson = PractitionerPersonBuilder.createPractitionerPerson(practitionerPersonAddDto.getPractitionerId(), person);
 			iPractitionerPersonRepository.save(newPractitionerPerson);
 			
 			return 1;
@@ -75,11 +70,10 @@ public class PractitionerPersonService implements IPractitionerPersonService{
 	
 	@Override
 	public void deletePersonFromPractitioner(int practitionerId, int personId) {
-		if(iPractitionerRepository.findById(practitionerId).isPresent() && iPersonRepository.findById(personId).isPresent()) {
-			Practitioner practitioner = iPractitionerRepository.findById(practitionerId).get();
+		if(iPersonRepository.findById(personId).isPresent()) {
 			Person person = iPersonRepository.findById(personId).get();
 			
-			PractitionerPerson practitionerPersonToDelete = PractitionerPersonBuilder.createPractitionerPerson(practitioner, person);
+			PractitionerPerson practitionerPersonToDelete = PractitionerPersonBuilder.createPractitionerPerson(practitionerId, person);
 			iPractitionerPersonRepository.delete(practitionerPersonToDelete);
 		}	
 	}

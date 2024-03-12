@@ -22,7 +22,7 @@ export class NoteService {
   }
 
   public getNotes(personId: number) {
-    this.httpClient.get<Note[]>(`${environment.msPractitionnerUrl}/notes/persons/${personId}`).pipe(
+    this.httpClient.get<Note[]>(`${environment.msNoteUrl}/notes/persons/${personId}`).pipe(
       tap(notes => {
         this._notes$.next(notes);
       })
@@ -30,7 +30,7 @@ export class NoteService {
   }
 
   public getNoteById(noteId: string) {
-    this.httpClient.get<Note>(`${environment.msPractitionnerUrl}/notes/${noteId}`).pipe(
+    this.httpClient.get<Note>(`${environment.msNoteUrl}/notes/${noteId}`).pipe(
       tap(note => {
         this._note$.next(note);
       })
@@ -38,20 +38,20 @@ export class NoteService {
   }
 
   public createNewNote(newNote: Note) {
-    return this.httpClient.post(`${environment.msPractitionnerUrl}/note`, newNote).pipe(
+    return this.httpClient.post(`${environment.msNoteUrl}/note`, newNote).pipe(
       map(() => true),
       catchError(() => of(false))
     );
   }
 
   public updateNoteById(noteId: string, noteUpdate: Note) {
-    return this.httpClient.put(`${environment.msPractitionnerUrl}/notes/${noteId}`, noteUpdate).pipe(
+    return this.httpClient.put(`${environment.msNoteUrl}/notes/${noteId}`, noteUpdate).pipe(
       map(() => true),
       catchError(() => of(false))
     );
   }
 
   public deleteNoteById(noteId: string) {
-    return this.httpClient.delete(`${environment.msPractitionnerUrl}/notes/${noteId}`);
+    return this.httpClient.delete(`${environment.msNoteUrl}/notes/${noteId}`);
   }
 }
