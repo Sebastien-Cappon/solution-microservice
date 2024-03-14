@@ -12,7 +12,7 @@
 	
 	<groupId>com.mediLaboSolutions</groupId>
 	<artifactId>T2D2Gateway</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>T2 Diabetes Detector Gateway</name>
 	<description>OpenClassroomsP9 : Gateway of MLS T2D2 App</description>
 	

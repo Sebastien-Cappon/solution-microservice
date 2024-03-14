@@ -12,7 +12,7 @@
 	
 	<groupId>com.mediLaboSolutions</groupId>
 	<artifactId>T2D2DiscoveryService</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>T2 Diabetes Detector Discovery Service</name>
 	<description>OpenClassroomsP9 : Eureka Discovery Service of MLS T2D2 App</description>
 	

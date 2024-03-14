@@ -1,0 +1,222 @@
+version: '3.8'
+
+volumes:
+  t2d2_mysql_db:
+  t2d2_mongo_db:
+  
+networks:
+  mls_t2d2_network:
+
+services:
+  # DATABASE : MYSQL
+  t2d2_mysql_db:
+    container_name: t2d2_mysql_db
+    
+    image: mysql:latest
+    restart: always
+    
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
+      - t2d2_mysql_db:/var/lib/mysql
+    
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 3
+      
+    networks:
+      - mls_t2d2_network
+      
+    ports:
+      - 3307:3306
+      
+  # DATABASE : MONGODB
+  t2d2_mongo_db:
+    container_name: t2d2_mongo_db
+    
+    image: mongo:latest
+    restart: always
+      
+    volumes:
+      - t2d2_mongo_db:/data/db
+          
+    networks:
+      - mls_t2d2_network
+
+    ports:
+      - 27018:27017
+
+  # EDGE SERVICE : DISCOVERY
+  t2d2_discovery_service:
+    container_name: t2d2_discovery_service
+    
+    build:
+      context: T2D2/T2D2DiscoveryService/.
+      dockerfile: Dockerfile
+    
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+    
+    networks:
+      - mls_t2d2_network
+      
+    ports:
+      - 9090:9090
+
+  # MICRO SERVICE : AUTHENTICATION
+  t2d2_authentication_ms:
+    container_name: t2d2_authentication_ms
+    
+    depends_on:
+      t2d2_mysql_db:
+        condition: service_healthy
+      t2d2_discovery_service:
+        condition: service_started
+    
+    build:
+      context: T2D2/T2D2Authentication/.
+      dockerfile: Dockerfile
+      
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+      spring.datasource.url: jdbc:mysql://t2d2_mysql_db:3306/mls_t2d2_practitioner?serverTimeZone=UTC
+        
+    networks:
+      - mls_t2d2_network
+      
+    ports:
+      - 8081:8081
+      
+  # MICRO SERVICE : PATIENT
+  t2d2_patient_ms:
+    container_name: t2d2_patient_ms
+    
+    depends_on:
+      t2d2_mysql_db:
+        condition: service_healthy
+      t2d2_discovery_service:
+        condition: service_started
+      t2d2_authentication_ms:
+        condition: service_started
+    
+    build:
+      context: T2D2/T2D2Patient/.
+      dockerfile: Dockerfile
+      
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+      spring.datasource.url: jdbc:mysql://t2d2_mysql_db:3306/mls_t2d2_patient?serverTimeZone=UTC
+    
+    networks:
+      - mls_t2d2_network
+      
+    ports:
+      - 8082:8082
+      
+  # MICRO SERVICE : NOTE
+  t2d2_note_ms:
+    container_name: t2d2_note_ms
+    
+    depends_on:
+      t2d2_mongo_db:
+        condition: service_started
+      t2d2_discovery_service:
+        condition: service_started
+      t2d2_authentication_ms:
+        condition: service_started
+    
+    build:
+      context: T2D2/T2D2Note/.
+      dockerfile: Dockerfile
+    
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+      spring.data.mongodb.uri: mongodb://t2d2_mongo_db:27017/mls_t2d2_note
+    
+    networks:
+      - mls_t2d2_network
+    
+    ports:
+      - 8083:8083
+      
+  # MICRO SERVICE : DIABETES
+  t2d2_diabetes_ms:
+    container_name: t2d2_diabetes_ms
+    
+    depends_on:
+      t2d2_mysql_db:
+        condition: service_healthy
+      t2d2_discovery_service:
+        condition: service_started
+      t2d2_authentication_ms:
+        condition: service_started
+    
+    build:
+      context: T2D2/T2D2Diabetes/.
+      dockerfile: Dockerfile
+      
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+      spring.datasource.url: jdbc:mysql://t2d2_mysql_db:3306/mls_t2d2_diabetes?serverTimeZone=UTC
+    
+    networks:
+      - mls_t2d2_network
+        
+    ports:
+      - 8084:8084
+      
+  # EDGE SERVICE : GATEWAY
+  t2d2_gateway:
+    container_name: t2d2_gateway
+    
+    depends_on:
+      t2d2_discovery_service:
+        condition: service_started
+      t2d2_authentication_ms:
+        condition: service_started
+      t2d2_patient_ms:
+        condition: service_started
+      t2d2_note_ms:
+        condition: service_started
+      t2d2_diabetes_ms:
+        condition: service_started
+    
+    build:
+      context: T2D2/T2D2Gateway/.
+      dockerfile: Dockerfile
+    
+    environment:
+      eureka.instance.hostname: host.docker.internal
+      eureka.client.serviceUrl.defaultZone: http://host.docker.internal:9090/eureka
+    
+    networks:
+      - mls_t2d2_network
+        
+    ports:
+      - 9091:9091
+      
+  # SERVICE : FRONT
+  t2d2_front_service:
+    container_name: t2d2_front_service
+    
+    depends_on:
+      t2d2_gateway:
+        condition: service_started
+    
+    build:
+      context: T2D2Front/.
+      dockerfile: Dockerfile
+    
+    networks:
+      - mls_t2d2_network
+        
+    ports:
+      - 4200:4200

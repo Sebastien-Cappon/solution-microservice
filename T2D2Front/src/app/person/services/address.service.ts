@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Address } from "../models/address.model";
 import { catchError, map, of } from "rxjs";
-import { environment } from "src/app/environments/environment";
+import { environment } from "src/environments/environments";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable()

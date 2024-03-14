@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, catchError, map, of, tap } from "rxjs";
 import { Person } from "src/app/shared/models/person.model";
-import { environment } from "src/app/environments/environment";
+import { environment } from "src/environments/environments";
 import { PatientValue } from "../models/patient.model";
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, catchError, map, of, tap } from "rxjs";
-import { environment } from "src/app/environments/environment";
+import { environment } from "src/environments/environments";
 import { ResidenceValue } from "../models/residence.model";
 import { Address } from "src/app/person/models/address.model";
 

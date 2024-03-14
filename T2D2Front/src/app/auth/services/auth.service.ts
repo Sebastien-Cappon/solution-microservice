@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, catchError, map, of, tap } from "rxjs";
-import { environment } from "src/app/environments/environment";
+import { environment } from "src/environments/environments";
 import { AuthValue } from "../models/auth.model";
 import { Practitioner } from "src/app/core/models/practitioner.model";
 

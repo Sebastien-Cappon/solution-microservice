@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, catchError, map, of, tap } from "rxjs";
 import { Factor } from "../models/factor.model";
-import { environment } from "src/app/environments/environment";
+import { environment } from "src/environments/environments";
 
 @Injectable()
 export class FactorService {
