@@ -1,10 +1,8 @@
 package com.mediLaboSolutions.T2D2Diabetes.integration;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -76,16 +74,6 @@ public class TriggerTermServiceIT {
 
 	@Test
 	@Order(2)
-	public void getTriggerTermById_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/triggers/{triggerTermId}", "1")
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.id").value(firstTriggerTerm.getId()))
-			.andExpect(jsonPath("$.term").value(firstTriggerTerm.getTerm()));
-	}
-
-	@Test
-	@Order(3)
 	public void createTriggerTerm_shouldReturnCreated() throws Exception {
 		TriggerTerm newTriggerTerm = ModelInstanceBuilder.createTrigger(3, "rechute");
 		
@@ -99,7 +87,7 @@ public class TriggerTermServiceIT {
 	}
 
 	@Test
-	@Order(4)
+	@Order(3)
 	public void createTriggerTerm_shouldReturnBadRequest() throws Exception {
 		mockMvc.perform(post("/trigger")
 				.content(objectMapper.writeValueAsString(firstTriggerTerm))
@@ -109,35 +97,7 @@ public class TriggerTermServiceIT {
 	}
 
 	@Test
-	@Order(5)
-	public void updateTriggerTermById_shouldReturnOk() throws Exception {
-		TriggerTerm updatedTriggerTerm = ModelInstanceBuilder.createTrigger(4, "vertige");
-		
-		mockMvc.perform(put("/triggers/{triggerTermId}", "2")
-				.content(objectMapper.writeValueAsString(updatedTriggerTerm))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isOk());
-		
-		TriggerTerm triggerTermToUpdate = iTriggerTermService.getTriggerTermById(2);
-		assertThat(triggerTermToUpdate.getId()).isEqualTo(2);
-		assertThat(triggerTermToUpdate.getTerm()).isEqualTo(updatedTriggerTerm.getTerm());
-	}
-
-	@Test
-	@Order(6)
-	public void updateTriggerTermById_shouldReturnBadRequest() throws Exception {
-		TriggerTerm updatedTriggerTerm = ModelInstanceBuilder.createTrigger(5, "anticorps");
-		
-		mockMvc.perform(put("/triggers/{triggerTermId}", "42")
-				.content(objectMapper.writeValueAsString(updatedTriggerTerm))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-			.andExpect(status().isBadRequest());
-	}
-
-	@Test
-	@Order(7)
+	@Order(4)
 	public void deleteTriggerTermById_shouldReturnOk() throws Exception {
 		mockMvc.perform(delete("/triggers/{triggerTermId}", "2")
 				.accept(MediaType.APPLICATION_JSON))

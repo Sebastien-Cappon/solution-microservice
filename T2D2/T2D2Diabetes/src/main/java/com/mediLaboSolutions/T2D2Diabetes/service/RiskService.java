@@ -16,12 +16,28 @@ import com.mediLaboSolutions.T2D2Diabetes.model.TriggerTerm;
 import com.mediLaboSolutions.T2D2Diabetes.service.contracts.IRiskService;
 import com.mediLaboSolutions.T2D2Diabetes.service.contracts.ITriggerTermService;
 
+/**
+ * A service class which performs the business processes relating to the POJO
+ * <code>Risk</code>.
+ * 
+ * @singularity The only service class of the all application which doesn't call
+ *              a repository.
+ * 
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Service
 public class RiskService implements IRiskService {
 
 	@Autowired
 	ITriggerTermService iTriggerTermService;
 
+	/**
+	 * A <code>private</code> method that returns a score accordingly to the
+	 * patient's gender.
+	 * 
+	 * @return A <code>int</code> : 1 or 0.
+	 */
 	private int getGenderScorePoints(boolean riskFactorsDtoGender) {
 		if (riskFactorsDtoGender) {
 			return GenderScorePoint.MALE_SCORE_POINTS;
@@ -30,6 +46,12 @@ public class RiskService implements IRiskService {
 		}
 	}
 
+	/**
+	 * A <code>private</code> method that returns a score accordingly to the
+	 * patient's age.
+	 * 
+	 * @return A <code>int</code> : 2 or 0.
+	 */
 	private int getAgeScorePoints(ZonedDateTime riskFactorsDtoBirthdate) {
 		int personAge = Period.between(riskFactorsDtoBirthdate.toLocalDate(), ZonedDateTime.now().toLocalDate()).getYears();
 
@@ -40,6 +62,12 @@ public class RiskService implements IRiskService {
 		}
 	}
 
+	/**
+	 * A <code>private</code> method that returns a score accordingly to the number
+	 * of trigger terms into the patient's notes.
+	 * 
+	 * @return A <code>int</code> : 1 point per trigger terms.
+	 */
 	private int getTriggerTermScorePoints(List<String> riskFactorsDtoNotes) {
 		int triggerTermScorePoints = 0;
 
@@ -59,6 +87,13 @@ public class RiskService implements IRiskService {
 		return triggerTermScorePoints;
 	}
 
+	/**
+	 * A <code>private</code> method that takes the risk score calculated and
+	 * returns a score formatted into an object containing a level of risk, a symbol
+	 * and a color, for display purpose.
+	 * 
+	 * @return A <code>Risk</code>.
+	 */
 	private Risk formatRisk(double riskScore) {
 		Risk risk = new Risk();
 
@@ -83,6 +118,12 @@ public class RiskService implements IRiskService {
 		return risk;
 	}
 
+	/**
+	 * A method that calls the three aboves, calculate a score and returns a
+	 * formated Risk.
+	 * 
+	 * @return A <code>Risk</code> list.
+	 */
 	@Override
 	public Risk calculateRiskScore(RiskFactorsDto riskFactors) {
 		double riskScore;

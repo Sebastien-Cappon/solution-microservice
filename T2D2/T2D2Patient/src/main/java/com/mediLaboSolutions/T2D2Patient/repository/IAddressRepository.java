@@ -7,6 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import com.mediLaboSolutions.T2D2Patient.model.Address;
 
+/**
+ * Repository interface which extends the JPA (Jakarta Persistence API)
+ * Repository in order to deal with derived queries relative to
+ * <code>Address</code> entities.
+ * 
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Repository
 public interface IAddressRepository extends JpaRepository<Address, Integer> {
 

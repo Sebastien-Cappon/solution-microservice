@@ -4,6 +4,14 @@ import java.util.List;
 
 import com.mediLaboSolutions.T2D2Practitioner.model.Note;
 
+/**
+ * <code>NoteService</code> interface that abstracts it from its implementation
+ * in order to achieve better code modularity in compliance with SOLID
+ * principles.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 public interface INoteService {
 
 	public List<Note> getNotes();

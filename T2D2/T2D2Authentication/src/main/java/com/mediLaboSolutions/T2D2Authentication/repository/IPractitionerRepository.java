@@ -7,6 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import com.mediLaboSolutions.T2D2Authentication.model.Practitioner;
 
+/**
+ * Repository interface which extends the JPA (Jakarta Persistence API)
+ * Repository in order to deal with derived queries relative to
+ * <code>Practitioner</code> entities.
+ * 
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Repository
 public interface IPractitionerRepository extends JpaRepository<Practitioner, Integer> {
 

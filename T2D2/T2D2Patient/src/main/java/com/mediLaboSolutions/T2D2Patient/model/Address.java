@@ -9,6 +9,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * A model class which creates the POJO (Plain Old Java Object)
+ * <code>Address</code>. It contains getters and setters, as well as an override
+ * <code>toSring()</code> method for display in the console.
+ *
+ * @singularity <code>Address</code> is linked to the <code>address</code> table
+ *              of the database.
+ * 
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Entity
 @DynamicUpdate
 @Table(name = "address")
@@ -87,6 +98,13 @@ public class Address {
 		this.country = country;
 	}
 
+	/**
+	 * An override method for user-friendly display of <code>Address</code>
+	 * attributes in the console. Not necessary, except for test purposes.
+	 * 
+	 * @return <code>String</code> containing all the attributes of
+	 *         <code>Address</code>.
+	 */
 	@Override
 	public String toString() {
 		return ("[" + id + "]" + "[" + number + "]" + "[" + wayType + "]" + "[" + wayName + "]" + "[" + postcode + "]"

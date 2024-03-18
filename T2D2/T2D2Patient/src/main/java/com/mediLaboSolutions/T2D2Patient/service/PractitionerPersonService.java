@@ -14,6 +14,13 @@ import com.mediLaboSolutions.T2D2Patient.repository.IPractitionerPersonRepositor
 import com.mediLaboSolutions.T2D2Patient.service.contracts.IPractitionerPersonService;
 import com.mediLaboSolutions.T2D2Patient.util.PractitionerPersonBuilder;
 
+/**
+ * A service class which performs the business processes relating to the POJO
+ * <code>PractitionerPerson</code> before calling the repository.
+ * 
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Service
 public class PractitionerPersonService implements IPractitionerPersonService{
 
@@ -22,6 +29,12 @@ public class PractitionerPersonService implements IPractitionerPersonService{
 	@Autowired
 	IPersonRepository iPersonRepository;
 	
+	/**
+	 * A <code>GET</code> method that returns a list of all persons who are patients
+	 * of the practitioner whose id is passed as parameter.
+	 * 
+	 * @return An <code>Person</code> list.
+	 */
 	@Override
 	public List<Person> getPersonsByPractitionerId(int practitionerId) {
 		List<PractitionerPerson> personsByPractitionerId = iPractitionerPersonRepository.getPersonsByPractitionerId(practitionerId);
@@ -34,6 +47,12 @@ public class PractitionerPersonService implements IPractitionerPersonService{
 		return persons;
 	}
 	
+	/**
+	 * A <code>GET</code> method that returns a list of all persons who are NOT
+	 * patients of the practitioner whose id is passed as parameter.
+	 * 
+	 * @return An <code>Person</code> list.
+	 */
 	@Override
 	public List<Person> getNotPatientsByPractitionerId(int practitionerId) {
 		List<PractitionerPerson> personsByPractitionerId = iPractitionerPersonRepository.getPersonsByPractitionerId(practitionerId);
@@ -54,6 +73,15 @@ public class PractitionerPersonService implements IPractitionerPersonService{
 		return notPatients;
 	}
 	
+	/**
+	 * A <code>POST</code> method that returns an <code>Integer</code> if the
+	 * PractitionerPersonAddDto passed as parameter is not existing yet in the
+	 * database, and calls the <code>JpaRepository</code> <code>save()</code>
+	 * method.
+	 * 
+	 * @return An <code>Integer</code> OR <code>null</code> if the junction already
+	 *         exists in the database.
+	 */
 	@Override
 	public Integer addPersonToPractitioner(PractitionerPersonAddDto practitionerPersonAddDto) {
 		if(iPersonRepository.findByEmail(practitionerPersonAddDto.getPersonEmail()).isPresent()) {
@@ -68,6 +96,11 @@ public class PractitionerPersonService implements IPractitionerPersonService{
 		return null;
 	}
 	
+	/**
+	 * A <code>DELETE</code> method that deletes the junction between a practitioner
+	 * and a person which ids are passed as parameters. It calls the derived query
+	 * <code>deleteById()</code> method.
+	 */
 	@Override
 	public void deletePersonFromPractitioner(int practitionerId, int personId) {
 		if(iPersonRepository.findById(personId).isPresent()) {

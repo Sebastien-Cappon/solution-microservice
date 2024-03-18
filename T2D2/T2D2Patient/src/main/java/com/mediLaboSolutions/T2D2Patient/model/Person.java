@@ -11,6 +11,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * A model class which creates the POJO (Plain Old Java Object)
+ * <code>Person</code>. It contains getters and setters, as well as an override
+ * <code>toSring()</code> method for display in the console.
+ *
+ * @singularity <code>Person</code> is linked to the <code>person</code> table
+ *              of the database.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Entity
 @DynamicUpdate
 @Table(name = "person")
@@ -89,8 +100,16 @@ public class Person {
 		this.email = email;
 	}
 
+	/**
+	 * An override method for user-friendly display of <code>Person</code>
+	 * attributes in the console. Not necessary, except for test purposes.
+	 * 
+	 * @return <code>String</code> containing all the attributes of
+	 *         <code>Person</code>.
+	 */
 	@Override
 	public String toString() {
-		return ("[" + id + "]" + "[" + gender + "]" + "[" + lastname + "]" + "[" + firstname + "]" + "[" + birthdate + "]" + "[" + phone + "]" + "[" + email + "]");
+		return ("[" + id + "]" + "[" + gender + "]" + "[" + lastname + "]" + "[" + firstname + "]" + "[" + birthdate
+				+ "]" + "[" + phone + "]" + "[" + email + "]");
 	}
 }

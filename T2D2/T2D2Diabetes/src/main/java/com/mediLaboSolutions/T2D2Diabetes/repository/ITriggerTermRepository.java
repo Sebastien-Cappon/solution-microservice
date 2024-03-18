@@ -8,6 +8,14 @@ import org.springframework.stereotype.Repository;
 
 import com.mediLaboSolutions.T2D2Diabetes.model.TriggerTerm;
 
+/**
+ * Repository interface which extends the JPA (Jakarta Persistence API)
+ * Repository in order to deal with derived queries relative to
+ * <code>TriggerTerm</code> entities.
+ * 
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Repository
 public interface ITriggerTermRepository extends JpaRepository<TriggerTerm, Integer> {
 

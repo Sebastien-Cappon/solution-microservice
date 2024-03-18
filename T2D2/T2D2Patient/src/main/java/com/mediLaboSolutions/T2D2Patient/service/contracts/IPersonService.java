@@ -4,6 +4,14 @@ import java.util.List;
 
 import com.mediLaboSolutions.T2D2Patient.model.Person;
 
+/**
+ * <code>PersonService</code> interface that abstracts it from its
+ * implementation in order to achieve better code modularity in compliance with
+ * SOLID principles.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 public interface IPersonService {
 
 	public List<Person> getPersons();

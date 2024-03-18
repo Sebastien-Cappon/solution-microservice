@@ -9,6 +9,14 @@ import org.springframework.stereotype.Repository;
 import com.mediLaboSolutions.T2D2Patient.constant.MySqlQuery;
 import com.mediLaboSolutions.T2D2Patient.model.PractitionerPerson;
 
+/**
+ * Repository interface which extends the JPA (Jakarta Persistence API)
+ * Repository in order to deal with derived queries relative to
+ * <code>PractitionerPerson</code> entities.
+ * 
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Repository
 public interface IPractitionerPersonRepository extends JpaRepository<PractitionerPerson, Integer> {
 

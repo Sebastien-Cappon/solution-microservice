@@ -5,6 +5,14 @@ import java.util.List;
 import com.mediLaboSolutions.T2D2Authentication.dto.PractitionerLoginDto;
 import com.mediLaboSolutions.T2D2Authentication.model.Practitioner;
 
+/**
+ * <code>PractitionerService</code> interface that abstracts it from its
+ * implementation in order to achieve better code modularity in compliance with
+ * SOLID principles.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 public interface IPractitionerService {
 	
 	public List<Practitioner> getPractitioners();

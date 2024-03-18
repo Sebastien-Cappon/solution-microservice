@@ -6,6 +6,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.mediLaboSolutions.T2D2Patient.logger.HandlerInterceptorImpl;
 
+/**
+ * A configuration class that implements <code>WebMvcConfigurer</code>, a native
+ * Spring MVC class. It contains a single method that set up the interceptor
+ * needed to listen to API requests and responses.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Configuration
 public class WebMvcConfigurerImpl implements WebMvcConfigurer {
 

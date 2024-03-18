@@ -19,20 +19,24 @@ public class TriggerTermService implements ITriggerTermService {
 	@Autowired
 	private ITriggerTermRepository iTriggerTermRepository;
 
+	/**
+	 * A <code>GET</code> method that returns a list of all trigger terms.
+	 * 
+	 * @return A <code>TriggerTerm</code> list.
+	 */
 	@Override
 	public List<TriggerTerm> getTriggerTerms() {
 		return iTriggerTermRepository.findByOrderByTermAsc();
 	}
 
-	@Override
-	public TriggerTerm getTriggerTermById(int triggerTermId) {
-		if (iTriggerTermRepository.findById(triggerTermId).isPresent()) {
-			return iTriggerTermRepository.findById(triggerTermId).get();
-		}
-
-		return null;
-	}
-
+	/**
+	 * A <code>POST</code> method that returns the <code>TriggerTerm</code> passed
+	 * as parameter and calls the <code>JpaRepository</code> <code>save()</code>
+	 * method.
+	 * 
+	 * @return A <code>TriggerTerm</code> OR <code>null</code> if it is already in
+	 *         the database.
+	 */
 	@Override
 	public TriggerTerm createTriggerTerm(TriggerTerm newTriggerTerm) {
 		for (TriggerTerm checkTriggerTerm : iTriggerTermRepository.findAll()) {
@@ -45,21 +49,10 @@ public class TriggerTermService implements ITriggerTermService {
 		return iTriggerTermRepository.save(newTriggerTerm);
 	}
 
-	@Override
-	public Integer updateTriggerTermById(int triggerTermId, TriggerTerm updatedTriggerTerm) {
-		if (iTriggerTermRepository.findById(triggerTermId).isPresent()) {
-			TriggerTerm triggerTermToUpdate = iTriggerTermRepository.findById(triggerTermId).get();
-
-			triggerTermToUpdate.setTerm(updatedTriggerTerm.getTerm());
-
-			iTriggerTermRepository.save(triggerTermToUpdate);
-			return 1;
-		}
-
-		logger.warn("Can't modify : This trigger term doesn't exists in the database.");
-		return null;
-	}
-
+	/**
+	 * A <code>DELETE</code> method that deletes the trigger term whose id is passed
+	 * as parameter. It calls the derived query <code>deleteById()</code> method.
+	 */
 	@Override
 	public void deleteTriggerTermById(int triggerTermId) {
 		iTriggerTermRepository.deleteById(triggerTermId);

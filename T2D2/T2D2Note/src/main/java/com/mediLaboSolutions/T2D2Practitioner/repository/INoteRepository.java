@@ -8,6 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import com.mediLaboSolutions.T2D2Practitioner.model.Note;
 
+/**
+ * Repository interface which extends the Mongo Repository in order to deal with
+ * derived queries relative to <code>Note</code> entities.
+ * 
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Repository
 public interface INoteRepository extends MongoRepository<Note, String> {
 

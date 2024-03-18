@@ -12,6 +12,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * A model class which creates the POJO (Plain Old Java Object)
+ * <code>Practitioner</code>. It contains getters and setters, as well as an
+ * override <code>toSring()</code> method for display in the console.
+ *
+ * @singularity <code>Practitioner</code> is linked to the
+ *              <code>practitioner</code> table of the database. For security
+ *              purpose, the password attribute is not attached to a view
+ *              interface.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Entity
 @DynamicUpdate
 @Table(name = "practitioner")
@@ -74,6 +87,13 @@ public class Practitioner {
 		this.password = password;
 	}
 
+	/**
+	 * An override method for user-friendly display of <code>Practitioner</code>
+	 * attributes in the console. Not necessary, except for test purposes.
+	 * 
+	 * @return <code>String</code> containing all the attributes of
+	 *         <code>Practitioner</code>.
+	 */
 	@Override
 	public String toString() {
 		return ("[" + id + "]" + "[" + lastname + "]" + "[" + firstname + "]" + "[" + email + "]" + "[" + password + "]");

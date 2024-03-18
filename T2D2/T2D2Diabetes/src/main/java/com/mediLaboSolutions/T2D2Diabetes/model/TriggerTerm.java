@@ -9,6 +9,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * A model class which creates the POJO (Plain Old Java Object)
+ * <code>TriggerTerm</code>. It contains getters and setters, as well as an
+ * override <code>toSring()</code> method for display in the console.
+ *
+ * @singularity <code>TriggerTerm</code> is linked to the
+ *              <code>triggerterm</code> table of the database.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Entity
 @DynamicUpdate
 @Table(name = "triggerterm")
@@ -37,6 +48,13 @@ public class TriggerTerm {
 		this.term = term;
 	}
 
+	/**
+	 * An override method for user-friendly display of <code>TriggerTerm</code>
+	 * attributes in the console. Not necessary, except for test purposes.
+	 * 
+	 * @return <code>String</code> containing all the attributes of
+	 *         <code>TriggerTerm</code>.
+	 */
 	@Override
 	public String toString() {
 		return ("[" + id + "]" + "[" + term + "]");
