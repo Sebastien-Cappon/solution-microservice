@@ -96,10 +96,10 @@ L'écologie telle qu'elle est abordée dans le ***"Green code"*** et, plus gén�
 Il est vraiment regrettable que la Logique et la Raison ne soit plus entendue aujourd'hui et qu'il faille des idéaux creux pour pousser certains développeurs à agir comme des développeurs, avec efficacité et pragmatisme.
 
 ## Sources
-https://www.esi-business-school.com/ecole/developpementdurable/green-it-green-computing/
-https://scient.fr/article-green-it-lecologie-ethique-et-ecologique-de-linformatique/
-https://www.hellocarbo.com/blog/reduire/green-computing/
-https://www.vigicorp.fr/le-green-code-coder-de-facon-plus-responsable/
-https://www.linkedin.com/pulse/sustainability-through-green-coding-software-development-smartlogiq
-https://www.free-work.com/fr/tech-it/blog/actualites-informatiques/le-green-coding-vraie-tendance
-https://www.geo.fr/environnement/ia-peut-elle-consommer-autant-electricite-irlande-openai-chatgpt-google-moteur-recherches-consommation-217016
+- https://www.esi-business-school.com/ecole/developpementdurable/green-it-green-computing/
+- https://scient.fr/article-green-it-lecologie-ethique-et-ecologique-de-linformatique/
+- https://www.hellocarbo.com/blog/reduire/green-computing/
+- https://www.vigicorp.fr/le-green-code-coder-de-facon-plus-responsable/
+- https://www.linkedin.com/pulse/sustainability-through-green-coding-software-development-smartlogiq
+- https://www.free-work.com/fr/tech-it/blog/actualites-informatiques/le-green-coding-vraie-tendance
+- https://www.geo.fr/environnement/ia-peut-elle-consommer-autant-electricite-irlande-openai-chatgpt-google-moteur-recherches-consommation-217016
