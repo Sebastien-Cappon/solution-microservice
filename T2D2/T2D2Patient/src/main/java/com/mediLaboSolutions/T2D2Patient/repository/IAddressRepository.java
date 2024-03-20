@@ -20,5 +20,5 @@ public interface IAddressRepository extends JpaRepository<Address, Integer> {
 
 	Optional<Address> findById(int addressId);
 
-	void deleteById(int address);
+	void deleteById(int addressId);
 }

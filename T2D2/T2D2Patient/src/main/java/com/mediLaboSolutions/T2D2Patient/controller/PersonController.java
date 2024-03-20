@@ -133,7 +133,7 @@ public class PersonController {
 	 *              for administration.
 	 */
 	@DeleteMapping("/persons/{personId}")
-	public void deletePatientById(@PathVariable("personId") int personId) {
+	public void deletePersonById(@PathVariable("personId") int personId) {
 		iPersonService.deletePersonById(personId);
 	}
 }
