@@ -18,7 +18,7 @@ import com.mediLaboSolutions.T2D2Authentication.model.Practitioner;
 @Repository
 public interface IPractitionerRepository extends JpaRepository<Practitioner, Integer> {
 
-	Optional<Practitioner> fingById(int ipractitionerId);
+	Optional<Practitioner> findById(int ipractitionerId);
 	Optional<Practitioner> findByEmail(String practitionerEmail);
 	void deleteById(int practitionerId);
 }
